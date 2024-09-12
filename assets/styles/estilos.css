@@ -106,6 +106,10 @@ h1{
     flex: 0 0 40%;
 }
 
+.encabezado__logo h1 {
+    font-weight: 800; 
+}
+
 .encabezado__logo--titulo{
     color: var(--secundario);
 }
@@ -203,6 +207,13 @@ h1{
     text-align: justify;
 }
 
+.encabezado__descripcion--texto h2 {
+    font-size: 5rem;
+    font-weight: bold; 
+    line-height: 1.2; 
+}
+
+
 .encabezado__descripcion--logo{
     position: absolute;
     bottom: 2vh;
@@ -291,5 +302,78 @@ h1{
 
     .encabezado__descripcion--logo img{
         width: unset;
+    }
+}
+
+
+.aboutus-text {
+    text-align: center; 
+    margin-top: 30px; 
+    margin-bottom: 30px; 
+}
+
+.aboutus-text h3{
+    font-size: 3rem;
+    font-weight: bold; 
+    line-height: 1.2; 
+    color: #333;
+}
+
+.aboutus-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+}
+
+.about-us {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    margin: 0 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 420px;
+    height: 280px;
+}
+
+.about-us p {
+    color: #333;
+    line-height: 1.5;
+}
+
+.about-us:nth-child(2) .btn {
+    background-color: #569642;
+    color: white;
+    padding: 10px 50px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.about-us p:nth-child(2) {
+    color: #569642;
+    font-weight: bold;
+}
+
+/* VISTA MOVIL */
+@media (max-width: 768px) {
+    .aboutus-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-us {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .about-us:nth-child(2) .btn {
+        width: 100%;
+        text-align: center;
     }
 }
