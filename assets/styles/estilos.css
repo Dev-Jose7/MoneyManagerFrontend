@@ -303,9 +303,10 @@ h1{
     .encabezado__descripcion--logo img{
         width: unset;
     }
+
 }
 
-
+/*version escritorio main*/     
 .aboutus-text {
     text-align: center; 
     margin-top: 30px; 
@@ -377,3 +378,167 @@ h1{
         text-align: center;
     }
 }
+
+img{
+    max-width: 100%;
+ }
+ 
+ @media(min-width:320px){
+    .separador{
+       height: 15px;
+       width: 100;
+       background-color: var(--secundario);
+      }
+ 
+    footer{
+       width: 100%;
+    }
+ 
+    .footer-principal{
+       width: 100%;
+       display: flex;
+       flex-direction: column;
+    }
+ 
+    .imagen{
+       width:90%;
+       padding:2% 2% 2% 2%;
+       align-self: center;
+    }
+ 
+    .contenedor-participantes{
+       
+       display: flex;
+       flex-direction: column; 
+       align-items: center;
+       font-family: Arial, Helvetica, sans-serif;
+       margin: 0 auto;
+    }
+ 
+    .nombre {
+       margin-bottom:15px;
+       
+    }
+ 
+    .nombre h2{
+    
+       color: #000;   
+       font-size: 2.5vh;
+       font-weight: bold;
+       line-height: 20px;
+    }
+ 
+    .nombre a{
+       color: #000;
+       text-decoration: none;
+       font-size: 2vh;
+    }
+ 
+ 
+    .derechos{
+       background-color: grey;
+       height: 50px;
+       width:100%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+    }
+ 
+    .derechos h2{
+       color: white;
+       font-size:10px;
+       
+       font-family: Arial, Helvetica, sans-serif;
+    }
+ }
+    
+       
+ 
+ @media(min-width:700px) {
+    .separador{
+        height: 20px;
+        width: 100;
+        background-color: var(--secundario);
+       }
+    
+    footer{
+       width: 100%;
+        }
+    
+    .footer-principal{
+       box-shadow: inset 0px -10px 10px rgba(0, 0, 0, 0.2);
+       display: flex;
+       flex-direction: row;
+    }
+    
+    
+    .imagen{
+       width:25%;
+       box-shadow: inset -10px 0 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .contenedor-participantes{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .nombre {
+       margin-bottom:5px;
+       padding: 10px;
+    }
+ 
+    .nombre h2{
+       margin-bottom:4px;
+       color: #000;   
+       font-size: 20px;
+       font-weight: bold;
+       line-height: 20px;
+    }
+ 
+    .nombre a{
+       color: #000;
+       text-decoration: none;
+    }
+ 
+    .espacio-en-blanco{
+       background-color: white;
+       height: 15px;
+       width: 100%;
+    }
+ 
+    .derechos{
+       background-color: grey;
+       height: 50px;
+       width:100%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+    }
+ 
+    .derechos h2{
+       color: white;
+       font-size:20px;
+       line-height: 20px;
+       font-family: Arial, Helvetica, sans-serif;
+    }
+ }
+    
+ @media(min-width:1000px) {
+    
+  .imagen{
+   margin: 0;
+    }
+ 
+    .nombre h2{
+       color: #000;
+       font-weight: bold;
+       line-height: 20px;
+    }
+ 
+    
+ }
+  
+ 
