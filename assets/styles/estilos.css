@@ -21,7 +21,7 @@ html{
 }
 
 body{
-    font-size: 2rem;
+    font-size: 2vh;
     font-family: sans-serif;
 }
 
@@ -159,10 +159,10 @@ h1{
 .encabezado__menu{
     flex: 0 0 70%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-direction: column;
     gap: 2vh;
-    align-items: end;
+    align-items: center;
 }
 
 .encabezado__usuario{
@@ -170,6 +170,7 @@ h1{
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-direction: column;
 }
 
 /*Banner*/
@@ -207,10 +208,14 @@ h1{
     text-align: justify;
 }
 
-.encabezado__descripcion--texto h2 {
-    font-size: 5rem;
+.encabezado__descripcion--texto h2{
+    font-size: 4.8vh;
     font-weight: bold; 
     line-height: 1.2; 
+}
+
+.encabezado__descripcion--texto p{
+    font-size: 2.5vh;
 }
 
 
@@ -227,9 +232,6 @@ h1{
 /***VERSION ESCRITORIO***/
 /*Aqui digitas el código para versión pc*/
 @media (min-width: 768px) {
-    body{
-        font-size: 1.8rem;
-    }
 
     h1{
         font-size: 4vh;
@@ -289,6 +291,10 @@ h1{
         align-items: center;
     }
 
+    .encabezado__descripcion--texto h2{
+        font-size: 7vh;
+    }
+
     .encabezado__descripcion--texto{
         flex: 0 0 40%;
     }
@@ -306,7 +312,12 @@ h1{
 
 }
 
-/*version escritorio main*/     
+/***MAIN - PRINCIPAL***/
+/*VERSION ESCRITORIO*/     
+.principal{
+    margin: 15vh 0;
+}
+
 .aboutus-text {
     text-align: center; 
     margin-top: 30px; 
@@ -323,6 +334,7 @@ h1{
 .aboutus-container {
     display: flex;
     justify-content: space-between;
+    gap: 2vw;
     width: 100%;
     padding: 20px;
 }
@@ -335,12 +347,13 @@ h1{
     margin: 0 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 420px;
-    height: 280px;
+    text-align: justify;
 }
 
 .about-us p {
     color: #333;
     line-height: 1.5;
+    font-size: 2.5vh;
 }
 
 .about-us:nth-child(2) .btn {
@@ -361,11 +374,16 @@ h1{
     font-weight: bold;
 }
 
-/* VISTA MOVIL */
+/*VERSION MÓVIL*/
 @media (max-width: 768px) {
+    .principal{
+        margin: 5vh 0;
+    }
+
     .aboutus-container {
         flex-direction: column;
         align-items: center;
+        gap: 3vh;
     }
 
     .about-us {
@@ -373,172 +391,160 @@ h1{
         width: 100%;
     }
 
+    .about-us p{
+        font-size: 2.3vh;
+    }
+
     .about-us:nth-child(2) .btn {
         width: 100%;
         text-align: center;
     }
 }
+ 
 
-img{
-    max-width: 100%;
- }
- 
- @media(min-width:320px){
-    .separador{
-       height: 15px;
-       width: 100;
-       background-color: var(--secundario);
-      }
- 
-    footer{
-       width: 100%;
+/***FOOTER***/
+/*VERSION MOVIL*/
+.separador{
+    height: 15px;
+    width: 100;
+    background-color: var(--secundario);
     }
- 
-    .footer-principal{
-       width: 100%;
-       display: flex;
-       flex-direction: column;
-    }
- 
-    .imagen{
-       width:90%;
-       padding:2% 2% 2% 2%;
-       align-self: center;
-    }
- 
-    .contenedor-participantes{
-       
-       display: flex;
-       flex-direction: column; 
-       align-items: center;
-       font-family: Arial, Helvetica, sans-serif;
-       margin: 0 auto;
-    }
- 
-    .nombre {
-       margin-bottom:15px;
-       
-    }
- 
-    .nombre h2{
+
+footer{
+    width: 100%;
+}
+
+.footer-principal{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.imagen{
+    align-self: center;
+    margin: 4vh 0;
+    text-align: center;
+}
+
+.contenedor-participantes{
+    display: flex;
+    flex-direction: column; 
+    gap: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 4vh;
+    text-align: center;
+}
+
+.nombre {
+    margin-bottom:15px;
     
-       color: #000;   
-       font-size: 2.5vh;
-       font-weight: bold;
-       line-height: 20px;
-    }
- 
-    .nombre a{
-       color: #000;
-       text-decoration: none;
-       font-size: 2vh;
-    }
- 
- 
-    .derechos{
-       background-color: grey;
-       height: 50px;
-       width:100%;
-       display: flex;
-       justify-content: center;
-       align-items: center;
-    }
- 
-    .derechos h2{
-       color: white;
-       font-size:10px;
-       
-       font-family: Arial, Helvetica, sans-serif;
-    }
- }
+}
+
+.nombre h2{
+
+    color: #000;   
+    font-size: 2.5vh;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.nombre a{
+    color: #000;
+    text-decoration: none;
+    font-size: 2vh;
+}
+
+
+.derechos{
+    background-color: grey;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vw;
+}
+
+.derechos h2{
+    color: white;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
     
        
- 
- @media(min-width:700px) {
+/***VERSION ESCRITORIO***/
+@media(min-width:700px) {
     .separador{
         height: 20px;
         width: 100;
         background-color: var(--secundario);
-       }
-    
-    footer{
-       width: 100%;
-        }
-    
+    }
+
     .footer-principal{
-       box-shadow: inset 0px -10px 10px rgba(0, 0, 0, 0.2);
-       display: flex;
-       flex-direction: row;
+        box-shadow: inset 0px -10px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: unset;
     }
-    
-    
+
     .imagen{
-       width:25%;
-       box-shadow: inset -10px 0 10px -5px rgba(0, 0, 0, 0.2);
+        width: 25%;
+        text-align: center;
     }
-    
+
+    .imagen > img{
+        width: 50%;
+    }
+
     .contenedor-participantes{
-       display: flex;
-       flex-direction: column;
-       justify-content: center;
-       align-items: center;
-       font-family: Arial, Helvetica, sans-serif;
+        flex: 0 0 75%;
+        justify-content: center;
+        box-shadow: -10px 0 10px -5px rgba(0, 0, 0, 0.2);
     }
-    
+
     .nombre {
-       margin-bottom:5px;
-       padding: 10px;
+        margin-bottom:5px;
+        padding: 10px;
     }
- 
+
     .nombre h2{
-       margin-bottom:4px;
-       color: #000;   
-       font-size: 20px;
-       font-weight: bold;
-       line-height: 20px;
+        margin-bottom:4px;
+        color: #000;   
+        font-size: 1.4vw;
+        font-weight: bold;
+        line-height: 20px;
     }
- 
+
     .nombre a{
-       color: #000;
-       text-decoration: none;
+        font-size: 1.2vw;
     }
- 
+
+    .nombre a{
+        color: #000;
+        text-decoration: none;
+    }
+
     .espacio-en-blanco{
-       background-color: white;
-       height: 15px;
-       width: 100%;
+        background-color: white;
+        padding: 1.5vh;
+        width: 100%;
     }
- 
+
     .derechos{
-       background-color: grey;
-       height: 50px;
-       width:100%;
-       display: flex;
-       justify-content: center;
-       align-items: center;
+        background-color: grey;
+        height: 50px;
+        width:100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
- 
+
     .derechos h2{
-       color: white;
-       font-size:20px;
-       line-height: 20px;
-       font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        line-height: 20px;
+        font-family: Arial, Helvetica, sans-serif;
     }
- }
-    
- @media(min-width:1000px) {
-    
-  .imagen{
-   margin: 0;
-    }
- 
-    .nombre h2{
-       color: #000;
-       font-weight: bold;
-       line-height: 20px;
-    }
- 
-    
- }
-  
- 
+}
