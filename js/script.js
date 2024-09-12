@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
         contador++;
 
         const fondo = new Image();
-        fondo.src = `../img/banner${contador}.jpg`; //Precarga imagen
+        fondo.src = `./img/banner${contador}.jpg`; //Precarga imagen
 
         fondo.addEventListener("load", function(){
             document.querySelector(".encabezado__banner").style.backgroundImage = `url('${fondo.src}')`;
