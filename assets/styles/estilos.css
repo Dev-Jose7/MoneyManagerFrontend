@@ -424,6 +424,7 @@ footer{
 .imagen{
     align-self: center;
     margin: 4vh 0;
+    width: 50%;
     text-align: center;
 }
 
