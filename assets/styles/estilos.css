@@ -49,9 +49,9 @@ h1{
     font-weight: 600;
     color: var(--negro);
     text-decoration: none;
-    padding: 2vw;
+    padding: 4vw;
     border-radius: 1vw;
-    width: 45%;
+    width: 100%;
     text-align: center;
     
     transition: all ease-in-out 0.5s;
@@ -60,7 +60,7 @@ h1{
 .boton:active{
     color: var(--negro);
     background-color: var(--blanco);
-    box-shadow: 0 0 0.5rem var(--primario);
+    box-shadow: 0 0 0.10rem var(--primario);
 }
 
 .seleccion--verde{
