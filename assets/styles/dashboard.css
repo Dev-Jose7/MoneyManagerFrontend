@@ -295,6 +295,10 @@ img{
     background-color: #d32f2f;
 }
 
+.swal2-styled.swal2-confirm.swalBtnColor {
+    background-color: #4CAF50;
+}
+
 .recent-transactions{
     background-color: #ffffff;
     border-radius: 10px;

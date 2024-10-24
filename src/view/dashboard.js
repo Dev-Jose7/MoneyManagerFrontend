@@ -96,7 +96,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Añade una nueva transacción cuando se hace clic en el botón de añadir.
-    document.getElementById("añadir").addEventListener("click", function() {
+    document.getElementById("añadir").addEventListener("click", function(e) {
+        e.preventDefault();
         //Si el valor de descripcion es vacío le añade un espacio al value del input para que se pueda crear la transacción
         if(descripcion.value == ""){
             descripcion.value = " ";
@@ -109,9 +110,26 @@ document.addEventListener("DOMContentLoaded", function() {
             userTransaction() //Actualiza la lista filtrada por mes, actualiza la lista de transacciones y recalcula el balance.
             formatearCampo(); // Limpia el formulario.
             recentTransaction();
+
+            Swal.fire({
+                customClass: {
+                    confirmButton: 'swalBtnColor'
+                },
+                title: 'Hecho!',
+                text: 'Transacción registrada',
+                icon: 'success'
+              })
             console.log(user);
         } else{
-            alert("Ingrese todos los campos faltantes");
+            Swal.fire({
+                customClass: {
+                    confirmButton: 'swalBtnColor'
+                },
+                title: 'Error!',
+                text: 'Ingrese todos los campos faltantes',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
+              })
         }
     });
 
@@ -287,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function() {
         categoria.selectedIndex = 0;
         fecha.value = "";
         document.getElementById("añadir").style.display = "inline";
-        document.getElementById("confirmar").style.display = "none";
+        // document.getElementById("confirmar").style.display = "none";
     }
 
     function recentTransaction(){
