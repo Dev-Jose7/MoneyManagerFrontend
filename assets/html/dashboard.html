@@ -1,136 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/estilos.css">
-
-    <title>Dashboard</title>
+    <title>Money Manager</title>
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <main class="contenedor dashboard">
-        <fieldset class="usuario">
-            <legend>Menú</legend>
-            <h2 id="nombre"></h2>
+    <header>
+        <div class="header-container">
+            <h1><a href="../../index.html">Money<span>Manager</span></a></h1>
+            <div class="header-right">
+                <button class="btn-icon" title="Mi Cuenta" id="account">
+                    <i class="fas fa-user-circle fa-lg"></i>
+                    <p>Mi cuenta</p>
+                </button>
+                <button class="btn-icon" title="Cerrar sesión" id="logout">
+                    <i class="fas fa-sign-out-alt fa-lg"></i>
+                    <p>Cerrar sesión</p>
+                </button>
+                <button class="btn-icon btn-menu" id="menuButton" title="Menú">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
 
-            <div>
-                <button id="account">Mi cuenta</button>
-                <button id="logout">Cerrar sesión</button>
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#">Transacciones</a></li>
+                    <li><a href="#">Categorías</a></li>
+                    <li><a href="#">Reportes</a></li>
+                    <li><a href="#">Configuraciones</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <section class="content">
+
+            <!-- Saludo y cambio de mes -->
+            <div class="user-panel">
+                <h2 id="nombre"></h2>
+                <div class="custom-select-container">
+                    <select id="month" class="custom-select">
+                        <option value="01">Enero</option>
+                        <option value="02">Febrero</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Mayo</option>
+                        <option value="06">Junio</option>
+                        <option value="07">Julio</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Septiembre</option>
+                        <option value="10" selected>Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="mes">
-                <select id="month">
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10" selected>Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
-                </select>
-            </div>
-        </fieldset>
-
-        <fieldset class="balance">
-            <legend>Balance</legend>
-            <div>
-                <h2>Saldo: <span id="saldo">0.00</span></h2>
+            <!-- Balance -->
+            <div class="overview">
+                <div class="card saldo">
+                    <p>Saldo</p>
+                    <h3 id="saldo">$99900</h3>
+                </div>
+                <div class="card ingresos">
+                    <p>Ingresos</p>
+                    <h3 id="valorIngreso">$99900</h3>
+                </div>
+                <div class="card gastos">
+                    <p>Gastos</p>
+                    <h3 id="valorGasto">$99900</h3>
+                </div>
             </div>
 
-            <div class="balance__tipo">
-                <h3>Ingresos: <span id="valorIngreso">0</span></h3>
-                <h3>Gastos: <span id="valorGasto">0</span></h3>
-            </div>
-        </fieldset>
+            <!-- Transacciones -->
+            <div class="transaction-section">
+                <div class="form-container">
+                    <h3>Añadir Transacción</h3>
+                    <form id="transactionForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="type">Tipo</label>
+                                <select name="type" id="tipo">
+                                    <option value="">Seleccione</option>
+                                    <option value="Ingreso">Ingreso</option>
+                                    <option value="Gasto">Gasto</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="value">Valor</label>
+                                <input type="number" id="valor" placeholder="Valor">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="value">Categoria</label>
+                                <select id="categoria" class="custom-select">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Fecha</label>
+                                <input type="date" id="fecha">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Descripción</label>
+                            <input type="text" id="descripcion" placeholder="Descripción" style="height: 50px;">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-add" id="añadir">Añadir</button>
+                            <button type="reset" class="btn-cancel" id="cancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="recent-transactions">
+                    <h3>Últimas 5 Transacciones</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th>Categoria</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
 
-        <fieldset>
-            <legend>Añadir transacción</legend>
-            <div style="text-align: center;">
-                <select id="tipo">
-                    <option disabled selected>Tipo</option>
-                    <option value="Ingreso">Ingreso</option>
-                    <option value="Gasto">Gasto</option>
-                </select>
-                <select id="categoria"></select>
-                <!-- <button id="añadirCategoria">+</button> -->
-                <input type="number" placeholder="Valor" min="0" id="valor">
-                <input type="text" placeholder="Descripcion" id="descripcion">
-                <input type="date" id="fecha">
-                
-                <button id="añadir">Añadir</button>
-                <button id="confirmar">Confirmar</button>
-                <button id="cancelar">Cancelar</button>
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Filtrar</legend>
-            <form style="text-align: center;">
-                <input type="number" placeholder="Valor minimo (0)" min="0" id="minimoFilter">
-                <input type="number" placeholder="Valor máximo" min="0" id="maximoFilter">
-
-                <select id="tipoFilter" required>
-                    <option disabled selected>Tipo</option>
-                    <option value="Ingreso">Ingreso</option>
-                    <option value="Gasto">Gasto</option>
-                </select>
-
-                <select id="categoriaFilter" required></select>
-
-                <input type="date" id="fechaFilter">
-
-                <button id="filter">Filtrar</button>
-                <button id="cleanFilter">Limpiar</button>
-            </form>
-        </fieldset>
-    
-        <fieldset class="transacciones">
-            <legend id="tituloSeccion">Lista de transacciones</legend>
-
-                
-
-            <div class="transacciones__pagina"> 
-                <button id="viewAll">Ver todas</button>
-
-                <select id="sizePage">
-                    <option disabled ># transacciones</option>
-                    <option value="5" selected>5 por pagina</option>
-                    <option value="10">10 por página</option>
-                    <option value="15">15 por página</option>
-                    <option value="20">20 por página</option>
-                </select>
+                        <tbody id="recentTransactions">
+                            
+                        </tbody>
+                    </table>
+                    <a href="#" class="view-all-transactions">Ver todas las transacciones</a>
+                </div>
             </div>
 
-            <div class="transacciones__contenedor">
-                <fieldset>
-                    <legend >Ingresos</legend>
-                    <div id="campoIngresos"></div>
-                    <div class="botones__pagina" id="pageIngresos"></div>
-                </fieldset>
-                
-                <fieldset >
-                    <legend>Gastos</legend>
-                    <div id="campoGastos"></div>
-                    <div class="botones__pagina" id="pageGastos"></div>
-                </fieldset>
+            <!-- Descripcion -->
+            <section class="description">
+                <img src="../../assets/img/marrano-100.jpg" alt="Ahorro">
+                <div class="description-text">
+                    <h2>El ahorro de hoy es la libertad de mañana:</h2>
+                    <p>cada pequeño esfuerzo es un paso hacia tus sueños.</p>
+                </div>
+            </section>
 
-                <fieldset>
-                    <legend >Transacciones</legend>
-                    <div id="campoTransacciones"></div>
-                    <div class="botones__pagina" id="pageTransacciones"></div>
-                </fieldset>
-            </div>
-        </fieldset>
-    </main>
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="logo">
+                    <h3>Money<span>Manager</span></h3>
+                </div>
+                <div class="social-icons">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
 
-    <!-- <script src="../../src/controllers/operation/Transaccion.js"></script>
-    <script src="../controllers/operation/Ingreso.js"></script>
-    <script src="../controllers/operation/Gasto.js"></script> -->
+                <div class="social-icons-github">
+                    <a href="#" title="GitHub"><p>José</p><i class="fab fa-github fa-lg"></i></a>
+                    <a href="#" title="GitHub"><p>Valeria</p><i class="fab fa-github fa-lg"></i></a>
+                    <a href="#" title="GitHub"><p>Benjamín</p><i class="fab fa-github fa-lg"></i></a>
+                </div>
+            </footer>
+
+
+        </section>
+    </div>
+
     <script src="../../src/view/dashboard.js" type="module"></script>
 </body>
 </html>

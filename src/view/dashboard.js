@@ -57,9 +57,9 @@ document.addEventListener("DOMContentLoaded", function() {
     printCategory(); // Imprime las categorías del usuario.
 
     // Muestra el nombre del usuario en la bienvenida.
-    document.getElementById("nombre").textContent = "Bienvenido " + user.getName();
+    document.getElementById("nombre").innerHTML = `Bienvenido <span>${user.getName()}</span>`
 
-    document.getElementById("confirmar").style.display = "none";
+    // document.getElementById("confirmar").style.display = "none"; //pagina transacciones
 
     // Redirige al usuario a la página de cuenta.
     document.getElementById("account").addEventListener("click", function() {
@@ -72,6 +72,24 @@ document.addEventListener("DOMContentLoaded", function() {
         user = null;
         endSession();
     });
+       
+    document.getElementById("menuButton").addEventListener("click", function(){
+        const sidebar = document.getElementById("sidebar");
+        
+        if(sidebar.style.display == ""){
+            sidebar.style.display = "block";
+
+            setTimeout(() => {
+                sidebar.classList.add("efect");
+            }, 10);
+        } else if(sidebar.style.display == "block"){
+            sidebar.classList.remove("efect");
+
+            sidebar.addEventListener('transitionend', function() { //Cuando la transición finalice, se cambiará el display al sidebar
+                sidebar.style.display = ""; // Oculta completamente después de la transición
+            }, { once: true }); // Solo una vez
+        }
+    })
 
     month.addEventListener("change", function(){
         userTransaction();
@@ -90,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
             user.getTransactions().updateListUser(user.getId());
             userTransaction() //Actualiza la lista filtrada por mes, actualiza la lista de transacciones y recalcula el balance.
             formatearCampo(); // Limpia el formulario.
+            recentTransaction();
             console.log(user);
         } else{
             alert("Ingrese todos los campos faltantes");
@@ -97,45 +116,45 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Evento para modificar o eliminar transacciones al hacer clic en un botón de acción.
-    document.querySelector(".transacciones").addEventListener("click", function(e) {
-        if (e.target.tagName == "BUTTON") {
-            let button = e.target;
+    // document.querySelector(".transacciones").addEventListener("click", function(e) {
+    //     if (e.target.tagName == "BUTTON") {
+    //         let button = e.target;
 
-            if (button.className == "modificar") {
-                console.log("Modificando");
-                document.getElementById("confirmar").style.display = "inline";
-                document.getElementById("añadir").style.display = "none";
-                id = button.closest(".transaccion").dataset.id; // Captura el ID de la transacción.
-                editTransaction(button); // Llama a la función para editar la transacción.
-            }
+    //         if (button.className == "modificar") {
+    //             console.log("Modificando");
+    //             document.getElementById("confirmar").style.display = "inline";
+    //             document.getElementById("añadir").style.display = "none";
+    //             id = button.closest(".transaccion").dataset.id; // Captura el ID de la transacción.
+    //             editTransaction(button); // Llama a la función para editar la transacción.
+    //         }
         
-            if (button.className == "eliminar") {
-                console.log("Eliminando");
-                id = button.closest(".transaccion").dataset.id;
-                user.getTransactions().getManager().deleteTransaction(id, button.closest(".transaccion")); // Elimina la transacción.
-                user.getTransactions().updateListUser(user.getId());
-                Transaccion.saveDataSession(); // Guarda los cambios en la sesión.
-                if (!statusFilter) {
-                    userTransaction(); // Imprime las transacciones nuevamente si no hay filtro.
-                } else if (statusFilter){
-                    resultFilter();
-                }
-            }
-        }
-    });
+    //         if (button.className == "eliminar") {
+    //             console.log("Eliminando");
+    //             id = button.closest(".transaccion").dataset.id;
+    //             user.getTransactions().getManager().deleteTransaction(id, button.closest(".transaccion")); // Elimina la transacción.
+    //             user.getTransactions().updateListUser(user.getId());
+    //             Transaccion.saveDataSession(); // Guarda los cambios en la sesión.
+    //             if (!statusFilter) {
+    //                 userTransaction(); // Imprime las transacciones nuevamente si no hay filtro.
+    //             } else if (statusFilter){
+    //                 resultFilter();
+    //             }
+    //         }
+    //     }
+    // }); //pagina transacciones
 
     // Confirma la modificación de una transacción.
-    document.getElementById("confirmar").addEventListener("click", function() {
-        user.getTransactions().getManager().updateTransaction(id); // Actualiza la transacción.
-        user.getTransactions().updateListUser(user.getId());
-        Transaccion.saveDataSession(); // Guarda los cambios.
-        formatearCampo(); // Limpia el formulario.
-        if (!statusFilter) {
-            userTransaction();
-        } else if (statusFilter) {
-            resultFilter() // Aplica el filtro nuevamente si está activado.
-        }
-    });
+    // document.getElementById("confirmar").addEventListener("click", function() {
+    //     user.getTransactions().getManager().updateTransaction(id); // Actualiza la transacción.
+    //     user.getTransactions().updateListUser(user.getId());
+    //     Transaccion.saveDataSession(); // Guarda los cambios.
+    //     formatearCampo(); // Limpia el formulario.
+    //     if (!statusFilter) {
+    //         userTransaction();
+    //     } else if (statusFilter) {
+    //         resultFilter() // Aplica el filtro nuevamente si está activado.
+    //     }
+    // }); //pagina transacciones
 
     // Restablece los campos cuando se cancela la modificación.
     document.getElementById("cancelar").addEventListener("click", function() {
@@ -143,75 +162,77 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Aplica el filtro cuando se hace clic en el botón de filtrar.
-    document.getElementById("filter").addEventListener("click", function(e) {
-        statusFilter = true;
-        document.getElementById("tituloSeccion").textContent = "Transacciones filtradas";
+    // document.getElementById("filter").addEventListener("click", function(e) {
+    //     statusFilter = true;
+    //     document.getElementById("tituloSeccion").textContent = "Transacciones filtradas";
         
-        // Aplica el filtro de acuerdo a los valores ingresados en los campos de mínimo y máximo.
-        if (minimoFilter.value == "" && maximoFilter.value == "" || minimoFilter.value != "" && maximoFilter.value != "") {
-            e.preventDefault();
-            resultFilter(); // Aplica el filtro.
-        }
+    //     // Aplica el filtro de acuerdo a los valores ingresados en los campos de mínimo y máximo.
+    //     if (minimoFilter.value == "" && maximoFilter.value == "" || minimoFilter.value != "" && maximoFilter.value != "") {
+    //         e.preventDefault();
+    //         resultFilter(); // Aplica el filtro.
+    //     }
 
-        // Si no hay valor mínimo, establece el valor mínimo en 0.
-        if (minimoFilter.value == "" && maximoFilter.value != "") {
-            e.preventDefault();
-            minimoFilter.value = 0;
-            resultFilter(); // Aplica el filtro.
-        }
+    //     // Si no hay valor mínimo, establece el valor mínimo en 0.
+    //     if (minimoFilter.value == "" && maximoFilter.value != "") {
+    //         e.preventDefault();
+    //         minimoFilter.value = 0;
+    //         resultFilter(); // Aplica el filtro.
+    //     }
 
-        // Si se ingresa valor mínimo pero no máximo, se requiere el valor máximo.
-        if (minimoFilter.value != "" && maximoFilter.value == "") {
-            maximoFilter.required = true;
-        }
+    //     // Si se ingresa valor mínimo pero no máximo, se requiere el valor máximo.
+    //     if (minimoFilter.value != "" && maximoFilter.value == "") {
+    //         maximoFilter.required = true;
+    //     }
         
-        // user.getTransactions().updateListUser(user.getId());
-    });
+    //     // user.getTransactions().updateListUser(user.getId());
+    // }); //pagina transacciones
 
     // Limpia el filtro y restaura la lista de transacciones.
-    document.getElementById("cleanFilter").addEventListener("click", function(e) {
-        document.getElementById("tituloSeccion").textContent = "Lista de transacciones";
-        e.preventDefault();
-        user.getTransactions().updateListUser(user.getId()); //Se actualiza debido a que el filtro altera el arreglo de ingresos y gastos del usuario, aquí se reestablece la información de dichos arreglos
-        userTransaction(); // Imprime todas las transacciones nuevamente.
+    // document.getElementById("cleanFilter").addEventListener("click", function(e) {
+    //     document.getElementById("tituloSeccion").textContent = "Lista de transacciones";
+    //     e.preventDefault();
+    //     user.getTransactions().updateListUser(user.getId()); //Se actualiza debido a que el filtro altera el arreglo de ingresos y gastos del usuario, aquí se reestablece la información de dichos arreglos
+    //     userTransaction(); // Imprime todas las transacciones nuevamente.
 
-        // Limpia los campos del filtro.
-        minimoFilter.value = "";
-        maximoFilter.value = "";
-        tipoFilter.value = "Tipo";
-        categoriaFilter.value = "Categoría";
-        fechaFilter.value = "";
-    });
+    //     // Limpia los campos del filtro.
+    //     minimoFilter.value = "";
+    //     maximoFilter.value = "";
+    //     tipoFilter.value = "Tipo";
+    //     categoriaFilter.value = "Categoría";
+    //     fechaFilter.value = "";
+    // }); //pagina transacciones
 
-    document.getElementById("viewAll").addEventListener("click", function(e){
-        if(e.target.textContent == "Ver todas"){
-            campoIngresos.closest("fieldset").style.display = "none";
-            campoGastos.closest("fieldset").style.display = "none";
-            campoTransacciones.closest("fieldset").style.display = "unset";
+    // document.getElementById("viewAll").addEventListener("click", function(e){
+    //     if(e.target.textContent == "Ver todas"){
+    //         campoIngresos.closest("fieldset").style.display = "none";
+    //         campoGastos.closest("fieldset").style.display = "none";
+    //         campoTransacciones.closest("fieldset").style.display = "unset";
 
-            e.target.textContent = "Ingreso/Gasto"
+    //         e.target.textContent = "Ingreso/Gasto"
 
-        } else if (e.target.textContent == "Ingreso/Gasto"){
-            campoIngresos.closest("fieldset").style.display = "unset";
-            campoGastos.closest("fieldset").style.display = "unset";
-            campoTransacciones.closest("fieldset").style.display = "none";
+    //     } else if (e.target.textContent == "Ingreso/Gasto"){
+    //         campoIngresos.closest("fieldset").style.display = "unset";
+    //         campoGastos.closest("fieldset").style.display = "unset";
+    //         campoTransacciones.closest("fieldset").style.display = "none";
 
-            e.target.textContent = "Ver todas";
-        }
-    });
+    //         e.target.textContent = "Ver todas";
+    //     }
+    // }); //pagina transacciones
 
-    sizePage.addEventListener("change", function(){
-        if(!statusFilter){
-            userTransaction();
-        } else if(statusFilter){
-            resultFilter()
-        }
-    });
+    // sizePage.addEventListener("change", function(){
+    //     if(!statusFilter){
+    //         userTransaction();
+    //     } else if(statusFilter){
+    //         resultFilter()
+    //     }
+    // }); //pagina transacciones
 
     function userTransaction(){ //Shorthand para filtrar, calcular e imprimir las transacciones del mes en curso
         dataByMonth(); //Obtiene las transacciones del usuario de acuerdo al mes en curso
         calculateBalance(ingresosByMonth, gastosByMonth); // Calcula el balance entre ingresos y gastos.
         printTransactions(ingresosByMonth, gastosByMonth, transactionByMonth); // Imprime las transacciones del usuario.
+        recentTransaction();
+        printDefault(document.getElementById("recentTransactions"), transactionByMonth)
     }
 
     //Captura la fecha de las transacciones por usuario y las filtra por el mes actual, de esta manera se obtendran las transacciones del usuario correspondiente al mes en curso
@@ -222,6 +243,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 return true;
             }
         });
+
+        transactionByMonth.sort((a, b) => b.getId() - a.getId());
 
         ingresosByMonth = transactionByMonth.filter(transaction => transaction.getType() == "Ingreso");
         gastosByMonth = transactionByMonth.filter(transaction => transaction.getType() == "Gasto");
@@ -234,12 +257,27 @@ document.addEventListener("DOMContentLoaded", function() {
     function calculateBalance(ingresos, gastos) {
         let ingresoTotal = document.getElementById("valorIngreso");
         let gastoTotal = document.getElementById("valorGasto");
+        let saldoTotal = document.getElementById("saldo")
     
         user.getBalance(ingresos, ingresoTotal);
         user.getBalance(gastos, gastoTotal);
     
-        document.getElementById("saldo").textContent = Number(ingresoTotal.textContent) - Number(gastoTotal.textContent);
+        saldoTotal.textContent = Number(ingresoTotal.textContent) - Number(gastoTotal.textContent);
+        ingresoTotal.textContent = textCurrency(+ingresoTotal.textContent);
+        gastoTotal.textContent = textCurrency(+gastoTotal.textContent);
+        saldoTotal.textContent = textCurrency(+saldoTotal.textContent);
     }
+
+
+    function textCurrency(value) {
+        return value.toLocaleString('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+    }
+
 
     // Limpia los campos del formulario.
     function formatearCampo() {
@@ -252,32 +290,57 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("confirmar").style.display = "none";
     }
 
+    function recentTransaction(){
+        document.getElementById("recentTransactions").innerHTML = "";
+        if(transactionByMonth.length != 0){ //Se aplica condición para que no genere error en caso de estar vacio el arreglo
+            for (let i = 0; i < 5; i++) {
+                document.getElementById("recentTransactions").innerHTML += `<tr>
+                                <td>${transactionByMonth[i].getType()}</td>
+                                <td>${transactionByMonth[i].getValue()}</td>
+                                <td>${transactionByMonth[i].getCategory()}</td>
+                                <td>${transactionByMonth[i].getDate()}</td>
+                            </tr>`;
+            }
+        }
+        
+    }
+
     // Imprime las transacciones de ingresos y gastos.
-    function printTransactions(ingresos, gastos, transacciones) {
-        user.getTransactions().getManager().printTransaction(campoIngresos, ingresos, sizePage.value);
-        user.getTransactions().getManager().printTransaction(campoGastos, gastos, sizePage.value);
-        user.getTransactions().getManager().printTransaction(campoTransacciones, transacciones, sizePage.value);
+    function printTransactions(ingresos, gastos, transacciones) { //pagina transacciones
+        // user.getTransactions().getManager().printTransaction(campoIngresos, ingresos, sizePage.value);
+        // user.getTransactions().getManager().printTransaction(campoGastos, gastos, sizePage.value);
+        // user.getTransactions().getManager().printTransaction(campoTransacciones, transacciones, sizePage.value);
 
-        pagination(campoIngresos, pageIngresos); //Programa los botones de la páginación para los ingresos
-        pagination(campoGastos, pageGastos); //Programa los botones de la páginación para los gastos
-        pagination(campoTransacciones, pageTransacciones);
+        // pagination(campoIngresos, pageIngresos); //Programa los botones de la páginación para los ingresos
+        // pagination(campoGastos, pageGastos); //Programa los botones de la páginación para los gastos
+        // pagination(campoTransacciones, pageTransacciones);
 
-        printDefault(campoIngresos, ingresos); // Imprime el mensaje por defecto si no hay transacciones.
-        printDefault(campoGastos, gastos); // Imprime el mensaje por defecto si no hay transacciones.
-        printDefault(campoTransacciones, transacciones);
+        // printDefault(campoIngresos, ingresos); // Imprime el mensaje por defecto si no hay transacciones.
+        // printDefault(campoGastos, gastos); // Imprime el mensaje por defecto si no hay transacciones.
+        // printDefault(campoTransacciones, transacciones);
     }
 
     // Imprime las categorías disponibles para el usuario.
     function printCategory() {
         user.getCategories().printCategories(categoria); // En sección de añadir.
-        user.getCategories().printCategories(document.getElementById("categoriaFilter")); // En sección de filtrar.
+        // user.getCategories().printCategories(document.getElementById("categoriaFilter")); // En sección de filtrar. //pagina transacciones
     }
 
     // Imprime un mensaje por defecto si no hay transacciones.
+    // function printDefault(container, vector) {
+    //     if(vector.length == 0){
+    //         container.children[0].children[0].children[0].style.color = "#000";
+    //         container.children[0].children[0].children[0].textContent = "Sin datos"
+    //     }
+    // }
+
     function printDefault(container, vector) {
+        console.log(vector.length)
         if(vector.length == 0){
-            container.children[0].children[0].children[0].style.color = "#000";
-            container.children[0].children[0].children[0].textContent = "Sin datos"
+            container.style.color = "#000";
+            container.innerHTML = `<tr class="nodata"> 
+                <td colspan="4" rowspan="5">Sin transacciones</td> 
+            </tr>`
         }
     }
 

@@ -1,0 +1,587 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    height: 10vh;
+    background-color: #4CAF50;
+    padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+}
+
+header h1 {
+    font-size: 22px;
+}
+
+header h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+header h1 span {
+    color: #f0c14b;
+}
+
+img{
+    width: 100%;
+}
+
+.header-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+}
+
+.header-right .btn-icon {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.header-right .btn-icon:hover {
+    color: #ffa500;
+}
+
+.header-right p{
+    display: none;
+}
+
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+}
+
+.sidebar {
+    display: none;
+    width: 50%;
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    height: 90vh;
+    top: 10vh;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.efect{
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.content{
+    margin-top: 10vh;
+}
+
+.user-panel {
+    font-size: 16px;
+    margin-bottom: 1.5vw;
+}
+
+.user-panel span {
+    margin-bottom: 10px;
+    color: #4CAF50;
+}
+
+.user-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    appearance: none; /* Oculta la flecha por defecto */
+    -webkit-appearance: none; /* Safari */
+    -moz-appearance: none; /* Firefox */
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"%3E%3Cpath fill="%234CAF50" d="M5 5L0 0h10L5 5z"/%3E%3C/svg%3E'); /* Flecha personalizada */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Posiciona la flecha */
+    background-size: 10px; /* Tamaño de la flecha */
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.custom-select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 20px 0;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #4CAF50;
+}
+
+.sidebar nav ul li a.active {
+    background-color: #4CAF50;
+}
+
+.content {
+    width: 100%;
+    padding: 20px;
+}
+
+.overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 30%;
+    min-width: 250px;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card p {
+    color: #777;
+    font-size: 18px;
+}
+
+.card h3 {
+    font-size: 26px;
+    color: #4CAF50;
+}
+
+.transaction-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.form-container,
+.recent-transactions {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h3,
+.recent-transactions h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #4CAF50;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 2vw;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-actions .btn-add,
+.form-actions .btn-cancel {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-actions .btn-add:hover {
+    background-color: #45a049;
+}
+
+.form-actions .btn-cancel {
+    background-color: #f44336;
+}
+
+.form-actions .btn-cancel:hover {
+    background-color: #d32f2f;
+}
+
+.recent-transactions{
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: box-shadow 0.3s;
+}
+
+.recent-transactions h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #4CAF50;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.recent-transactions .nodata{ 
+    text-align: center;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+thead {
+    background-color: #4CAF50; /* Color de fondo para el encabezado */
+    color: white; /* Color del texto del encabezado */
+}
+
+th, td {
+    padding: 1.5vh 2.5vw;
+    border: 1px solid #ddd; /* Borde ligero para las celdas */
+}
+
+tbody tr {
+    transition: background-color 0.3s; /* Transición suave al pasar el mouse */
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1; /* Color de fondo al pasar el mouse */
+}
+
+.recent-transactions .view-all-transactions {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.recent-transactions .view-all-transactions:hover {
+    color: #45a049;
+}
+
+
+
+.description{
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    margin-bottom: 2.5vw;
+}
+
+.description img{
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.description-text{
+    padding: 20px;
+}
+
+.description h2{
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333; /* Cambia a tu color de sidebar */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+.logo {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 5vh;
+    color: #45a049;
+}
+
+.logo h3 span{
+    color: #f0c14b;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    justify-content: flex-end; /* Para alinear los iconos a la derecha */
+    margin-bottom: 5vh;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover,
+.social-icons-github a:hover {
+    color: #ffa500; /* Color al pasar el mouse */
+}
+
+.social-icons-github{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.social-icons-github a{
+    color: #fff;
+    text-decoration: none;
+
+    transition: color 0.3s;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+    thead {
+        background-color: #4CAF50; /* Color de fondo para el encabezado */
+        color: white; /* Color del texto del encabezado */
+    }
+    
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd; /* Borde ligero para las celdas */
+    }
+    
+    tbody tr {
+        transition: background-color 0.3s; /* Transición suave al pasar el mouse */
+    }
+    
+    tbody tr:hover {
+        background-color: #f1f1f1; /* Color de fondo al pasar el mouse */
+    }
+
+    .main-container {
+        flex-direction: row;
+    }
+
+    .header-right{
+        gap: 2vw;
+    }
+
+    .content {
+        width: 100%;
+        position: relative;
+    }
+
+    .overview {
+        gap: 2.5vw;
+        margin-bottom: 2.5vw;
+    }
+
+    .sidebar{
+        width: 30%;
+        height: 100vh;
+        z-index: 2;
+    }
+
+    .transaction-section {
+        flex-direction: row;
+        gap: 2.5vw;
+    }
+
+    .form-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 1vw;
+    }
+
+    .form-container,
+    .recent-transactions {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .description{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .description img{
+        width: 40%;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 10px;
+    }
+
+    .description-text{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo{
+        flex: 0 0 30%;
+        margin: 0;
+    }
+
+    .social-icons{
+        flex: 0 0 30%;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .social-icons-github{
+        flex-direction: column;
+        align-items: end;
+        flex: 0 0 30%;
+        gap: 1vh;
+    }
+
+    .social-icons-github a{
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+}
+
+@media (min-width: 1024px) {
+    header h1 {
+        font-size: 24px;
+    }
+
+    .sidebar {
+        display: block;
+        visibility: unset;
+        opacity: unset;
+        position: sticky;
+        width: 20%;
+        height: 90vh;
+        right: unset;
+    }
+
+    .header-right{
+        gap: unset;
+    }
+
+    .header-right p{
+        display: unset;
+    }
+
+    .header-right .btn-icon{
+        transform: scale(0.85);
+    }
+
+    .btn-menu{
+        display: none;
+    }
+
+    .content {
+        width: 80%;
+        padding: 2.5vw;
+    }
+}
