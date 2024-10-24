@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/styles/estilosregistro.css">
     <link rel="stylesheet" href="./assets/styles/estilos.css">
-    <title>MoneyManager | Inicio</title>
+    <title>Ingreso</title>
 </head>
-<body>
+<body class="bg-light">
     <header class="encabezado">
         <div class="encabezado__barra">
             <div class="encabezado__contenedor contenedor">
@@ -34,54 +36,25 @@
             </div>
             
         </div>
-        
-        <div class="encabezado__banner">
-            <div class="encabezado__opacidad"></div>
-            <div class="encabezado__descripcion contenedor">
-                <div class="encabezado__descripcion--texto">
-                    <h2 class="encabezado__descripcion--elemento">Gestor de gastos</h2>
-                    <p class="encabezado__descripcion--elemento">En un mundo donde cada gasto cuenta, mantener tus finanzas en orden es
-                            más importante que nunca. Somos un gestor de gastos diseñado para
-                            ayudarte a tomar el control de tu dinero de manera sencilla y eficaz.</p>
-                </div>
-                
-                <div class="encabezado__descripcion--logo">
-                    <img src="./assets/img/Logo_icono.png" alt="icono MoneyManager">
-                </div>
-            </div>
-            
-        </div>
     </header>
 
-    <main class="principal">
-        <!-- Seccion Valeria -->
-        <div class="aboutus-text">
-            <h3 class="aboutus-text">Utilizarla es muy fácil</h3>
-        </div>
-        <div class="aboutus-container contenedor">
-            <div class="about-us">
-                <p>Con nuestra plataforma, podrás monitorear todos tus gastos diarios y mensuales en un solo lugar, 
-                    permitiéndote ver con claridad a dónde va tu dinero 
-                    y cómo puedes optimizarlo.</p>
-            </div>
-        
-            <div class="about-us">
-                <p>El proceso es simple y rápido. Una vez 
-                    registrado, tendrás acceso a todas las 
-                    herramientas que te permitirán gestionar y monitorear tus gastos de 
-                    manera efectiva.</p>
-                <a href="#" class="btn seleccion--verde">REGISTRARSE</a>
-            </div>
-        
-            <div class="about-us">
-                <p>Con funciones intuitivas y personalizadas, llevar el control de tus gastos 
-                    nunca ha sido tan fácil. ¡Empieza hoy y mejora tu salud financiera!</p>
-                <p>Ya sea que busques mejorar tus hábitos de consumo, ahorrar para el futuro o 
-                    simplemente tener un mayor control sobre tus finanzas.</p>
-            </div>
-        </div>
-        
+    <main class="formulario d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+        <fieldset class="formulario__contenedor border rounded-4 p-5 shadow-lg bg-white"
+                  style="max-width: 700px; width: 100%; min-width: 400px;">
+                <legend class="text-center fs-3 fw-bold text-success mb-4">
+                <i class="bi bi-person-plus" style="font-size: 3rem;"></i>
+                </legend>
 
+            <div class="formulario__titulo text-center mb-5">
+                <h1 class="text-dark mb-2">Money Manager</h1>
+                <h4 class="text-muted">App gestora de transacciones personales</h4>
+            </div>
+
+            <div class="formulario__campos d-grid gap-4">
+                <a href="./assets/html/login.html" class="btn btn-success btn-lg py-3">Iniciar sesión</a>
+                <a href="./assets/html/signup.html" class="btn btn-warning btn-lg py-3">Regístrate</a>
+            </div>
+        </fieldset>
     </main>
 
     <!-- Sección Benjamín -->
@@ -113,7 +86,9 @@
         </div>
     </footer>
 
-
-    <script src="./src/index.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./src/view/indexregistro.js" type="module"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 </body>
 </html>

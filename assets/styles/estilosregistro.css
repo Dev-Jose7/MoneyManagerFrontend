@@ -1,0 +1,23 @@
+.formulario__contenedor {
+    border: 2px solid #4CAF50; /* Verde para borde */
+}
+
+.formulario__campos a {
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-success {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.btn-warning {
+    background-color: #FFC107;
+    border-color: #FFC107;
+    color: black;
+}
+
+legend {
+    color: #4CAF50; /* Verde del título */
+}
