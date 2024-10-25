@@ -20,17 +20,18 @@ export default class TransactionManager {
         
         if(vector.length != 0){ //Si hay transacciones se procederá con la impresión por página, si no hay transacciones se imprimirá estructuras de transacciones para que el contenedor de páginas tenga un tamaño definido por tamaño de página. Ver en dashboard en función pagination
             for (let page = 0; page < section.length; page++) { //Recorre el contenedor de las paginas (ciclo de páginas)
+            
                 for (let i = 0; i < size; i++) { //Hace referencia a la cantidad de veces que debe de imprimir una transacción a una página (ciclo de transacciones por página)
                     let elemento = `
                         <div class="transaccion" data-tipo="${vector[counterTransaction]._tipo}" data-id="${vector[counterTransaction]._id}">
                         ${container.id == "campoTransacciones" ? `<h4>${vector[counterTransaction]._tipo}</h4>` : ""}
-                            <h3>${vector[counterTransaction]._categoria}</h3>
-                            <p>${vector[counterTransaction]._valor}</p>
-                            <h4>${vector[counterTransaction]._descripcion}</h4>
-                            <h5>${vector[counterTransaction]._fecha}</h5>
+                            <h4 class="titleCategory">${vector[counterTransaction]._categoria}</h4>
+                            <p class="titleValue">${vector[counterTransaction]._valor}</p>
+                            <p class="titleDescription">${vector[counterTransaction]._descripcion}</p>
+                            <p class="titleDate">${vector[counterTransaction]._fecha}</p>
                             <div>
-                                <button class="modificar">Modificar</button>
-                                <button class="eliminar">Eliminar</button>
+                                <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
+                                <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
                             </div>
                         </div>`;
                     
@@ -73,12 +74,12 @@ export default class TransactionManager {
 
     // Método para actualizar una transacción existente.
     updateTransaction(id) {
-        console.log(" Desde updateTransaction ingresos");
         let targetTransaction = Transaccion.getTransactionData().find(transaction => transaction._id == id);
         // Actualiza los valores de la transacción existente en el arreglo.
         targetTransaction._tipo = tipo.value;
         targetTransaction._valor = +valor.value;
         targetTransaction._descripcion = descripcion.value;
+        targetTransaction._fecha = fecha.value;
         targetTransaction._categoria = categoria.value;
         
         console.log(Transaccion.getTransactionData());
