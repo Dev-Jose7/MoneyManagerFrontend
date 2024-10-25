@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/styles/estilos.css">
-    <title>Nosotros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/estilosregistro.css">
+    <link rel="stylesheet" href="../styles/estilos.css">
+    <title>Ingreso</title>
 </head>
-<body>
+<body class="bg-light">
     <header class="encabezado">
         <div class="encabezado__barra">
             <div class="encabezado__contenedor contenedor">
@@ -23,24 +25,43 @@
                 <input type="checkbox" class="activador" id="menu">
                 <div class="encabezado__navegacion">
                     <div class="encabezado__menu">
-                        <a href="index.html" class="boton seleccion--verde">Inicio</a>
-                        <a href="nosotros.html" class="boton">Nosotros</a>
+                        <a href="../../index.html" class="boton seleccion--verde">Inicio</a>
+                        <a href="../html/nosotros.html" class="boton">Nosotros</a>
                     </div>
 
                     <div class="encabezado__usuario">
-                        <a href="registro.html" class="boton seleccion--amarillo">Ingresar</a>
+                        <a href="../html/registro.html" class="boton seleccion--amarillo">Ingresar</a>
                     </div>
                 </div>
             </div>
+            
         </div>
     </header>
 
+    <main class="formulario d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+        <fieldset class="formulario__contenedor border rounded-4 p-5 shadow-lg bg-white"
+                  style="max-width: 700px; width: 100%; min-width: 400px;">
+                <legend class="text-center fs-3 fw-bold text-success mb-4">
+                <i class="bi bi-person-plus" style="font-size: 3rem;"></i>
+                </legend>
+
+            <div class="formulario__titulo text-center mb-5">
+                <h1 class="text-dark mb-2">Money Manager</h1>
+                <h4 class="text-muted">App gestora de transacciones personales</h4>
+            </div>
+
+            <div class="formulario__campos d-grid gap-4">
+                <a href="../html/login.html" class="btn btn-success btn-lg py-3">Iniciar sesión</a>
+                <a href="../html/signup.html" class="btn btn-warning btn-lg py-3">Regístrate</a>
+            </div>
+        </fieldset>
+    </main>
 
     <!-- Sección Benjamín -->
     <footer class="footer">
         <div class="separador"></div>
         <div class="footer-principal">
-            <div class="imagen"> <img src="./assets/img/logo_completo_1.png" alt="Gestor de gastos"></div>
+            <div class="imagen"> <img src="../img/logo_completo_1.png" alt="Gestor de gastos"></div>
             <div class="contenedor-participantes">
                 <article class="nombre">
                     <h2>Benjamin Munera Bernal</h2>
@@ -65,7 +86,9 @@
         </div>
     </footer>
 
-
-    <script src="./src/index.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../src/view/indexregistro.js" type="module"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 </body>
 </html>

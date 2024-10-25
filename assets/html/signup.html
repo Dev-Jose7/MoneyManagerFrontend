@@ -4,47 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/estilos.css">
+    <link rel="stylesheet" href="../styles/signup.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <title>Sign up</title>
 </head>
 <body>
-    <main class="formulario">
-        <fieldset class="formulario__contenedor">
-            <legend>Registrarse</legend>
-            <div class="formulario__titulo">
-                <h2>MoneyManager</h2>
-                <h4>App gestora de transacciones personales</h4>
+    <div class="overlay"></div> 
+
+    <main class="formulario d-flex justify-content-center align-items-center vh-100">
+        <fieldset class="formulario__contenedor p-5 rounded-3 shadow-lg">
+            <legend class="text-center mb-4">Registrarse</legend>
+
+            <div class="formulario__titulo text-center">
+                <h2 class="mb-2 text-success">MoneyManager</h2>
+                <h4>Regístrate y toma el control de tus finanzas: ¡Ahorra más, gasta mejor!</h4>
             </div>
 
-            <form class="formulario__campos">
-                <h3 id="statusRegister"></h3>
-                <div class="formulario__campo">
-                    <label for="name">Nombre completo</label>
-                    <input type="text" id="name" autocomplete="off" required>
+            <form class="formulario__campos mt-4">
+                <h3 id="statusRegister" class="text-center text-danger"></h3>
+
+                <div class="formulario__campo mb-3">
+                    <label for="name" class="form-label">Nombre completo</label>
+                    <input type="text" id="name" class="form-control" autocomplete="off" required>
                 </div>
 
-                <div class="formulario__campo">
-                    <label for="email">Correo electrónico</label>
-                    <input type="text" id="email" autocomplete="off" required>
-                </div>
-                
-                <div class="formulario__campo">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" required>
+                <div class="formulario__campo mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="text" id="email" class="form-control" autocomplete="off" required>
                 </div>
 
-                <div class="formulario__campo">
-                    <label for="passwordConfirm">Repita la contraseña</label>
-                    <input type="password" id="passwordConfirm" required>
+                <div class="formulario__campo mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" class="form-control" required>
                 </div>
 
-                <div class="formulario__boton">
-                    <input type="submit" value="Registrarse">
-                    <a href="../../index.html"><input type="button" value="Regresar al inicio"></a>
+                <div class="formulario__campo mb-4">
+                    <label for="passwordConfirm" class="form-label">Repita la contraseña</label>
+                    <input type="password" id="passwordConfirm" class="form-control" required>
+                </div>
+
+                <div class="formulario__boton d-flex justify-content-between">
+                    <input type="submit" class="btn btn-success px-4" value="Registrarse">
+                    <a href="../html/login.html" class="btn btn-outline-warning px-4">Ingresar</a>
                 </div>
             </form>
         </fieldset>
     </main>
 
-    <script src="../../src/view/signup.js" type="module"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../../src/views/signup.js" type="module"></script>
 </body>
 </html>
