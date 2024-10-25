@@ -1,9 +1,9 @@
-import { endSession, findUser } from "../../assets/js/util.js";
+import { endSession, findUser, menuButton } from "../../assets/js/util.js";
 import User from "../controllers/account/User.js";
 import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
 
-// Cuando el contenido del documento está listo, se cargan los datos de sesión de usuarios, transacciones y categorías.
+// Cuando el contenido del documento está listo, se cargan los  de sesión de usuarios, transacciones y categorías.
 document.addEventListener("DOMContentLoaded", function() {
     User.loadDataSession();
     Transaccion.loadDataSession();

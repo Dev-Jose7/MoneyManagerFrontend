@@ -3,107 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../styles/account.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Cuenta</title>
 </head>
 <body>
-    <main class="contenedor dashboard">
-        <fieldset class="usuario">
-            <legend>Menú</legend>
-            <h2>Mi cuenta</h2>
-
-            <div>
-                <button id="dashboard">Dashboard</button>
-                <button id="logout">Cerrar sesión</button>
+    <header>
+        <div class="header-container">
+            <h1><a href="../../index.html">Money<span>Manager</span></a></h1>
+            <div class="header-right">
+                <button class="btn-icon" title="Mi Cuenta" id="account" onclick="window.location.href='../html/account.html'">
+                    <i class="fas fa-user-circle fa-lg"></i>
+                    <p>Mi cuenta</p>
+                </button>
+                <button class="btn-icon" title="Cerrar sesión" id="logout">
+                    <i class="fas fa-sign-out-alt fa-lg"></i>
+                    <p>Cerrar sesión</p>
+                </button>
+                <button class="btn-icon btn-menu" id="menuButton" title="Menú">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
             </div>
-        </fieldset>
+        </div>
+    </header>
 
-        <fieldset class="estadisticas">
-            <legend>Totales</legend>
-            <div>
-                <h3>Ingresos registrados <span id="cantIngreso">0</span></h3>
-                <h3>Gastos registrados <span id="cantGasto">0</span></h3>
-            </div>
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="../html/dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="../html/transaction.html">Transacciones</a></li>
+                    <li><a href="#">Categorías</a></li>
+                    <li><a href="#">Reportes</a></li>
+                    <li><a href="#">Configuraciones</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-            <div>
-                <h3>Total en ingresos: <span id="totalIngreso">0</span></h3>
-                <h3>Total en gastos: <span id="totalGasto">0</span></h3>
-            </div>
-        </fieldset>
-
-        <fieldset class="datos">
-            <legend>Datos personales</legend>
-            <div id="dataUser">
-                <div class="datos__info" id="userName">
-                    <h4>Nombre:</h4>
-                    <p id="name"></p>
-                </div>
-                
-                <div class="datos__info" id="userEmail">
-                    <h4>Correo:</h4>
-                    <p id="email"></p>
-                </div>
-                
-                <div class="datos__info" id="userPassword">
-                    <h4>Contraseña:</h4>
-                    <p id="password"></p>
-                    <div>
-                        <button id="showPassword">Ver contraseña</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="modificar__formulario" id="updateForm">
-                <h4>Si no deseas cambiar datos haz click en guardar</h4>
-                <div class="datos__modificar">
-                    <h4 class="datos__titulo">Nombre:</h4>
-                    <div>
-                        <input id="updateName" type="text">
-                    </div>
-                </div>
-
-                <div class="datos__modificar">
-                    <h4 class="datos__titulo">Correo:</h4>
-                    <div>
-                        <input id="updateEmail" type="text">
-                    </div>
-                </div>
-
-                <div class="datos__modificar">
-                    <h4 class="datos__titulo">Contraseña:</h4>
-                    <div>
-                        <input id="updatePassword" type="text">
-                    </div>
-                </div>
-            </div> -->
+        <section class="content">
             
-            <div class="datos__boton">
-                <button id="updateData">Modificar</button>
-            </div>
-        </fieldset>
+                <section class="contenedor dashboard">
 
-        <fieldset class="categorias">
-            <legend>Categorias</legend>
-            <div class="categorias__lista" id="showCategory">
-                <select id="categoria">
-                </select>
+                    <fieldset class="estadisticas">
+                        <legend>Totales</legend>
+                        <div>
+                            <h3>Ingresos registrados <span id="cantIngreso">0</span></h3>
+                            <h3>Gastos registrados <span id="cantGasto">0</span></h3>
+                        </div>
+            
+                        <div>
+                            <h3>Total en ingresos: <span id="totalIngreso">0</span></h3>
+                            <h3>Total en gastos: <span id="totalGasto">0</span></h3>
+                        </div>
+                    </fieldset>
+            
+                    <fieldset class="datos">
+                        <legend>Datos personales</legend>
+                        <div id="dataUser">
+                            <div class="datos__info" id="userName">
+                                <h4>Nombre:</h4>
+                                <p id="name"></p>
+                            </div>
+                            
+                            <div class="datos__info" id="userEmail">
+                                <h4>Correo:</h4>
+                                <p id="email"></p>
+                            </div>
+                            
+                            <div class="datos__info" id="userPassword">
+                                <h4>Contraseña:</h4>
+                                <p id="password"></p>
+
+                                <div class="button-div">
+                                    <button class="button btn-vc" id="showPassword">Ver contraseña</button>
+                                    <button id="updateData" class="button">Modificar</button>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- <div class="modificar__formulario" id="updateForm">
+                            <h4>Si no deseas cambiar datos haz click en guardar</h4>
+                            <div class="datos__modificar">
+                                <h4 class="datos__titulo">Nombre:</h4>
+                                <div>
+                                    <input id="updateName" type="text">
+                                </div>
+                            </div>
+            
+                            <div class="datos__modificar">
+                                <h4 class="datos__titulo">Correo:</h4>
+                                <div>
+                                    <input id="updateEmail" type="text">
+                                </div>
+                            </div>
+            
+                            <div class="datos__modificar">
+                                <h4 class="datos__titulo">Contraseña:</h4>
+                                <div>
+                                    <input id="updatePassword" type="text">
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                    </fieldset>
+            
+                   <!--<fieldset class="categorias">
+                        <legend>Categorias</legend>
+                        <div class="categorias__lista" id="showCategory">
+                            <select id="categoria">
+                                <label for="category">Categoría</label>
+                                <select  id="categoriaFilter">
+                                    <option disabled selected>Categoría</option>
+                                    <option value="Salario">Salario</option>
+                                    <option value="Arriendo">Arriendo</option>
+                                    <option value="Comisión">Comisión</option>
+                                    <option value="Servicios">Servicios</option>
+                                    <option value="Transporte">Transporte</option>
+                                    <option value="Alimentación">Alimentación</option>
+                                    <option value="Entretenimiento">Entretenimiento</option>
+                                    <option value="Compras">Compras</option>
+                                    <option value="Varios">Varios</option>
+                                </select>
+                            </select>
+                        </div>
+            
+                        <div class="categorias__campo" id="inputCategory">
+                            <input type="text">
+                        </div>
+            
+                        <div class="div-btnAñadir" id="categoryButton">
+                            <button id="addCategory" class="button2">Añadir</button>  
+                        </div>
+            
+                        <div class="categoriasEdit">
+                            <button id="updateCategory" disabled class="button-square">Modificar</button>
+                            <button id="deleteCategory" disabled class="button-square button-delete">Eliminar</button>
+                        </div>
+                    </fieldset> --> 
+                </section>
+                
+            
+
+           
+
+           <!-- Footer -->
+           <footer class="footer">
+            <div class="logo">
+                <h3 style=" color: #45a049;;">Money<span>Manager</span></h3>
+            </div>
+            <div class="social-icons">
+                <a href="#" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
             </div>
 
-            <div class="categorias__campo" id="inputCategory">
-                <input type="text">
+            <div class="social-icons-github">
+                <a href="#" title="GitHub"><p>José</p><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" title="GitHub"><p>Valeria</p><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" title="GitHub"><p>Benjamín</p><i class="fab fa-github fa-lg"></i></a>
             </div>
+        </footer>
 
-            <div class="categoria__botones" id="categoryButton">
-                <button id="addCategory">Añadir</button>  
-            </div>
-
-            <div class="categorias__edit">
-                <button id="updateCategory" disabled>Modificar</button>
-                <button id="deleteCategory" disabled>Eliminar</button>
-            </div>
-        </fieldset>
-    </main>
-
+        </section>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../src/view/account.js" type="module"></script>
 </body>
 </html>

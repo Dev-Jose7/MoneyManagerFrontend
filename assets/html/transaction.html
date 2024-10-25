@@ -31,8 +31,8 @@
         <aside class="sidebar" id="sidebar">
             <nav>
                 <ul>
-                    <li><a href="../html/dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="../html/transaction.html">Transacciones</a></li>
+                    <li><a href="../html/dashboard.html">Dashboard</a></li>
+                    <li><a href="../html/transaction.html" class="active">Transacciones</a></li>
                     <li><a href="#">Categorías</a></li>
                     <li><a href="#">Reportes</a></li>
                     <li><a href="#">Configuraciones</a></li>
@@ -42,7 +42,7 @@
 
         <section class="content">
 
-            <!-- Saludo y cambio de mes -->
+            <!-- cambio de mes -->
             <div class="user-panel">
                 <h2 id="nombre"></h2>
                 <div class="custom-select-container">
@@ -79,14 +79,38 @@
                 </div>
             </div>
 
-            <!-- Transacciones -->
-            <div class="transaction-section">
-                <div class="form-container">
-                    <h3>Añadir Transacción</h3>
+            <!-- Filter -->
+            <div class="filter">
+                <h3>Filtrar transacciones</h3>
+                <form>
+                    <input type="number" placeholder="Valor minimo (0)" min="0" id="minimoFilter">
+                    <input type="number" placeholder="Valor máximo" min="0" id="maximoFilter">
+    
+                    <select id="tipoFilter" required="">
+                        <option disabled="" selected="">Tipo</option>
+                        <option value="Ingreso">Ingreso</option>
+                        <option value="Gasto">Gasto</option>
+                    </select>
+    
+                    <select id="categoriaFilter" required=""><option disabled="" selected="">Categoría</option><option value="Salario">Salario</option><option value="Arriendo">Arriendo</option><option value="Comisión">Comisión</option><option value="Servicios">Servicios</option><option value="Transporte">Transporte</option><option value="Alimentación">Alimentación</option><option value="Entretenimiento">Entretenimiento</option><option value="Compras">Compras</option><option value="Varios">Varios</option></select>
+    
+                    <input type="date" id="fechaFilter">
+
+                    <div class="filter__botones">
+                        <button id="filter" class="btn-add">Filtrar</button>
+                        <button id="cleanFilter" class="btn-cancel">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal -->
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <h3>Editar Transacción</h3>
                     <form id="transactionForm">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="type">Tipo</label>
+                                <label for="tipo">Tipo</label>
                                 <select name="type" id="tipo">
                                     <option value="">Seleccione</option>
                                     <option value="Ingreso">Ingreso</option>
@@ -94,59 +118,78 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="value">Valor</label>
+                                <label for="valor">Valor</label>
                                 <input type="number" id="valor" placeholder="Valor">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="value">Categoria</label>
+                                <label for="categoria">Categoria</label>
                                 <select id="categoria" class="custom-select">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="date">Fecha</label>
+                                <label for="fecha">Fecha</label>
                                 <input type="date" id="fecha">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Descripción</label>
+                            <label for="descripcion">Descripción</label>
                             <input type="text" id="descripcion" placeholder="Descripción" style="height: 50px;">
                         </div>
                         <div class="form-actions">
-                            <button type="submit" class="btn-add" id="añadir">Añadir</button>
+                            <button class="btn-add" id="confirmar">Confirmar</button>
                             <button type="reset" class="btn-cancel" id="cancelar">Cancelar</button>
                         </div>
                     </form>
                 </div>
-                <div class="recent-transactions">
-                    <h3>Transacciones recientes</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Valor</th>
-                                <th>Categoria</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="recentTransactions">
-                            
-                        </tbody>
-                    </table>
-                    <a href="../html/transaction.html" class="view-all-transactions">Ver todas las transacciones</a>
-                </div>
             </div>
 
-            <!-- Descripcion -->
-            <section class="description">
-                <img src="../../assets/img/marrano-100.jpg" alt="Ahorro">
-                <div class="description-text">
-                    <h2>El ahorro de hoy es la libertad de mañana:</h2>
-                    <p>cada pequeño esfuerzo es un paso hacia tus sueños.</p>
+            <!-- Vista de transacciones -->
+            <div class="transacciones__pagina"> 
+                <button id="viewAll" class="btn-add">Ver todas</button>
+
+                <select id="sizePage" class="custom-select">
+                    <option disabled=""># transacciones</option>
+                    <option value="5" selected="">5 por pagina</option>
+                    <option value="10">10 por página</option>
+                    <option value="15">15 por página</option>
+                    <option value="20">20 por página</option>
+                </select>
+
+                <button id="confirmar"></button>
+            </div>
+
+            <!-- Transacciones -->
+            <div class="transaction-section transacciones">
+                <div class="transactions-container">
+                    <h3>Lista de ingresos</h3>
+
+                    <div id="campoIngresos">
+                        
+                    </div>
+
+                    <div class="botones__pagina" id="pageIngresos"></div>
                 </div>
-            </section>
+
+                <div class="transactions-container gastos">
+                    <h3 class="gastos__titulo">Lista de gastos</h3>
+                    <div id="campoGastos">
+                        
+                    </div>
+
+                    <div class="botones__pagina" id="pageGastos"></div>
+                </div>
+
+                <div class="transactions-container" style="display: none;">
+                    <h3>Lista de gastos</h3>
+                    <div id="campoTransacciones">
+                        
+                    </div>
+
+                    <div class="botones__pagina" id="pageTransacciones"></div>
+                </div>
+            </div>
 
             <!-- Footer -->
             <footer class="footer">
