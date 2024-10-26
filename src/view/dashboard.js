@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
     printCategory();
 
 
-    if(page == "dashboard"){
+    if(page == "dashboard" || page == "dashboard.html"){
         // Carga los datos de sesión al cargar el documento.
         console.log("Usuario: ", user);
         
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    if(page == "transaction"){
+    if(page == "transaction" || page == "transaction.html"){
         console.log(user);
         
         // Evento para modificar o eliminar transacciones al hacer clic en un botón de acción.
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
         dataByMonth(user.getTransactions().getListTransaction()); //Obtiene las transacciones del usuario de acuerdo al mes en curso
         calculateBalance(ingresosByMonth, gastosByMonth); // Calcula el balance entre ingresos y gastos.
         printTransactions(ingresosByMonth, gastosByMonth, transactionByMonth); //Imprime todas las transacciones del mes en curso
-        if(page == "dashboard"){
+        if(page == "dashboard" || page == "dashboard.html"){
             recentTransaction();
         }
         console.log(user.getTransactions().getListTransaction())
@@ -378,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Imprime las transacciones de ingresos y gastos.
     function printTransactions(ingresos, gastos, transacciones) { //pagina transacciones
-        if(page == "transaction"){
+        if(page == "transaction" || page == "transaction.html"){
             user.getTransactions().getManager().printTransaction(campoIngresos, ingresos, sizePage.value);
             user.getTransactions().getManager().printTransaction(campoGastos, gastos, sizePage.value);
             user.getTransactions().getManager().printTransaction(campoTransacciones, transacciones, sizePage.value);
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Imprime las categorías disponibles para el usuario.
     function printCategory() {
         user.getCategories().printCategories(categoria); // En sección de añadir.
-        if(page == "transaction"){
+        if(page == "transaction" || page == "transaction.html"){
             user.getCategories().printCategories(document.getElementById("categoriaFilter")); // En sección de filtrar. //pagina transacciones
         }
     }
