@@ -60,6 +60,7 @@ export default class Transaccion {
     getFilter() { return this._2filter; }
     getListIngreso() { return this._ingresos; }
     getListGasto() { return this._gastos; }
+    getListFilter() {return this._listFilter}
 
     // Método estático para obtener todas las transacciones.
     static getTransactionData() { return Transaccion._transactionData; }
@@ -97,7 +98,5 @@ export default class Transaccion {
     // Método para actualizar la lista de transacciones filtradas.
     updateListFilter(dataFilter) {
         this._listFilter = dataFilter;
-        this._ingresos = this._listFilter.filter((transaction) => transaction._tipo == "Ingreso");
-        this._gastos = this._listFilter.filter((transaction) => transaction._tipo == "Gasto");
     }
 }

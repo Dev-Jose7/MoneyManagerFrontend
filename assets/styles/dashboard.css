@@ -792,7 +792,7 @@ input{
         flex: 0 0 30%;
         margin: 0;
     }
-
+    
     .social-icons{
         flex: 0 0 30%;
         justify-content: center;
@@ -854,6 +854,6 @@ input{
     }
 
     .filter__botones{
-        gap: 1vw;
+        gap: 10px;
     }
 }

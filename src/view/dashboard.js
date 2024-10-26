@@ -14,6 +14,7 @@ let page = url.substring(url.lastIndexOf('/') + 1);
 document.addEventListener("DOMContentLoaded", function() {
     let id = 0;
     let user = {};
+    let dataFilter = [];
     let statusFilter = false;
 
     let tipo = document.getElementById("tipo");
@@ -64,21 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
         printCategory();
 
         // Muestra el nombre del usuario en la bienvenida.
-        document.getElementById("nombre").innerHTML = `Bienvenido <span>${user.getName()}</span>`
-
-        // document.getElementById("confirmar").style.display = "none"; //pagina transacciones
-
-        // Redirige al usuario a la página de cuenta.
-        document.getElementById("account").addEventListener("click", function() {
-            window.location.href = "account.html";
-        });
-
-        // Cierra la sesión y redirige al login.
-        document.getElementById("logout").addEventListener("click", function() {
-            document.getElementById("nombre").textContent = `Hasta luego, ${user.getName()}`;
-            user = null;
-            endSession();
-        });
+        document.getElementById("titleMain").innerHTML = `Bienvenido <span>${user.getName()}</span>`
 
         // Añade una nueva transacción cuando se hace clic en el botón de añadir.
         document.getElementById("añadir").addEventListener("click", function(e) {
@@ -213,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Aplica el filtro cuando se hace clic en el botón de filtrar.
         document.getElementById("filter").addEventListener("click", function(e) {
+            refreshTransaction(); //Refresca nuevamente las transacciones del mes antes de realizar un filtro para que pueda obtener resultados con que actualizar
             statusFilter = true;
             
             // Aplica el filtro de acuerdo a los valores ingresados en los campos de mínimo y máximo.
@@ -240,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("cleanFilter").addEventListener("click", function(e) {
             e.preventDefault();
             user.getTransactions().updateListUser(user.getId()); //Se actualiza debido a que el filtro altera el arreglo de ingresos y gastos del usuario, aquí se reestablece la información de dichos arreglos
-            printTransactions(ingresosByMonth, gastosByMonth, transactionByMonth);
+            refreshTransaction();
 
             // Limpia los campos del filtro.
             minimoFilter.value = "";
@@ -302,15 +290,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Aplica el filtro sobre las transacciones.
         function resultFilter() {
-            let dataFilter = user.getTransactions().getFilter().filter(minimoFilter.value, maximoFilter.value, tipoFilter.value, categoriaFilter.value, fechaFilter.value, user.getTransactions().getListTransaction());
-
+            dataFilter = user.getTransactions().getFilter().filter(minimoFilter.value, maximoFilter.value, tipoFilter.value, categoriaFilter.value, fechaFilter.value, transactionByMonth);
+            user.getTransactions().updateListFilter(dataFilter); //Actualiza el arreglo de filtros del usuario
             console.log(dataFilter);
 
-            user.getTransactions().updateListFilter(dataFilter); // Actualiza la lista filtrada de transacciones.
-            calculateBalance(user.getTransactions().getListIngreso(), user.getTransactions().getListGasto(), user.getTransactions()); // Calcula el balance entre ingresos y gastos.
-            printTransactions(user.getTransactions().getListIngreso(), user.getTransactions().getListGasto(), dataFilter);// Imprime las transacciones filtradas.
+            dataByMonth(user.getTransactions().getListFilter()); //En base al arreglo de filtros del usuario se obtiene todas las transacciones filtradas correspondiente al mes en curso
+            calculateBalance(ingresosByMonth, gastosByMonth);  // Calcula el balance entre ingresos y gastos.
+            printTransactions(ingresosByMonth, gastosByMonth, transactionByMonth); // Imprime las transacciones filtradas.
+            
         }
     }
+
+    // Redirige al usuario a la página de cuenta.
+    document.getElementById("account").addEventListener("click", function() {
+        window.location.href = "account.html";
+    });
+
+    // Cierra la sesión y redirige al login.
+    document.getElementById("logout").addEventListener("click", function() {
+        document.getElementById("titleMain").textContent = `Hasta luego, ${user.getName()}`;
+        user = null;
+        endSession();
+    });
 
     month.addEventListener("change", function(){
         refreshTransaction();
@@ -335,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function refreshTransaction(){ //Shorthand para filtrar, calcular e imprimir las transacciones del mes en curso
-        dataByMonth(); //Obtiene las transacciones del usuario de acuerdo al mes en curso
+        dataByMonth(user.getTransactions().getListTransaction()); //Obtiene las transacciones del usuario de acuerdo al mes en curso
         calculateBalance(ingresosByMonth, gastosByMonth); // Calcula el balance entre ingresos y gastos.
         printTransactions(ingresosByMonth, gastosByMonth, transactionByMonth); //Imprime todas las transacciones del mes en curso
         if(page == "dashboard.html"){
@@ -345,8 +346,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     //Captura la fecha de las transacciones por usuario y las filtra por el mes actual, de esta manera se obtendran las transacciones del usuario correspondiente al mes en curso
-    function dataByMonth(){
-        transactionByMonth = user.getTransactions().getListTransaction().filter(transaction => {
+    function dataByMonth(data){
+        transactionByMonth = data.filter(transaction => {
             const fecha = transaction.getDate()
             if(fecha.substring(fecha.indexOf("-")+1, fecha.lastIndexOf("-")) == month.value){
                 return true;
@@ -443,8 +444,8 @@ document.addEventListener("DOMContentLoaded", function() {
             let diference = sizePage.value - lastPage.children.length;
             for (let i = 0; i < diference; i++) {
                 let elemento =`
-                    <div class="transaccion" style="color: transparent;">
-                        <p>‎ </p>
+                    <div class="transaccion">
+                        <p></p>
                         <p></p>
                         <p></p>
                         <p></p>
@@ -453,6 +454,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 lastPage.innerHTML += elemento;
             }
         }
+
+        // if(lastPage.children.length == 0){
+        //     lastPage.children[0].textContent = "Sin transacciones";
+        // }
         
         container.firstChild.style.display = "unset" //La primer página del elemento contenedor de páginas se mostrará por defecto
 
@@ -477,8 +482,6 @@ document.addEventListener("DOMContentLoaded", function() {
     //Una vez creados y añadidos los botones de cada página se registra un evento al elemento contenedor de estos botones y a través de la delegación de eventos asignar un botón a cada página
     function paginationButtons(buttons, container){
         buttons.addEventListener("click", function(e){
-            console.log(buttons);
-            console.log(container)
             if(e.target.tagName == "BUTTON"){ //Previene a que la lógica de los botones solo ocurra cuando se haga click en elementos <button> y que no comience actuar cuando se haga click en el elemento contenedor de botones 
                 
                 [...container.children].forEach(page => { //Oculta a todas las páginas, esto para despejar al elemento contenedor de páginas y así poder mostrar otra página elegida por el usuario previniendo combinar la información de páginas anteriormente vista

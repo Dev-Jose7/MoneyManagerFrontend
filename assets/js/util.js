@@ -53,26 +53,6 @@ export function endSession(){
     }, 2000);
 }
 
-export function menuButton(){
-    document.getElementById("menuButton").addEventListener("click", function(){
-        const sidebar = document.getElementById("sidebar");
-        
-        if(sidebar.style.display == ""){
-            sidebar.style.display = "block";
-    
-            setTimeout(() => {
-                sidebar.classList.add("efect");
-            }, 10);
-        } else if(sidebar.style.display == "block"){
-            sidebar.classList.remove("efect");
-    
-            sidebar.addEventListener('transitionend', function() { //Cuando la transición finalice, se cambiará el display al sidebar
-                sidebar.style.display = ""; // Oculta completamente después de la transición
-            }, { once: true }); // Solo una vez
-        }
-    });
-}
-
 export function findUser (){
     let account = JSON.parse(sessionStorage.getItem("account"));
     return User.getUserData().find(user => user._id == account._id);
@@ -84,60 +64,142 @@ export function instanceTest(){
 
     console.log("Desde instanceTest", Transaccion.getTransactionData())
 
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 6500, "Pago nomina", "Salario", "2024-10-08");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400, "Alquiler casa", "Arriendo", "2024-10-08");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Comisión", "2024-10-08");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
-
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 3200, "Venta producto", "Ingreso por ventas", "2024-10-15");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 600, "Compra materiales", "Materiales", "2024-10-15");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1800, "Consultoría", "Honorarios", "2024-10-15");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 300, "Suscripción software", "Suscripciones", "2024-10-15");
-
-    // Octubre
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 4000, "Venta online", "Comercio electrónico", "2024-10-20");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 700, "Publicidad", "Marketing", "2024-10-20");
-
-    // Noviembre
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 5500, "Proyecto freelance", "Proyectos", "2024-11-10");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1200, "Equipo nuevo", "Inversiones", "2024-11-10");
-
-    // Diciembre
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2800, "Servicios de diseño", "Servicios", "2024-12-05");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 900, "Viaje de negocios", "Viajes", "2024-12-05");
-
-    // Enero
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 3500, "Consultoría empresarial", "Consultoría", "2025-01-15");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 500, "Material de oficina", "Operaciones", "2025-01-15");
-
-    // Febrero
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 4200, "Mantenimiento software", "Mantenimiento", "2025-02-10");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1100, "Capacitación", "Formación", "2025-02-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 7500000, "Pago nómina", "Salario", "2024-09-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1200000, "Alquiler casa", "Arriendo", "2024-09-01");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 3500000, "Comisión de ventas", "Comisión", "2024-09-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450000, "Servicios públicos", "Servicios", "2024-09-03");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1500000, "Renta de propiedad", "Arriendo", "2024-09-12");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 300000, "Gastos de transporte", "Transporte", "2024-09-05");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2000000, "Consultoría", "Comisión", "2024-09-15");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 600000, "Comida rápida", "Alimentación", "2024-09-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 800000, "Intereses de ahorros", "Varios", "2024-09-20");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 700000, "Compras de supermercado", "Compras", "2024-09-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 4000000, "Proyecto freelance", "Varios", "2024-09-25");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 900000, "Ropa de invierno", "Compras", "2024-09-18");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2200000, "Ventas en línea", "Varios", "2024-09-28");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 250000, "Cuidado personal", "Varios", "2024-09-22");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 300000, "Intereses bancarios", "Varios", "2024-09-30");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 500000, "Cenas", "Alimentación", "2024-09-29");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 600000, "Bonificación", "Salario", "2024-09-26");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 300000, "Transporte público", "Transporte", "2024-09-27");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 900000, "Consultoría adicional", "Comisión", "2024-09-24");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 400000, "Suscripción a servicios", "Varios", "2024-09-30");
+    
+    // Octubre 2024
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 7000000, "Pago nómina", "Salario", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1300000, "Alquiler casa", "Arriendo", "2024-10-01");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 3000000, "Comisión de ventas", "Comisión", "2024-10-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 500000, "Servicios públicos", "Servicios", "2024-10-03");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1800000, "Renta de propiedad", "Arriendo", "2024-10-12");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 250000, "Gastos de transporte", "Transporte", "2024-10-05");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2200000, "Consultoría", "Comisión", "2024-10-15");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 800000, "Comida rápida", "Alimentación", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 900000, "Intereses de ahorros", "Varios", "2024-10-20");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 750000, "Compras de supermercado", "Compras", "2024-10-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 5000000, "Proyecto especial", "Varios", "2024-10-22");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 950000, "Salidas con amigos", "Entretenimiento", "2024-10-12");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2700000, "Venta de productos", "Varios", "2024-10-25");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 400000, "Cuidado personal", "Varios", "2024-10-15");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1100000, "Bonificación por rendimiento", "Salario", "2024-10-30");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 600000, "Cenas de fin de semana", "Alimentación", "2024-10-18");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 800000, "Consultoría adicional", "Comisión", "2024-10-28");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 350000, "Eventos sociales", "Entretenimiento", "2024-10-20");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 400000, "Intereses bancarios", "Varios", "2024-10-29");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 250000, "Suscripción a plataformas", "Varios", "2024-10-31");
+    
+    // Noviembre 2024
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 8500000, "Pago nómina", "Salario", "2024-11-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400000, "Alquiler casa", "Arriendo", "2024-11-01");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 4000000, "Comisión de ventas", "Comisión", "2024-11-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 600000, "Servicios públicos", "Servicios", "2024-11-03");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2000000, "Renta de propiedad", "Arriendo", "2024-11-12");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 350000, "Gastos de transporte", "Transporte", "2024-11-05");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1700000, "Consultoría", "Comisión", "2024-11-15");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 500000, "Comida rápida", "Alimentación", "2024-11-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1100000, "Intereses de ahorros", "Varios", "2024-11-20");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 400000, "Compras de supermercado", "Compras", "2024-11-10");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 600000, "Proyectos independientes", "Varios", "2024-11-25");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 800000, "Viaje corto", "Entretenimiento", "2024-11-15");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 900000, "Venta de artículos", "Varios", "2024-11-30");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 300000, "Salidas con amigos", "Entretenimiento", "2024-11-20");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1200000, "Trabajo freelance", "Comisión", "2024-11-28");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450000, "Cuidado personal", "Varios", "2024-11-22");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 200000, "Intereses de ahorros", "Varios", "2024-11-29");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1500000, "Regalos", "Compras", "2024-11-25");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 1500000, "Consultoría a empresas", "Comisión", "2024-11-26");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 600000, "Comidas familiares", "Alimentación", "2024-11-27");
+   
 
     admin.getTransactions().updateListUser(admin.getId());
+    
+
+    //Septiembre 2024
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 6000000, "Pago nómina", "Salario", "2024-09-08");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 1000000, "Alquiler departamento", "Arriendo", "2024-09-01");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 4000000, "Comisión por ventas", "Comisión", "2024-09-10");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 500000, "Servicios de internet", "Servicios", "2024-09-03");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 2500000, "Renta de local", "Arriendo", "2024-09-12");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 400000, "Transporte en taxi", "Transporte", "2024-09-05");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 1800000, "Consultoría freelance", "Comisión", "2024-09-15");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 700000, "Alimentación en restaurantes", "Alimentación", "2024-09-08");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 950000, "Intereses de ahorros", "Varios", "2024-09-20");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 800000, "Compras de supermercado", "Compras", "2024-09-10");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 3000000, "Ventas en línea", "Varios", "2024-09-25");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 900000, "Ropa de temporada", "Compras", "2024-09-18");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 400000, "Freelance proyectos", "Varios", "2024-09-28");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 600000, "Cuidado personal", "Varios", "2024-09-22");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 1200000, "Bonificación", "Salario", "2024-09-30");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 300000, "Transporte público", "Transporte", "2024-09-29");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 800000, "Consultoría adicional", "Comisión", "2024-09-24");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 500000, "Suscripción a servicios", "Varios", "2024-09-30");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 300000, "Intereses bancarios", "Varios", "2024-09-26");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 450000, "Salidas con amigos", "Entretenimiento", "2024-09-27");
+    
+    // Octubre 2024
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 8000000, "Pago nómina", "Salario", "2024-10-08");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 1200000, "Alquiler departamento", "Arriendo", "2024-10-01");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 3500000, "Comisión por ventas", "Comisión", "2024-10-10");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 450000, "Servicios de luz", "Servicios", "2024-10-03");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 2000000, "Renta de local", "Arriendo", "2024-10-12");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 300000, "Transporte en autobús", "Transporte", "2024-10-05");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 2500000, "Consultoría", "Comisión", "2024-10-15");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 600000, "Alimentación en restaurantes", "Alimentación", "2024-10-08");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 1500000, "Intereses de ahorros", "Varios", "2024-10-20");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 700000, "Compras de supermercado", "Compras", "2024-10-10");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 5000000, "Proyecto freelance", "Varios", "2024-10-22");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 800000, "Salidas de fin de semana", "Entretenimiento", "2024-10-12");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 3000000, "Ventas en línea", "Varios", "2024-10-25");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 400000, "Cuidado personal", "Varios", "2024-10-15");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 200000, "Bonificación", "Salario", "2024-10-30");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 300000, "Cenas de amigos", "Alimentación", "2024-10-18");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 500000, "Consultoría adicional", "Comisión", "2024-10-28");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 250000, "Eventos sociales", "Entretenimiento", "2024-10-20");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 400000, "Intereses bancarios", "Varios", "2024-10-29");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 500000, "Suscripciones mensuales", "Varios", "2024-10-31");
+    
+    // Noviembre 2024
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 9000000, "Pago nómina", "Salario", "2024-11-08");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 1500000, "Alquiler departamento", "Arriendo", "2024-11-01");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 4500000, "Comisión por ventas", "Comisión", "2024-11-10");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 700000, "Servicios de agua", "Servicios", "2024-11-03");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 2500000, "Renta de local", "Arriendo", "2024-11-12");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 400000, "Transporte en taxi", "Transporte", "2024-11-05");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 2000000, "Consultoría freelance", "Comisión", "2024-11-15");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 600000, "Alimentación en restaurantes", "Alimentación", "2024-11-08");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 1400000, "Intereses de ahorros", "Varios", "2024-11-20");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 300000, "Compras de supermercado", "Compras", "2024-11-10");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 600000, "Proyectos independientes", "Varios", "2024-11-25");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 900000, "Viaje corto", "Entretenimiento", "2024-11-15");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 1300000, "Venta de artículos", "Varios", "2024-11-30");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 500000, "Salidas con amigos", "Entretenimiento", "2024-11-20");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 1800000, "Consultoría a empresas", "Comisión", "2024-11-28");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 400000, "Cuidado personal", "Varios", "2024-11-22");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 250000, "Intereses de ahorros", "Varios", "2024-11-29");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 700000, "Regalos de Navidad", "Compras", "2024-11-25");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Ingreso", 2200000, "Trabajo freelance", "Comisión", "2024-11-26");
+    admin1.getTransactions().getManager().createTransaction(admin1.getId(), "Gasto", 650000, "Comidas familiares", "Alimentación", "2024-11-27");
 
 
-
-    // Marzo
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 5000, "Venta de productos", "E-commerce", "2025-03-12");
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 800, "Publicidad en redes", "Marketing", "2025-03-12");
-
-    // Abril
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 3900, "Servicio de consultoría", "Consultoría", "2025-04-22");
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 650, "Mantenimiento equipo", "Mantenimiento", "2025-04-22");
-
-    // Mayo
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 7200, "Proyecto de desarrollo", "Desarrollo", "2025-05-15");
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1000, "Software de gestión", "Herramientas", "2025-05-15");
-
-    // Junio
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 4300, "Comisión ventas", "Ventas", "2025-06-10");
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1200, "Gastos de viaje", "Viajes", "2025-06-10");
-
-    // Julio
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 5600, "Taller de capacitación", "Capacitación", "2025-07-05");
-    admin1.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 400, "Material de curso", "Formación", "2025-07-05");
-
-    admin1.getTransactions().updateListUser(admin.getId());
+    admin1.getTransactions().updateListUser(admin1.getId());
 
 }
