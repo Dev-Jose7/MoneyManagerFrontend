@@ -59,8 +59,8 @@ export function findUser (){
 }
 
 export function instanceTest(){
-    let admin = new User("José", "jfnr398", "1234");
-    let admin1 = new User("Fernando", "fercho398", "4321");
+    let admin = new User("José", "usuario1", "1234");
+    let admin1 = new User("Fernando", "usuario2", "4321");
 
     console.log("Desde instanceTest", Transaccion.getTransactionData())
 

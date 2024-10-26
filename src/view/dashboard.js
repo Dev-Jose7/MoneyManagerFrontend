@@ -4,14 +4,12 @@ import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
 
 
-
-
-// Obtiene la URL actual y el nombre de la página.
-let url = document.location.href;
-let page = url.substring(url.lastIndexOf('/') + 1);
-
 // Cuando el contenido del documento está listo, se cargan los datos de sesión de usuarios, transacciones y categorías y se declarán las variables necesarias.
 document.addEventListener("DOMContentLoaded", function() {
+    // Obtiene la URL actual y el nombre de la página.
+    let url = document.location.href;
+    let page = url.substring(url.lastIndexOf('/') + 1);
+
     let id = 0;
     let user = {};
     let dataFilter = [];
@@ -53,9 +51,9 @@ document.addEventListener("DOMContentLoaded", function() {
     user.getCategories().updateListUser(user.getId());
     refreshTransaction() //Se encarga de filtrar, calcular e imprimir las transacciones del usuario
     printCategory();
-    
 
-    if(page == "dashboard.html"){
+
+    if(page == "dashboard"){
         // Carga los datos de sesión al cargar el documento.
         console.log("Usuario: ", user);
         
@@ -121,17 +119,9 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("añadir").style.display = "inline";
             // document.getElementById("confirmar").style.display = "none";
         }
-
-        // Imprime un mensaje por defecto si no hay transacciones.
-        // function printDefault(container, vector) {
-        //     if(vector.length == 0){
-        //         container.children[0].children[0].children[0].style.color = "#000";
-        //         container.children[0].children[0].children[0].textContent = "Sin datos"
-        //     }
-        // }
     }
 
-    if(page == "transaction.html"){
+    if(page == "transaction"){
         console.log(user);
         
         // Evento para modificar o eliminar transacciones al hacer clic en un botón de acción.
@@ -221,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 maximoFilter.required = true;
             }
             
-            // user.getTransactions().updateListUser(user.getId());
         }); //pagina transacciones
 
         // Limpia el filtro y restaura la lista de transacciones.
@@ -339,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
         dataByMonth(user.getTransactions().getListTransaction()); //Obtiene las transacciones del usuario de acuerdo al mes en curso
         calculateBalance(ingresosByMonth, gastosByMonth); // Calcula el balance entre ingresos y gastos.
         printTransactions(ingresosByMonth, gastosByMonth, transactionByMonth); //Imprime todas las transacciones del mes en curso
-        if(page == "dashboard.html"){
+        if(page == "dashboard"){
             recentTransaction();
         }
         console.log(user.getTransactions().getListTransaction())
@@ -389,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Imprime las transacciones de ingresos y gastos.
     function printTransactions(ingresos, gastos, transacciones) { //pagina transacciones
-        if(page == "transaction.html"){
+        if(page == "transaction"){
             user.getTransactions().getManager().printTransaction(campoIngresos, ingresos, sizePage.value);
             user.getTransactions().getManager().printTransaction(campoGastos, gastos, sizePage.value);
             user.getTransactions().getManager().printTransaction(campoTransacciones, transacciones, sizePage.value);
@@ -408,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Imprime las categorías disponibles para el usuario.
     function printCategory() {
         user.getCategories().printCategories(categoria); // En sección de añadir.
-        if(page == "transaction.html"){
+        if(page == "transaction"){
             user.getCategories().printCategories(document.getElementById("categoriaFilter")); // En sección de filtrar. //pagina transacciones
         }
     }
@@ -455,9 +444,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        // if(lastPage.children.length == 0){
-        //     lastPage.children[0].textContent = "Sin transacciones";
-        // }
+        if(lastPage.children.length == 0){
+            lastPage.children[0].textContent = "Sin transacciones";
+        }
         
         container.firstChild.style.display = "unset" //La primer página del elemento contenedor de páginas se mostrará por defecto
 
