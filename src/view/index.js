@@ -1,4 +1,10 @@
+import { instanceTest } from "../../assets/js/util.js";
+
 document.addEventListener("DOMContentLoaded", function(){
+    if(!sessionStorage.getItem("database")){
+        instanceTest(); //Crea las instancias de prueba solo una vez siempre y cuando no existan 
+    }
+
     let contador = 1;
     setInterval(() => {
         contador++;
