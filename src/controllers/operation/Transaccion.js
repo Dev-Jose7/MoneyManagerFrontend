@@ -54,6 +54,7 @@ export default class Transaccion {
     getType() { return this._tipo; }
     getValue() { return this._valor; }
     getCategory() { return this._categoria; }
+    getDescription() {return this._descripcion}
     getDate() { return this._fecha; }
     getListTransaction() { return this._listTransactions; }
     getManager() { return this._1manager; }
@@ -69,6 +70,11 @@ export default class Transaccion {
     setId(id) { this._id = id; }
     setDescripcion(descripcion) { this._descripcion = descripcion; }
     setValor(valor) { this._valor = valor; }
+
+    //Busca una transaccion por su id
+    findTransaction(id){
+        return Transaccion._transactionData.find(transaction => transaction._id == id);
+    }
 
     // Método para calcular el total de ingresos.
     totalIngreso() {

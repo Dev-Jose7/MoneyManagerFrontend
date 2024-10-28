@@ -15,7 +15,7 @@ export default class TransactionManager {
         let counterTransaction = 0;
 
         //Después de limpiar el contenedor, se crea la primer página 
-        createPage(); //Es necesario crear una primer página antes de iniciar el ciclo, esto para que el contenedor de páginas tenga elementos hijos y así el ciclo tenga que elementos recorrer
+        createPage(); //Es necesario crear una primer página antes de iniciar el ciclo, esto para que el contenedor de páginas tenga elementos hijos y así el ciclo tenga elementos por recorrer
         let section = container.children;
         
         if(vector.length != 0){ //Si hay transacciones se procederá con la impresión por página, si no hay transacciones se imprimirá estructuras de transacciones para que el contenedor de páginas tenga un tamaño definido por tamaño de página. Ver en dashboard en función pagination
@@ -25,11 +25,11 @@ export default class TransactionManager {
                     let elemento = `
                         <div class="transaccion" data-tipo="${vector[counterTransaction]._tipo}" data-id="${vector[counterTransaction]._id}">
                         ${container.id == "campoTransacciones" ? `<h4>${vector[counterTransaction]._tipo}</h4>` : ""}
-                            <h4 class="titleCategory">${vector[counterTransaction]._categoria}</h4>
+                            <h4 class="titleCategory" title="${vector[counterTransaction]._categoria}">${vector[counterTransaction]._categoria}</h4>
                             <p class="titleValue">${vector[counterTransaction]._valor}</p>
-                            <p class="titleDescription">${vector[counterTransaction]._descripcion}</p>
                             <p class="titleDate">${vector[counterTransaction]._fecha}</p>
                             <div>
+                                <i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>
                                 <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
                                 <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
                             </div>

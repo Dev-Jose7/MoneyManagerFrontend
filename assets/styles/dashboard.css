@@ -54,9 +54,8 @@ th, td{
 }
 
 thead{
-    background-color: #4CAF50;
+    background-color: #343a40;
     color: white;
-    
 }
 
 .header-container{
@@ -242,7 +241,6 @@ thead{
 }
 
 .form-container h3,
-.recent-transactions h3,
 .filter h3 {
     margin-bottom: 15px;
     font-size: 20px;
@@ -327,6 +325,10 @@ input{
     text-align: end;
 }
 
+.transacciones__pagina .btn-viewAll{
+    background-color: #333;
+}
+
 .botonAll{
     background-color: #45a049; /* Color de fondo verde */
     color: white; /* Color del texto */
@@ -353,13 +355,36 @@ input{
     width: 100%;
 }
 
+.table-container{
+    overflow-x: auto;
+}
+
+.recent-transactions [data-tipo="Ingreso"] td:first-child{
+    color: #45a049;
+}
+
+.recent-transactions [data-tipo="Gasto"] td:first-child{
+    color: #ff4d4d;
+}
+
 .recent-transactions h3,
-.transactions-container h3 {
+.transactions-container h3,
+.modal-content h3 {
     margin-bottom: 15px;
     font-size: 20px;
     color: #4CAF50;
     border-bottom: 2px solid #4CAF50;
     padding-bottom: 10px;
+}
+
+.recent-transactions h3{
+    color: #343a40;
+    border-bottom: 2px solid #343a40;
+}
+
+.transactions-container:last-of-type h3{
+    color: #333;
+    border-color: #333;
 }
 
 .recent-transactions .nodata,
@@ -371,18 +396,13 @@ input{
     display: block;
     margin-top: 15px;
     text-align: center;
-    color: #4CAF50;
+    color: #343a40;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
 
-.recent-transactions .view-all-transactions:hover {
-    color: #45a049;
-}
-
-.transaction-section .gastos__titulo,
-#campoGastos i{
+.transaction-section .gastos__titulo{
     color: #ff4d4d;
     border-color: #ff4d4d;
 }
@@ -412,6 +432,25 @@ input{
     border-bottom: none; /* Eliminar la línea del último elemento */
 }
 
+.transaccion h4,
+.transaccion p,
+.transaccion div{
+    height: 3vh;
+    display: flex;
+    align-items: center;
+}
+
+.transaccion p,
+.transaccion div{
+    justify-content: center;
+}
+
+.campoTransacciones h4,
+.campoTransacciones p,
+.campoTransacciones div{
+    width: 20%;
+}
+
 .transaccion p {
     margin: 0; /* Quitar márgenes de párrafos */
     color: #333; /* Color del texto */
@@ -419,17 +458,32 @@ input{
 
 .transaccion div {
     display: flex; /* Disposición horizontal de iconos */
+    justify-content: center;
     gap: 20px; /* Espacio entre iconos */
 }
 
 .transaccion i {
-    color: #45a049; /* Color azul para los iconos */
     cursor: pointer; /* Cambiar cursor al pasar el mouse */
     transition: color 0.3s; /* Transición de color */
 }
 
 .transaccion i:hover {
-    color: #0056b3; /* Color más oscuro al hacer hover */
+    color: #333; /* Color más oscuro al hacer hover */
+}
+
+.transactions-container:last-of-type [data-tipo="Ingreso"] h4:first-of-type,
+.transactions-container [data-tipo="Ingreso"] i{
+    color: #45a049;
+}
+
+.transactions-container:last-of-type [data-tipo="Gasto"] h4:first-of-type,
+.transactions-container [data-tipo="Gasto"] i{
+    color: #ff4d4d;
+}
+
+.transaccion .titleDate,
+.transaccion .titleValue{
+    text-align: center;
 }
 
 .botones__pagina {
@@ -466,6 +520,11 @@ input{
 
 .gastos button:hover{
     background-color: red;
+}
+
+.transactions-container:last-of-type .botones__pagina button{
+    color: #fff;
+    background-color: #333;
 }
 
 .filter{
@@ -505,12 +564,11 @@ input{
 .modal {
     display: none; /* Oculta la modal por defecto */
     position: fixed; /* Fija la posición de la modal */
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-    left: 0;
-    top: 0;
+    z-index: 2; /* Asegúrate de que esté por encima de otros elementos */
+    inset: 0;
     width: 100%; /* Ancho completo */
     height: 100%; /* Alto completo */
-    overflow: auto; /* Agrega desplazamiento si es necesario */
+    
     background-color: rgb(0, 0, 0); /* Fondo negro */
     background-color: rgba(0, 0, 0, 0.4); /* Fondo negro con opacidad */
 }
@@ -518,12 +576,18 @@ input{
 /* Contenido de la modal */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* Centra la modal */
+    margin: 22.5vh auto; /* Centra la modal */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Ancho responsive */
     max-width: 500px; /* Ancho máximo */
     border-radius: 10px; /* Bordes redondeados */
+}
+
+.modal-content h3{
+    color: #343a40;
+    border: 0;
+
 }
 
 /* Estilo para cerrar la modal */
@@ -565,24 +629,6 @@ input{
     border-color: #4CAF50;
     outline: none;
 }
-
-.btn-add {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-add:hover {
-    background-color: #45a049;
-}
-
-
-
-
 
 .description{
     width: 100%;
@@ -667,11 +713,6 @@ input{
 
 /* Media Queries */
 @media (min-width: 768px) {
-    thead {
-        background-color: #4CAF50; /* Color de fondo para el encabezado */
-        color: white; /* Color del texto del encabezado */
-    }
-
     th, td{
         padding: 12px 15px;
         border: 1px solid #ddd;
@@ -707,6 +748,12 @@ input{
         align-items: unset;
     }
 
+    .transaccion h4,
+    .transaccion p,
+    .transaccion div{
+        width: 25%;
+    }
+
     .overview {
         gap: 2.5vw;
         margin-bottom: 2.5vw;
@@ -721,10 +768,6 @@ input{
     .transaction-section {
         flex-direction: row;
         gap: 2.5vw;
-    }
-
-    .transacciones{
-        flex-direction: row;
     }
 
     .form-row {

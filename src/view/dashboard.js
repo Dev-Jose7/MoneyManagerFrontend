@@ -1,5 +1,5 @@
 import User from "../controllers/account/User.js";
-import { endSession, findUser, instanceTest } from "../../assets/js/util.js";
+import { endSession, findUser, textCurrency } from "../../assets/js/util.js";
 import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
 
@@ -129,18 +129,23 @@ document.addEventListener("DOMContentLoaded", function() {
             if (e.target.tagName == "I") {
                 console.log("verdadero")
                 let button = e.target;
+                id = button.closest(".transaccion").dataset.id; // Captura el ID de la transacción.
+
+                if(button.classList.contains("nota")){
+                    let transaction = user.getTransactions().findTransaction(id);
+                    document.getElementById("modalDescription").innerHTML = `<p>${transaction.getDescription()}</p> <h5>${transaction.getCategory()}</h5>`;
+                    document.getElementById("noteModal").style.display = "unset";
+                }
 
                 if (button.classList.contains("modificar")) {
                     console.log("Modificando");
                     document.getElementById("editModal").style.display = "unset";
-                    id = button.closest(".transaccion").dataset.id; // Captura el ID de la transacción.
                     console.log(id);
                     editTransaction(button); // Llama a la función para editar la transacción.
                 }
             
                 if (button.classList.contains("eliminar")) {
                     console.log("Eliminando");
-                    id = button.closest(".transaccion").dataset.id;
                     user.getTransactions().getManager().deleteTransaction(id, button.closest(".transaccion")); // Elimina la transacción.
                     user.getTransactions().updateListUser(user.getId());
                     Transaccion.saveDataSession(); // Guarda los cambios en la sesión.
@@ -162,6 +167,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         }); //pagina transacciones
+
+        //Cierra la ventana para consultar la descrpción de la transacción
+        document.getElementById("cerrar").addEventListener("click", function(){
+            document.getElementById("noteModal").style.display = "none";
+        });
 
         // Confirma la modificación de una transacción.
         document.getElementById("confirmar").addEventListener("click", function(e) {
@@ -233,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 campoGastos.closest(".transactions-container").style.display = "none";
                 campoTransacciones.closest(".transactions-container").style.display = "unset";
 
+                e.target.style.background = "linear-gradient(135deg, #4CAF50 50%, #FF4D4D 50%)";
                 e.target.textContent = "Ingreso/Gasto"
 
             } else if (e.target.textContent == "Ingreso/Gasto"){
@@ -240,6 +251,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 campoGastos.closest(".transactions-container").style.display = "unset";
                 campoTransacciones.closest(".transactions-container").style.display = "none";
 
+                e.target.style.background = "#333";
                 e.target.textContent = "Ver todas";
             }
         }); //pagina transacciones
@@ -268,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             categoria.value = button.closest(".transaccion").querySelector(".titleCategory").textContent;
             valor.value = button.closest(".transaccion").querySelector(".titleValue").textContent;
-            descripcion.value = button.closest(".transaccion").querySelector(".titleDescription").textContent;
+            descripcion.value = user.getTransactions().findTransaction(id).getDescription();
             fecha.value = button.closest(".transaccion").querySelector(".titleDate").textContent;
         
             document.getElementById("cancelar").addEventListener("click", function (e) {
@@ -367,15 +379,6 @@ document.addEventListener("DOMContentLoaded", function() {
         saldoTotal.textContent = textCurrency(+saldoTotal.textContent);
     }
 
-    function textCurrency(value) {
-        return value.toLocaleString('es-CO', {
-            style: 'currency',
-            currency: 'COP',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        });
-    }
-
     // Imprime las transacciones de ingresos y gastos.
     function printTransactions(ingresos, gastos, transacciones) { //pagina transacciones
         if(page == "transaction" || page == "transaction.html"){
@@ -390,8 +393,37 @@ document.addEventListener("DOMContentLoaded", function() {
             // printDefault(campoIngresos, ingresos); // Imprime el mensaje por defecto si no hay transacciones.
             // printDefault(campoGastos, gastos); // Imprime el mensaje por defecto si no hay transacciones.
             // printDefault(campoTransacciones, transacciones);
+            textFormat(campoIngresos);
+            textFormat(campoGastos);
+            textFormat(campoTransacciones);
         }
-        
+    }
+
+    function textFormat(container){
+        [...container.children].forEach(page => { //Recorre los hijos del contenedor, los hijos son los elementos paginas
+            [...page.children].forEach(transaction => { //Recorre los hijos de la página, estos son las transacciones
+                if(transaction.dataset.id){ //Solo realiza el formato de texto si la transacción tiene id y no para las estructuras de transacciones que vienen vacias en la útlma página
+                    let value = textCurrency(+transaction.querySelector(".titleValue").textContent);
+                    transaction.querySelector(".titleValue").textContent = value;
+
+                    if(container.id != "campoTransacciones" && window.innerWidth >= 768){
+                        let category = transaction.querySelector(".titleCategory").textContent.slice(0, 9);
+                        let date  = transaction.querySelector(".titleDate").textContent.slice(5);
+
+                        transaction.querySelector(".titleCategory").textContent = category;
+                        transaction.querySelector(".titleDate").textContent = date;
+
+                        [...transaction.children].forEach(title => {
+                            if(title.textContent.length >= 9 && (title.className == "titleCategory" || title.className == "titleDescription")){
+                                title.textContent += "...";
+                                title.innerHTML += `<i class="fa-solid fa-circle-info" fa-lg></i>`
+                            }
+                        });
+                    }
+                }
+                
+            });
+        });
     }
 
     // Imprime las categorías disponibles para el usuario.
@@ -406,9 +438,9 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("recentTransactions").innerHTML = "";
         if(transactionByMonth.length != 0){ //Se aplica condición para que no genere error en caso de estar vacio el arreglo
             for (let i = 0; i < 5; i++) {
-                document.getElementById("recentTransactions").innerHTML += `<tr>
+                document.getElementById("recentTransactions").innerHTML += `<tr data-tipo="${transactionByMonth[i].getType()}">
                                 <td>${transactionByMonth[i].getType()}</td>
-                                <td>${transactionByMonth[i].getValue()}</td>
+                                <td>${textCurrency(transactionByMonth[i].getValue())}</td>
                                 <td>${transactionByMonth[i].getCategory()}</td>
                                 <td>${transactionByMonth[i].getDate()}</td>
                             </tr>`;
@@ -463,21 +495,29 @@ document.addEventListener("DOMContentLoaded", function() {
             //De acuerdo al id del elemento contenedor de páginas se irá agregando los botones al elemento contenedor de botones correspondiente
             if(container.id == "campoIngresos" || container.id == "campoGastos" || container.id == "campoTransacciones"){
                 buttonContainer.appendChild(pageButton);
-                paginationButtons(buttonContainer, container);
+                paginationButtons(container, buttonContainer);
             }
         }
     }
 
     //Una vez creados y añadidos los botones de cada página se registra un evento al elemento contenedor de estos botones y a través de la delegación de eventos asignar un botón a cada página
-    function paginationButtons(buttons, container){
-        buttons.addEventListener("click", function(e){
+    function paginationButtons(container, buttonContainer){
+        buttonContainer.addEventListener("click", function(e){
             if(e.target.tagName == "BUTTON"){ //Previene a que la lógica de los botones solo ocurra cuando se haga click en elementos <button> y que no comience actuar cuando se haga click en el elemento contenedor de botones 
                 
                 [...container.children].forEach(page => { //Oculta a todas las páginas, esto para despejar al elemento contenedor de páginas y así poder mostrar otra página elegida por el usuario previniendo combinar la información de páginas anteriormente vista
-                    page.style.display = "none"
+                    page.style.display = "none";
                 });
+
+                [...buttonContainer.children].forEach(button => { //Oculta a todas las páginas, esto para despejar al elemento contenedor de páginas y así poder mostrar otra página elegida por el usuario previniendo combinar la información de páginas anteriormente vista
+                    button.style.transform = "none"
+                    button.style.fontWeight = "unset";
+                });
+
                 //De acuerdo al texto del boton clickeado, este se ajustará en forma de indice para hacer referencia a la pagina que se encuentrá en el elemento contenedor de páginas y así mostrarla
                 container.children[e.target.textContent-1].style.display = "unset";
+                buttonContainer.children[e.target.textContent-1].style.transform = "scale(1.05)"
+                buttonContainer.children[e.target.textContent-1].style.fontWeight = "bold"
             }   
         });
     }

@@ -58,6 +58,15 @@ export function findUser (){
     return User.getUserData().find(user => user._id == account._id);
 }
 
+export function textCurrency(value) {
+    return value.toLocaleString('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
+}
+
 export function instanceTest(){
     let admin = new User("José", "usuario1", "1234");
     let admin1 = new User("Fernando", "usuario2", "4321");
