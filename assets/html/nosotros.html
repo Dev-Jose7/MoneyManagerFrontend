@@ -6,37 +6,35 @@
     <title>Nosotros - MoneyManager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="../styles/nosotros.css">
+    <link rel="stylesheet" href="../styles/estilos.css">
 </head>
 
 <body>
 
     <header class="encabezado">
         <div class="encabezado__barra">
-            <div class="encabezado__contenedor contenedor">
+            <div class="encabezado__contenedor contenedor" id="barra">
                 <div class="encabezado__logo">
                      <h1><span class="encabezado__logo--titulo">Money</span>Manager</h1>
                 </div>
 
-                <label for="menu" class="encabezado__icono">
-                    <div class="encabezado__icono--linea"></div>
-                    <div class="encabezado__icono--linea"></div>
-                    <div class="encabezado__icono--linea"></div>
-                </label>
-
-                <input type="checkbox" class="activador" id="menu">
-                <div class="encabezado__navegacion">
+                <div class="encabezado__navegacion" id="menu">
                     <div class="encabezado__menu">
-                        <a href="../../index.html" class="boton seleccion--verde">Inicio</a>
-                        <a href="../html/nosotros.html" class="boton">Nosotros</a>
+                        <a href="../../index.html" class="boton">Inicio</a>
+                        <a href="./assets/html/nosotros.html" class="boton seleccion--verde">Nosotros</a>
                     </div>
-
+                    
                     <div class="encabezado__usuario">
-                        <a href="../html/registro.html" class="boton seleccion--amarillo">Ingresar</a>
+                        <a href="./registro.html" class="boton seleccion--amarillo">Ingresar</a>
                     </div>
                 </div>
+
+                <button class="btn-icon btn-menu" id="menuButton" title="Menú">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
             </div>
-            
         </div>
     </header>
     <div class="banner my-3">
@@ -149,6 +147,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../../src/view/index.js"></script>
+    <script src="../../src/view/index.js" type="module"></script>
 </body>
 </html>

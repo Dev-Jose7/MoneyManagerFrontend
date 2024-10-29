@@ -45,17 +45,42 @@ export function initSession(account){
     }
 }
 
-export function endSession(){
+export function endSession(url){
     sessionStorage.removeItem("account");
 
     setTimeout(() => {
-        window.location.href = "login.html"
+        window.location.href = url;
     }, 2000);
 }
 
 export function findUser (){
     let account = JSON.parse(sessionStorage.getItem("account"));
     return User.getUserData().find(user => user._id == account._id);
+}
+
+export function checkSession(){
+    if(!sessionStorage.getItem("account")){
+
+        Swal.fire({
+            customClass: {
+                confirmButton: 'swalBtnColor'
+            },
+            title: 'Error!',
+            text: 'Debes iniciar sesión para continuar',
+            icon: 'warning',
+            confirmButtonText: 'Ok'
+        });
+
+        document.querySelector(".swalBtnColor").addEventListener("click", function(){
+            window.location.href = "./registro.html"
+        });
+
+        document.querySelector(".swal2-container").addEventListener("click", function(){
+            window.location.href = "./registro.html"
+        });
+
+        window.stop();
+    }
 }
 
 export function textCurrency(value) {

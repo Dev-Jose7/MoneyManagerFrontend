@@ -30,7 +30,7 @@ img{
 }
 
 h1{
-    font-size: 4vh;
+    font-size: 3vh;
     color: var(--primario);
 }
 
@@ -132,28 +132,19 @@ h1{
 }
 
 .encabezado__navegacion{
-    flex: 0 0 100%;
     display: none;
-    gap: 2.5vh;
-    background-color: var(--blanco);
-    padding: 2vh;
-    
-}
-
-.activador:checked + .encabezado__navegacion{
-    flex: 0 0 100%;
-    height: 90vh;
-    display: flex;
     flex-direction: column;
-    position: absolute;
-    z-index: 3;
-    top: 9.9vh;
-    left: 0;
+    width: 100%;
+    background-color: white;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 90vh;
+    top: 10vh;
     right: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    font-size: 2.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .encabezado__menu{
@@ -165,12 +156,44 @@ h1{
     align-items: center;
 }
 
-.encabezado__usuario{
+.encabezado__usuario {
     flex: 0 0 20%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    justify-content: flex-end;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: #4CAF50;
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+    order: 1;
+    font-weight: 600;
+}
+
+.btn-icon:hover {
+    color: #ffa500;
+}
+
+.header-right p{
+    display: none;
+}
+
+.efect{
+    opacity: 1;
+    visibility: visible;
 }
 
 /*Banner*/
@@ -254,7 +277,6 @@ h1{
 
     .encabezado__contenedor{
         flex-wrap: nowrap;
-        gap: unset;
     }
 
     .encabezado__logo{
@@ -266,11 +288,18 @@ h1{
     }
 
     .encabezado__navegacion{
-        flex: 0 0 70%;
+        flex: 0 0 55%;
+        height: unset;
         display: flex;
+        flex-direction: row;
         justify-content: flex-end;
+        align-items: center;
+        position: unset;
         padding: 0;
         gap: 4vw;
+        font-size: unset;
+        opacity: 1;
+        visibility: unset;
     }
 
     .encabezado__menu,
@@ -281,8 +310,20 @@ h1{
         gap: 1vw;
     }
 
-    .encabezado__menu{
-        order: 0;
+    .header-right{
+        gap: 1vw;
+    }
+
+    .header-right p{
+        display: unset;
+    }
+
+    .header-right .btn-icon{
+        transform: scale(0.85);
+    }
+
+    .btn-menu {
+        display: none;
     }
 
     .encabezado__descripcion{

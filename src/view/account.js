@@ -1,4 +1,4 @@
-import { endSession, findUser, menuButton } from "../../assets/js/util.js";
+import { endSession, findUser } from "../../assets/js/util.js";
 import User from "../controllers/account/User.js";
 import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     Transaccion.loadDataSession();
     Category.loadDataSession();
 
-    let user = findUser(); // Encuentra al usuario actual.
+    let user = {}; // Encuentra al usuario actual.
     let categoria = document.getElementById("categoria"); // Select para categorías.
     let categoriesMain = user.getCategories().getCategoriesMain(); // Obtiene categorías principales.
     let name = document.getElementById("name"); // Muestra el nombre del usuario.
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let textOption = "";
     let statusUpdate = false; // Estado que indica si se está actualizando una categoría.
     
+
     console.log(user);
     
     // Actualiza las listas de transacciones y categorías del usuario.

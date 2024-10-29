@@ -785,7 +785,6 @@ input{
     .filter form{
         flex-direction: row;
         align-items: center;
-        justify-content: center;
         gap: 10px;
 
         flex-wrap: wrap;
@@ -894,6 +893,7 @@ input{
 
     .filter form{
         flex-wrap: nowrap;
+        overflow-x: auto;
     }
 
     .filter__botones{

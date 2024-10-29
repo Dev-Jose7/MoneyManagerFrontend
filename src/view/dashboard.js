@@ -1,8 +1,9 @@
 import User from "../controllers/account/User.js";
-import { endSession, findUser, textCurrency } from "../../assets/js/util.js";
+import { checkSession, endSession, findUser, textCurrency } from "../../assets/js/util.js";
 import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
 
+checkSession(); //Revisa si hay un usuario en el sessionStorage para continuar
 
 // Cuando el contenido del documento está listo, se cargan los datos de sesión de usuarios, transacciones y categorías y se declarán las variables necesarias.
 document.addEventListener("DOMContentLoaded", function() {
@@ -40,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let ingresosByMonth = [];
     let gastosByMonth = [];
 
-    User.loadDataSession();
-    Transaccion.loadDataSession();
-    Category.loadDataSession();
+    User.loadDataSession(); //Carga todos los usuarios
+    Transaccion.loadDataSession(); //Carga todas las transacciones
+    Category.loadDataSession(); //Carga todas las categorias
         
     user = findUser(); // Encuentra al usuario actual.
 
@@ -311,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("logout").addEventListener("click", function() {
         document.getElementById("titleMain").textContent = `Hasta luego, ${user.getName()}`;
         user = null;
-        endSession();
+        endSession("./login.html");
     });
 
     month.addEventListener("change", function(){
