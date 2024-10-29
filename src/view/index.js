@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function(){
         User.loadDataSession();
     }
 
-    if(page == "index.html" || page == "index"){
+    if(page == "index.html" || window.location.pathname == "/"){
         menuSessionUser("./assets/html/dashboard.html", "./assets/html/login.html");
         backgroundImage(); //Función genera imagenes en el encabezado del index
 
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function(){
     function menuSessionUser(dashboard, logout){
         if(sessionStorage.getItem("account")){ //Si hay un usuario logeado, en la barra principal del index.html se cambiará la menu para indicar que hay un usuario registrado
             user = findUser();
-            
+
             document.querySelector(".encabezado__usuario").style.display = "none";
             document.getElementById("barra").innerHTML += `
                 <div class="header-right">
