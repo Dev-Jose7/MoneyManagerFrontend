@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html{
+    font-size: unset;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f9f9f9;
@@ -79,6 +83,7 @@ thead{
     margin-left: 10px;
     cursor: pointer;
     transition: color 0.3s;
+    font-weight: normal;
 }
 
 .header-right .btn-icon:hover {
@@ -191,6 +196,7 @@ thead{
 .content {
     width: 100%;
     padding: 20px;
+    
 }
 
 .overview {
@@ -232,8 +238,7 @@ thead{
     margin-bottom: 30px;
 }
 
-.form-container,
-.recent-transactions {
+.form-container {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -249,23 +254,27 @@ thead{
     padding-bottom: 10px;
 }
 
-.form-row {
+.form-row,
+.info-row {
     display: flex;
     flex-direction: column;
 }
 
-.form-group {
+.form-group,
+.info-group {
     width: 100%;
 }
 
-.form-group label {
+.form-group label,
+.info-group label{
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-.form-group {
-    margin-bottom: 2vw;
+.form-group,
+.info-group {
+    margin-bottom: 3vh;
 }
 
 select,
@@ -274,6 +283,12 @@ input{
     border: 1px solid #ccc;
     border-radius: 5px;
     transition: border-color 0.3s;
+}
+
+.info-user{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 .form-group input,
@@ -346,7 +361,8 @@ input{
 }
 
 .recent-transactions,
-.transactions-container{
+.transactions-container,
+.categories-container{
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -369,7 +385,8 @@ input{
 
 .recent-transactions h3,
 .transactions-container h3,
-.modal-content h3 {
+.modal-content h3,
+.categories-container h3 {
     margin-bottom: 15px;
     font-size: 20px;
     color: #4CAF50;
@@ -377,7 +394,8 @@ input{
     padding-bottom: 10px;
 }
 
-.recent-transactions h3{
+.recent-transactions h3,
+.categories-container h3{
     color: #343a40;
     border-bottom: 2px solid #343a40;
 }
@@ -386,6 +404,7 @@ input{
     color: #333;
     border-color: #333;
 }
+
 
 .recent-transactions .nodata,
 .transactions-container .nodata{ 
@@ -411,7 +430,7 @@ input{
     display: none;
 }
 
-.transaccion {
+.list {
     display: flex;
     flex-direction: column; /* Espacio entre elementos */
     justify-content: space-between; /* Centrar verticalmente */
@@ -423,25 +442,25 @@ input{
     transition: all 0.3s ease-in;
 }
 
-.transaccion:hover{
+.list:hover{
     background-color: #eee;
     transform: scale(1.02);
 }
 
-.transaccion:last-child {
+.list:last-child {
     border-bottom: none; /* Eliminar la línea del último elemento */
 }
 
-.transaccion h4,
-.transaccion p,
-.transaccion div{
+.list h4,
+.list p,
+.list div{
     height: 3vh;
     display: flex;
     align-items: center;
 }
 
-.transaccion p,
-.transaccion div{
+.list p,
+.list div{
     justify-content: center;
 }
 
@@ -451,23 +470,23 @@ input{
     width: 20%;
 }
 
-.transaccion p {
+.list p {
     margin: 0; /* Quitar márgenes de párrafos */
     color: #333; /* Color del texto */
 }
 
-.transaccion div {
+.list div {
     display: flex; /* Disposición horizontal de iconos */
     justify-content: center;
     gap: 20px; /* Espacio entre iconos */
 }
 
-.transaccion i {
+.list i {
     cursor: pointer; /* Cambiar cursor al pasar el mouse */
     transition: color 0.3s; /* Transición de color */
 }
 
-.transaccion i:hover {
+.list i:hover {
     color: #333; /* Color más oscuro al hacer hover */
 }
 
@@ -481,9 +500,13 @@ input{
     color: #ff4d4d;
 }
 
-.transaccion .titleDate,
-.transaccion .titleValue{
+.list .titleDate,
+.list .titleValue{
     text-align: center;
+}
+
+.category h4{
+    justify-content: center;
 }
 
 .botones__pagina {
@@ -522,9 +545,14 @@ input{
     background-color: red;
 }
 
-.transactions-container:last-of-type .botones__pagina button{
+.transactions-container:last-of-type .botones__pagina button,
+.categories-container .botones__pagina button{
     color: #fff;
     background-color: #333;
+}
+
+.categories-container .botones__pagina{
+    margin: 20px 0 0 0;
 }
 
 .filter{
@@ -532,13 +560,12 @@ input{
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .filter form{
     display: flex;
     flex-direction: column;
-    
-    
 }
 
 .filter input,
@@ -558,7 +585,10 @@ input{
     flex: 1;
 }
 
-
+.photo-user{
+    font-size: 15vh;
+    margin: 3vh 0;
+}
 
 /* Estilo para la modal */
 .modal {
@@ -576,7 +606,7 @@ input{
 /* Contenido de la modal */
 .modal-content {
     background-color: #fefefe;
-    margin: 22.5vh auto; /* Centra la modal */
+    margin: 10vh auto; /* Centra la modal */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Ancho responsive */
@@ -587,7 +617,10 @@ input{
 .modal-content h3{
     color: #343a40;
     border: 0;
+}
 
+.modal-content input{
+    width: 100%;
 }
 
 /* Estilo para cerrar la modal */
@@ -654,62 +687,61 @@ input{
 }
 
 .footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
     background-color: #333; /* Cambia a tu color de sidebar */
-    color: white;
-    padding: 15px;
     border-radius: 10px;
     margin-top: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-
-.logo {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 5vh;
-    color: #45a049;
 }
 
 .logo h3 span{
     color: #f0c14b;
 }
 
-.social-icons {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    justify-content: flex-end; /* Para alinear los iconos a la derecha */
-    margin-bottom: 5vh;
-}
-
-.social-icons a {
-    color: white;
-    font-size: 20px;
-    transition: color 0.3s;
-}
-
-.social-icons a:hover,
-.social-icons-github a:hover {
-    color: #ffa500; /* Color al pasar el mouse */
-}
-
-.social-icons-github{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
+.stat-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 30%;
+    min-width: 250px;
+    transition: transform 0.3s;
     text-align: center;
 }
 
-.social-icons-github a{
-    color: #fff;
-    text-decoration: none;
-
-    transition: color 0.3s;
+.stat-card h4 {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
 }
+
+/* .stat-card p {
+    font-size: 20px;
+    color: #777;
+} */
+
+.stat-card span {
+    color: #45a049; /* Verde para los totales de ingresos */
+    font-weight: bold;
+}
+
+.stat-card:nth-child(2) span {
+    color: #ff4d4d; /* Rojo para los totales de gastos */
+}
+
+.stat-card:nth-child(3) span {
+    color: #333; /* Color neutro para el saldo neto */
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+.stat-card p {
+    font-size: 18px;
+    color: #333;
+    margin: 1vh 0;
+}
+
 
 /* Media Queries */
 @media (min-width: 768px) {
@@ -743,14 +775,14 @@ input{
         position: relative;
     }
 
-    .transaccion{
+    .list{
         flex-direction: row;
         align-items: unset;
     }
 
-    .transaccion h4,
-    .transaccion p,
-    .transaccion div{
+    .list h4,
+    .list p,
+    .list div{
         width: 25%;
     }
 
@@ -776,8 +808,19 @@ input{
         gap: 1vw;
     }
 
+    .info-row:last-of-type .info-group{
+        margin-bottom: 0;
+    }
+
+    .info-row:last-of-type{
+        flex-direction: row;
+        text-align: center;
+    }
+
     .form-container,
-    .recent-transactions {
+    .recent-transactions,
+    .stats-transactions,
+    .categories-container {
         flex: 1;
         margin-bottom: 0;
     }
@@ -824,35 +867,15 @@ input{
         align-items: center;
     }
 
-    .footer {
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .logo{
-        flex: 0 0 30%;
-        margin: 0;
-    }
-    
-    .social-icons{
-        flex: 0 0 30%;
-        justify-content: center;
-        margin: 0;
-    }
-
-    .social-icons-github{
-        flex-direction: column;
-        align-items: end;
-        flex: 0 0 30%;
-        gap: 1vh;
-    }
-
-    .social-icons-github a{
+    .panel-user{
         display: flex;
         justify-content: space-between;
-        gap: 10px;
+        gap: 5vw;
     }
+
+    .panel-user fieldset{
+        flex: 50%
+    };
 }
 
 @media (min-width: 1024px) {
@@ -869,6 +892,33 @@ input{
         height: 90vh;
         right: unset;
     }
+
+    .info-user{
+        gap: 2vh;
+    }
+    
+    .info-row{
+        flex-direction: row;
+        align-items: center;
+        gap: 1vw;
+    }
+
+    .photo-user{
+        font-size: 8vw;
+        margin: 2vh 0;
+    }
+
+    /* .info-row:nth-child(2) .info-group{
+        text-align: center;
+    }
+
+    .info-row:first-of-type .info-group:nth-last-of-type(2){
+        text-align: center;
+    }
+
+    .info-row:first-of-type .info-group:last-of-type{
+        text-align: end;
+    } */
 
     .header-right{
         gap: unset;

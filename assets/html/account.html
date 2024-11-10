@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/account.css">
+     <link rel="stylesheet" href="../styles/estilos.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Cuenta</title>
 </head>
@@ -31,7 +32,7 @@
         <aside class="sidebar" id="sidebar">
             <nav>
                 <ul>
-                    <li><a href="../html/dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="../html/dashboard.html">Dashboard</a></li>
                     <li><a href="../html/transaction.html">Transacciones</a></li>
                     <li><a href="#">Categorías</a></li>
                     <li><a href="#">Reportes</a></li>
@@ -41,132 +42,167 @@
         </aside>
 
         <section class="content">
-            
-                <section class="contenedor dashboard">
+            <div class="user-panel">
+                <h2 id="titleMain">Panel de <span>usuario</span></h2>
+            </div>
 
-                    <fieldset class="estadisticas">
-                        <legend>Totales</legend>
-                        <div>
-                            <h3>Ingresos registrados <span id="cantIngreso">0</span></h3>
-                            <h3>Gastos registrados <span id="cantGasto">0</span></h3>
-                        </div>
-            
-                        <div>
-                            <h3>Total en ingresos: <span id="totalIngreso">0</span></h3>
-                            <h3>Total en gastos: <span id="totalGasto">0</span></h3>
-                        </div>
-                    </fieldset>
-            
-                    <fieldset class="datos">
-                        <legend>Datos personales</legend>
-                        <div id="dataUser">
-                            <div class="datos__info" id="userName">
-                                <h4>Nombre:</h4>
-                                <p id="name"></p>
-                            </div>
-                            
-                            <div class="datos__info" id="userEmail">
-                                <h4>Correo:</h4>
-                                <p id="email"></p>
-                            </div>
-                            
-                            <div class="datos__info" id="userPassword">
-                                <h4>Contraseña:</h4>
-                                <p id="password"></p>
+            <div class="overview">
+                <!-- Card para Ingresos -->
+                <div class="stat-card">
+                    <h4>Ingresos Registrados</h4>
+                    <p><span id="cantIngreso">0</span></p>
+                    <p>Total: <span id="totalIngreso">25,950</span> COP</p>
+                </div>
 
-                                <div class="button-div">
-                                    <button class="button btn-vc" id="showPassword">Ver contraseña</button>
-                                    <button id="updateData" class="button">Modificar</button>
-                                </div>
-                            </div>
-                        </div>
-            
-                        <!-- <div class="modificar__formulario" id="updateForm">
-                            <h4>Si no deseas cambiar datos haz click en guardar</h4>
-                            <div class="datos__modificar">
-                                <h4 class="datos__titulo">Nombre:</h4>
-                                <div>
-                                    <input id="updateName" type="text">
-                                </div>
-                            </div>
-            
-                            <div class="datos__modificar">
-                                <h4 class="datos__titulo">Correo:</h4>
-                                <div>
-                                    <input id="updateEmail" type="text">
-                                </div>
-                            </div>
-            
-                            <div class="datos__modificar">
-                                <h4 class="datos__titulo">Contraseña:</h4>
-                                <div>
-                                    <input id="updatePassword" type="text">
-                                </div>
-                            </div>
-                        </div> -->
-                        
-                    </fieldset>
-            
-                   <!--<fieldset class="categorias">
-                        <legend>Categorias</legend>
-                        <div class="categorias__lista" id="showCategory">
-                            <select id="categoria">
-                                <label for="category">Categoría</label>
-                                <select  id="categoriaFilter">
-                                    <option disabled selected>Categoría</option>
-                                    <option value="Salario">Salario</option>
-                                    <option value="Arriendo">Arriendo</option>
-                                    <option value="Comisión">Comisión</option>
-                                    <option value="Servicios">Servicios</option>
-                                    <option value="Transporte">Transporte</option>
-                                    <option value="Alimentación">Alimentación</option>
-                                    <option value="Entretenimiento">Entretenimiento</option>
-                                    <option value="Compras">Compras</option>
-                                    <option value="Varios">Varios</option>
-                                </select>
-                            </select>
-                        </div>
-            
-                        <div class="categorias__campo" id="inputCategory">
-                            <input type="text">
-                        </div>
-            
-                        <div class="div-btnAñadir" id="categoryButton">
-                            <button id="addCategory" class="button2">Añadir</button>  
-                        </div>
-            
-                        <div class="categoriasEdit">
-                            <button id="updateCategory" disabled class="button-square">Modificar</button>
-                            <button id="deleteCategory" disabled class="button-square button-delete">Eliminar</button>
-                        </div>
-                    </fieldset> --> 
-                </section>
-                
-            
+                <!-- Card para Gastos -->
+                <div class="stat-card">
+                    <h4>Gastos Registrados</h4>
+                    <p><span id="cantGasto">0</span></p>
+                    <p>Total: <span id="totalGasto">5,550</span> COP</p>
+                </div>
 
-           
+                <!-- Card para Saldo Neto -->
+                <div class="stat-card">
+                    <h4>Saldo Total</h4>
+                    <p><span id="cantTransaccion">0</span></p>
+                    <p><span id="saldoNeto">20,400</span> COP</p>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <h3>Actualizar datos</h3>
+                    <form>
+                        <div class="info-row">
+                            <div class="info-group">
+                                <label for="type">Nombre</label>
+                                <input id="nameUpdate">
+                            </div>
+                            <div class="info-group">
+                                <label for="value">Correo</label>
+                                <input id="emailUpdate">
+                            </div>
+                            <div class="info-group">
+                                <label for="value">Contraseña</label>
+                                <input id="passwordUpdate">
+                            </div>
+
+                            <div class="info-group">
+                                <label for="value"> Repetir contraseña</label>
+                                <input id="passwordConfirm">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-add" id="updateUser">Confirmar</button>
+                            <button type="reset" class="btn-cancel cancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="addTagModal" class="modal">
+                <div class="modal-content">
+                    <h3>Añadir categoria</h3>
+                    <form>
+                        <div class="info-row">
+                            <div class="info-group">
+                                <label for="type">Categoria</label>
+                                <input type="text" id="tagInput">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-add" id="addTag">Confirmar</button>
+                            <button type="reset" class="btn-cancel cancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="editTagModal" class="modal">
+                <div class="modal-content">
+                    <h3>Actualizar categoria</h3>
+                    <form>
+                        <div class="info-row">
+                            <div class="info-group">
+                                <input type="text" id="updateTagInput">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-add" id="updateTag">Confirmar</button>
+                            <button type="reset" class="btn-cancel cancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="transaction-section">
+                <div class="form-container">
+                    <h3>Datos personales</h3>
+                    <div class="info-user">
+                        <i class="fas fa-user-circle photo-user"></i>
+
+                        <div class="info-row">
+                            <div class="info-group">
+                                <label for="type">Nombre</label>
+                                <p id="name">José Navarro</p>
+                            </div>
+                            <div class="info-group">
+                                <label for="value">Correo</label>
+                                <p id="email">jfnr398@gmail.com</p>
+                            </div>
+                            <div class="info-group">
+                                <label for="value">Contraseña</label>
+                                <p class="password" id="password">********</p>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-group">
+                                <button class="btn-add" id="addCategory">Añadir categoria</button>
+                            </div>
+                            <div class="info-group">
+                                <button class="btn-add" id="updateData">Actualizar datos</button>
+                            </div>
+                            <div class="info-group">
+                                <button class="btn-add" id="showPassword">Ver contraseña</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="categories-container">
+                    <h3>Lista de categorias</h3>
+                    <div id="categoria"></div>
+                    <div id="pageCategoria" class="botones__pagina"></div>
+                </div>
+            </div>
 
            <!-- Footer -->
-           <footer class="footer">
-            <div class="logo">
-                <h3 style=" color: #45a049;;">Money<span>Manager</span></h3>
-            </div>
-            <div class="social-icons">
-                <a href="#" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
-                <a href="#" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-                <a href="#" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-            </div>
+            <footer class="footer">
+                <div class="logo">
+                    <h3 style=" color: #45a049;;">Money<span>Manager</span></h3>
+                </div>
+                <div class="social-icons">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
 
-            <div class="social-icons-github">
-                <a href="#" title="GitHub"><p>José</p><i class="fab fa-github fa-lg"></i></a>
-                <a href="#" title="GitHub"><p>Valeria</p><i class="fab fa-github fa-lg"></i></a>
-                <a href="#" title="GitHub"><p>Benjamín</p><i class="fab fa-github fa-lg"></i></a>
-            </div>
-        </footer>
+                <div class="social-icons-github">
+                    <a href="#" title="GitHub"><p>José</p><i class="fab fa-github fa-lg"></i></a>
+                    <a href="#" title="GitHub"><p>Valeria</p><i class="fab fa-github fa-lg"></i></a>
+                    <a href="#" title="GitHub"><p>Benjamín</p><i class="fab fa-github fa-lg"></i></a>
+                </div>
+            </footer>
 
         </section>
     </div>
-    
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="../../src/view/charts.js"></script> -->
+    <script src="../../src/view/dashboard.js" type="module"></script>
 </body>
 </html>

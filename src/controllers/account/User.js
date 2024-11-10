@@ -15,7 +15,7 @@ export default class User {
         this._email = email; // Asigna el correo del usuario.
         this._password = password; // Asigna la contraseña del usuario.
         this._transactions = new Transaccion(); // Crea una nueva instancia de transacciones.
-        this._categories = new Category(); // Crea una nueva instancia de categorías.
+        this._categories = new Category(null, this._id); // Crea una nueva instancia de categorías.
         this.generateCategory(); // Genera las categorías predeterminadas.
         User._userData.push(this); // Agrega el usuario a la lista de usuarios.
         User.saveDataSession(); // Guarda la sesión del usuario.
@@ -33,10 +33,10 @@ export default class User {
     static getUserData() { return User._userData; }
 
     // Métodos para establecer los atributos del usuario.
-    setId(id) { this._id = id; }
-    setName(name) { this._name = name; }
-    setEmail(email) { this._email = email; }
-    setPassword(password) { this._password = password; }
+    setId(id) { this._id = id; User.saveDataSession()}
+    setName(name) { this._name = name; User.saveDataSession()}
+    setEmail(email) { this._email = email; User.saveDataSession()}
+    setPassword(password) { this._password = password; User.saveDataSession()}
 
     // Método para generar categorías predeterminadas para el usuario.
     generateCategory() {

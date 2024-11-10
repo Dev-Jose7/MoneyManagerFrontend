@@ -1,7 +1,7 @@
 :root{
     /*Colores*/
-    --primario: #366028;
-    --secundario: #d69d27;
+    --primario: #4CAF50;
+    --secundario: #F0C14B;
     --negro: #000;
     --blanco: #FFF;
 }
@@ -21,7 +21,7 @@ html{
 }
 
 body{
-    font-size: 2vh;
+    font-size: 16px;
     font-family: sans-serif;
 }
 
@@ -29,9 +29,19 @@ img{
     max-width: 100%;
 }
 
+p{
+    margin: unset;
+}
+
 h1{
     font-size: 3vh;
     color: var(--primario);
+}
+
+h3{
+    margin-bottom: 15px !important;
+    font-weight: 600 !important;
+    line-height: unset !important;
 }
 
 /***Utilidades***/
@@ -135,7 +145,6 @@ h1{
     display: none;
     flex-direction: column;
     width: 100%;
-    background-color: white;
     color: white;
     padding: 20px;
     position: fixed;
@@ -145,6 +154,7 @@ h1{
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
+    background-color: #FFF;
 }
 
 .encabezado__menu{
@@ -180,7 +190,7 @@ h1{
     cursor: pointer;
     transition: color 0.3s;
     order: 1;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .btn-icon:hover {
@@ -322,10 +332,6 @@ h1{
         transform: scale(0.85);
     }
 
-    .btn-menu {
-        display: none;
-    }
-
     .encabezado__descripcion{
         flex-direction: row;
         justify-content: space-between;
@@ -389,6 +395,9 @@ h1{
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 420px;
     text-align: justify;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .about-us p {
@@ -398,21 +407,27 @@ h1{
 }
 
 .about-us:nth-child(2) .btn {
-    background-color: #569642;
+    background-color: var(--primario);
     color: white;
     padding: 10px 50px;
     border-radius: 15px;
     text-decoration: none;
     font-weight: bold;
-    display: inline-block;
-    margin-top: 20px;
-    text-align: center;
     font-size: 1.5rem;
 }
 
 .about-us p:nth-child(2) {
-    color: #569642;
+    color: var(--primario);
     font-weight: bold;
+}
+
+.about-us div{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.ahorrar{
+    color: var(--primario);
 }
 
 /*VERSION MÓVIL*/
@@ -445,148 +460,121 @@ h1{
 
 /***FOOTER***/
 /*VERSION MOVIL*/
-.separador{
-    height: 15px;
-    width: 100;
-    background-color: var(--secundario);
-    }
-
 footer{
-    width: 100%;
+    background-color: #333;
 }
 
-.footer-principal{
-    width: 100%;
+.footer {
     display: flex;
-    flex-direction: column;
-    gap: 2vh;
-}
-
-.imagen{
-    align-self: center;
-    margin: 4vh 0;
-    width: 50%;
-    text-align: center;
-}
-
-.contenedor-participantes{
-    display: flex;
-    flex-direction: column; 
-    gap: 2vh;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 4vh;
-    text-align: center;
-}
-
-.nombre {
-    margin-bottom:15px;
-    
-}
-
-.nombre h2{
-
-    color: #000;   
-    font-size: 2.5vh;
-    font-weight: bold;
-    line-height: 20px;
-}
-
-.nombre a{
-    color: #000;
-    text-decoration: none;
-    font-size: 2vh;
-}
-
-
-.derechos{
-    background-color: grey;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    padding: 2vw;
+    justify-content: space-between;
+    color: white;
+    padding: 15px;
+    margin-top: 20px;
 }
 
-.derechos h2{
+
+.logo {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 5vh;
+    color: #45a049;
+}
+
+.logo h3{
+    margin-bottom: 0 !important;
+}
+
+.logo h3 span{
+    color: #f0c14b;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    justify-content: flex-end; /* Para alinear los iconos a la derecha */
+    margin-bottom: 5vh;
+}
+
+.social-icons a{
     color: white;
-    font-size: 2vh;
-    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover,
+.social-icons-github a:hover {
+    color: #ffa500; /* Color al pasar el mouse */
+}
+
+.social-icons-github{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
     text-align: center;
 }
 
+.social-icons-github a{
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+    margin-bottom: 1vh;
+}
+
+.social-icons-github p{
+    margin: 0;
+}
+
+.social-icons-github i{
+    margin-top: 2vh;
+}
     
        
 /***VERSION ESCRITORIO***/
-@media(min-width:700px) {
-    .separador{
-        height: 20px;
-        width: 100;
-        background-color: var(--secundario);
-    }
-
-    .footer-principal{
-        box-shadow: inset 0px -10px 10px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-direction: row;
+@media(min-width:768px) {
+    .footer {
+        box-shadow: unset;
+        background-color: transparent;
+        flex-wrap: nowrap;
         justify-content: space-between;
-        gap: unset;
-    }
-
-    .imagen{
-        width: 25%;
-        text-align: center;
-    }
-
-    .imagen > img{
-        width: 50%;
-    }
-
-    .contenedor-participantes{
-        flex: 0 0 75%;
-        justify-content: center;
-        box-shadow: -10px 0 10px -5px rgba(0, 0, 0, 0.2);
-    }
-
-    .nombre {
-        margin-bottom:5px;
-        padding: 10px;
-    }
-
-    .nombre h2{
-        margin-bottom:4px;
-        color: #000;   
-        font-size: 1.4vw;
-        font-weight: bold;
-        line-height: 20px;
-    }
-
-    .nombre a{
-        font-size: 1.2vw;
-    }
-
-    .nombre a{
-        color: #000;
-        text-decoration: none;
-    }
-
-    .espacio-en-blanco{
-        background-color: white;
-        padding: 1.5vh;
-        width: 100%;
-    }
-
-    .derechos{
-        background-color: grey;
-        height: 50px;
-        width:100%;
-        display: flex;
-        justify-content: center;
         align-items: center;
+        font-size: 1.25vw;
     }
 
-    .derechos h2{
-        color: white;
-        line-height: 20px;
-        font-family: Arial, Helvetica, sans-serif;
+    .logo{
+        flex: 0 0 30%;
+        margin: 0;
+    }
+    
+    .social-icons{
+        flex: 0 0 30%;
+        gap: 4vw;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .social-icons-github{
+        flex-direction: column;
+        align-items: end;
+        flex: 0 0 30%;
+        gap: 1vh;
+    }
+
+    .social-icons-github a{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .social-icons-github i{
+        margin-top: 0;
+    }
+
+    .btn-menu{
+        display: none;
     }
 }

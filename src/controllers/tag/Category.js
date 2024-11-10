@@ -9,16 +9,20 @@ export default class Category {
             this._user = user; // Asigna el usuario al que pertenece la categoría.
             Category._categoriesData.push(this); // Agrega la categoría a la lista.
             Category.saveDataSession(); // Guarda la categoría en sessionStorage.
-        } else {
-            this._categoriesMain = Category.defaultCategories(); // Carga categorías predeterminadas.
-            this._categoriesUser = []; // Inicializa la lista de categorías del usuario.
+        } else if(!tag && user){
+            // this._categoriesMain = Category.defaultCategories(); // Carga categorías predeterminadas.
+            // this._categoriesUser = []; // Inicializa la lista de categorías del usuario.
+            this._categoriesUser = [];
+            if(!sessionStorage.getItem("transaction")){
+                Category.mainCategories(user);
+            }
+            console.log(this._categoriesUser);
         }
     }
 
     // Método estático para guardar las categorías en sessionStorage.
     static saveDataSession() {
         sessionStorage.setItem("category", JSON.stringify(Category._categoriesData));
-        console.log(sessionStorage.getItem("category"));
     }
 
     // Método estático para cargar las categorías desde sessionStorage.
@@ -37,7 +41,7 @@ export default class Category {
     }
 
     // Métodos para obtener los atributos de la categoría.
-    getCategoriesMain() { return this._categoriesMain; }
+    // getCategoriesMain() { return this._categoriesMain; }
     getCategoriesUser() { return this._categoriesUser; }
     getTag() { return this._tag; }
     getUserId() { return this._user; }
@@ -47,35 +51,60 @@ export default class Category {
         return ["Salario", "Arriendo", "Comisión", "Servicios", "Transporte", "Alimentación", "Entretenimiento", "Compras", "Varios"];
     }
 
+    static mainCategories(user){
+        new Category("Salario", user);
+        new Category("Arriendo", user);
+        new Category("Comisión", user);
+        new Category("Servicios", user);
+        new Category("Transporte", user);
+        new Category("Alimentación", user);
+        new Category("Entretenimiento", user);
+        new Category("Compras", user);
+        new Category("Varios", user);
+    }
+
     // Método para actualizar la lista de categorías del usuario.
     updateListUser(id) {
-        this._categoriesMain.forEach(category => {
-            if (!this._categoriesUser.includes(category)) {
-                this._categoriesUser.push(category); // Agrega categorías predeterminadas.
-            }
-        });
-
+        this._categoriesUser = [];
         Category._categoriesData.forEach(category => {
+            
             if (category._user == id && !this._categoriesUser.includes(category._tag)) {
                 this._categoriesUser.push(category._tag); // Agrega categorías personalizadas.
             }
         });
 
+        console.log(Category._categoriesData);
         console.log(this._categoriesUser);
     }
 
     // Método para imprimir categorías en un elemento select.
-    printCategories(select) {
-        select.innerHTML = `<option disabled selected>Categoría</option>`;
-        this._categoriesUser.forEach((category) => {
-            select.innerHTML += `<option value="${category}">${category}</option>`;
-        });
+    printCategories(container, vector, pagination, counter, transaction) {
+        if(pagination){
+            let elemento = `
+            <div class="category list">
+                <h4>${vector[counter]}</h4>
+                <p>${transaction} registros</p>
+                <div>
+                    <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
+                    <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
+                </div>
+            </div>`;
+
+            return elemento;
+        } else {
+            container.innerHTML = `<option disabled selected>Categoría</option>`;
+            console.log(this._categoriesUser);
+            this._categoriesUser.forEach((category) => {
+                container.innerHTML += `<option value="${category}">${category}</option>`;
+            });
+        }
     }
 
     // Método para validar si una categoría existe.
     validateCategory(newCategory) {
-        let status;
+        let status = false;
         this._categoriesUser.find(category => {
+            console.log(this._categoriesUser)
             if (category == newCategory) {
                 console.log("Encontrado");
                 status = true; // La categoría fue encontrada.
@@ -91,13 +120,25 @@ export default class Category {
 
     // Método para actualizar una categoría existente.
     updateCategory(tagOld, tagNew, id) {
-        console.log(id);
         Category._categoriesData.find(category => {
             if (category._tag == tagOld && category._user == id) {
                 category._tag = tagNew; // Actualiza la etiqueta de la categoría.
             }
         });
+
+        Category.saveDataSession();
     }
+
+    // updateCategoryMain(tagOld, tagNew){
+    //     this._categoriesMain.find((category, index) => {
+    //         if(category == tagOld){
+    //             this._categoriesMain[index] = tagNew
+    //             console.log(this._categoriesMain)
+    //         }
+    //     });
+
+    //     Category.saveDataSession();
+    // }
 
     // Método para eliminar una categoría.
     deleteCategory(tag, idUser) {
@@ -111,8 +152,8 @@ export default class Category {
     }
 
     // Método para eliminar una categoría predeterminada.
-    deleteCategoryMain(tag) {
-        let index = this._categoriesMain.findIndex(category => category == tag);
-        this._categoriesMain.slice(index, 1); // Elimina la categoría de la lista.
-    }
+    // deleteCategoryMain(tag) {
+    //     let index = this._categoriesMain.findIndex(category => category == tag);
+    //     this._categoriesMain.slice(index, 1); // Elimina la categoría de la lista.
+    // }
 }

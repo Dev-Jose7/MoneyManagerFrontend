@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Money Manager</title>
+    <link rel="stylesheet" href="../styles/estilos.css">
     <link rel="stylesheet" href="../styles/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -44,7 +45,7 @@
 
             <!-- cambio de mes -->
             <div class="user-panel">
-                <h2 id="titleMain">Consultas de transacciones</h2>
+                <h2 id="titleMain">Consultas de <span>transacciones</span></h2>
                 <div class="custom-select-container">
                     <select id="month" class="custom-select">
                         <option value="01">Enero</option>
@@ -139,7 +140,7 @@
                         </div>
                         <div class="form-actions">
                             <button class="btn-add" id="confirmar">Confirmar</button>
-                            <button type="reset" class="btn-cancel" id="cancelar">Cancelar</button>
+                            <button type="reset" class="btn-cancel cancelar">Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -150,7 +151,7 @@
                     <h3>Descripcion de la transacción</h3>
                     <div id="modalDescription"></div>
                     <div class="form-actions">
-                        <button class="btn-cancel" id="cerrar">Cerrar</button>
+                        <button class="btn-cancel cancelar">Cerrar</button>
                     </div>
                 </div>
             </div>

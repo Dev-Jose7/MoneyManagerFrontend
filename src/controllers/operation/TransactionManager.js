@@ -8,53 +8,42 @@ export default class TransactionManager {
         new Transaccion(user, tipo, valor, descripcion, categoria, fecha); // Crea una nueva transacción.
         console.log("Base de datos: ", Transaccion.getTransactionData()); // Muestra las transacciones almacenadas.
     }
-    
-    // Método para imprimir transacciones a través de páginas en el contenedor indicado.
-    printTransaction(container, vector, size){
-        container.innerHTML = ""; // Limpia el contenedor.
-        let counterTransaction = 0;
 
-        //Después de limpiar el contenedor, se crea la primer página 
-        createPage(); //Es necesario crear una primer página antes de iniciar el ciclo, esto para que el contenedor de páginas tenga elementos hijos y así el ciclo tenga elementos por recorrer
-        let section = container.children;
+    // Método para imprimir transacciones en el contenedor y modo indicado.
+    printTransaction(container, vector, pagination, counter) {
+        // Agrega cada transacción al contenedor de acuerdo a la cantidad de transacciones que se desean imprimir.
+        if(pagination){
+            let elemento = `
+            <div class="transaccion list" data-tipo="${vector[counter]._tipo}" data-id="${vector[counter]._id}">
+            ${container.id == "campoTransacciones" ? `<h4>${vector[counter]._tipo}</h4>` : ""}
+                <h4 class="titleCategory" title="${vector[counter]._categoria}">${vector[counter]._categoria}</h4>
+                <p class="titleValue">${vector[counter]._valor}</p>
+                <p class="titleDate">${vector[counter]._fecha}</p>
+                <div>
+                ${vector[counter].getDescription() != " " ? `<i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>` : ""}
+                    <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
+                    <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
+                </div>
+            </div>`;
+            return elemento;
+        } 
         
-        if(vector.length != 0){ //Si hay transacciones se procederá con la impresión por página, si no hay transacciones se imprimirá estructuras de transacciones para que el contenedor de páginas tenga un tamaño definido por tamaño de página. Ver en dashboard en función pagination
-            for (let page = 0; page < section.length; page++) { //Recorre el contenedor de las paginas (ciclo de páginas)
-            
-                for (let i = 0; i < size; i++) { //Hace referencia a la cantidad de veces que debe de imprimir una transacción a una página (ciclo de transacciones por página)
-                    let elemento = `
-                        <div class="transaccion" data-tipo="${vector[counterTransaction]._tipo}" data-id="${vector[counterTransaction]._id}">
-                        ${container.id == "campoTransacciones" ? `<h4>${vector[counterTransaction]._tipo}</h4>` : ""}
-                            <h4 class="titleCategory" title="${vector[counterTransaction]._categoria}">${vector[counterTransaction]._categoria}</h4>
-                            <p class="titleValue">${vector[counterTransaction]._valor}</p>
-                            <p class="titleDate">${vector[counterTransaction]._fecha}</p>
-                            <div>
-                                <i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>
-                                <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
-                                <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
-                            </div>
-                        </div>`;
-                    
-                    section[page].innerHTML += elemento;
-                    counterTransaction++
-                    // console.log("counter", counterTransaction)
-                    // console.log("vector", vector.length);
-    
-                    if(counterTransaction == vector.length){ //Si todas las transacciones fueron añadidas procederá a terminar el ciclo principal para que no se creen más páginas
-                        break;
-                    }
-                }
-    
-                createPage();
-            }
-        }
-
-        function createPage(){ //Esta función es importante ya que crea y añade paginas al elemento contenedor de estas además es motor del primer ciclo ya que si añade páginas el ciclo podrá ejecutarse una vez más, imprimiendo transacciones en esta nueva página
-            if(counterTransaction < vector.length || vector.length == 0){ //Valida si hay transacciones por imprimir para así crear una pagina nueva o si no hay más transacciones, entonces creará una página vacía
-                let page = document.createElement("div");
-                page.className = "pagina"
-                container.appendChild(page);
-                console.log("Se crea pagina")
+        if(!pagination){
+            container.innerHTML = "";
+            for (let i = 0; i < vector.length; i++) {
+                let elemento = `
+                    <div class="transaccion" data-tipo="${vector[i]._tipo}" data-id="${vector[i]._id}">
+                    ${container.id == "campoTransacciones" ? `<h4>${vector[i]._tipo}</h4>` : ""}
+                        <h4 class="titleCategory" title="${vector[i]._categoria}">${vector[i]._categoria}</h4>
+                        <p class="titleValue">${vector[i]._valor}</p>
+                        <p class="titleDate">${vector[i]._fecha}</p>
+                        <div>
+                            <i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>
+                            <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
+                            <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
+                        </div>
+                    </div>`;
+                container.innerHTML += elemento;
             }
         }
     }
@@ -69,7 +58,7 @@ export default class TransactionManager {
             console.log("Eliminada");
         }
 
-        console.log(Transaccion.getTransactionData());
+        Transaccion.saveDataSession(); // Guarda los cambios en la sesión.
     }
 
     // Método para actualizar una transacción existente.
@@ -82,6 +71,18 @@ export default class TransactionManager {
         targetTransaction._fecha = fecha.value;
         targetTransaction._categoria = categoria.value;
         
-        console.log(Transaccion.getTransactionData());
+        console.log(Transaccion.getTransactionData())
+        Transaccion.saveDataSession();
+    }
+
+    //Método que se utiliza para actualizar una categoria que fue modificada de la lista de categorias a todas las transacciones que la usan
+    updateTagTransaction(oldTag, newTag, user){
+        Transaccion.getTransactionData().forEach((transaction, index) => {
+            if(transaction._user == user && transaction._categoria == oldTag){
+                transaction._categoria = newTag;
+            }
+        });
+
+        Transaccion.saveDataSession();
     }
 }
