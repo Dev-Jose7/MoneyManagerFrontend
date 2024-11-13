@@ -15,7 +15,7 @@
             <div class="header-right">
                 <button class="btn-icon" title="Mi Cuenta" id="account">
                     <i class="fas fa-user-circle fa-lg"></i>
-                    <p>Mi cuenta</p>
+                    <p id="nameUser">Mi cuenta</p>
                 </button>
                 <button class="btn-icon" title="Cerrar sesión" id="logout">
                     <i class="fas fa-sign-out-alt fa-lg"></i>
@@ -34,8 +34,8 @@
                 <ul>
                     <li><a href="../html/dashboard.html" class="active">Dashboard</a></li>
                     <li><a href="../html/transaction.html">Transacciones</a></li>
-                    <li><a href="#">Categorías</a></li>
-                    <li><a href="#">Reportes</a></li>
+                    <li><a href="../html/estadisticas.html">Estadisticas</a></li>
+                    <li><a href="../html/account.html">Mi cuenta</a></li>
                     <li><a href="#">Configuraciones</a></li>
                 </ul>
             </nav>
@@ -81,7 +81,7 @@
             </div>
 
             <!-- Transacciones -->
-            <div class="transaction-section">
+            <div class="section-main">
                 <div class="form-container">
                     <h3>Añadir Transacción</h3>
                     <form id="transactionForm">
@@ -120,7 +120,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="recent-transactions">
+                <div class="section-container">
                     <h3>Transacciones recientes</h3>
                     <div class="table-container">
                         <table>

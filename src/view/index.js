@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
             user = findUser();
 
             document.querySelector(".encabezado__usuario").style.display = "none";
+            document.querySelector(".btn-menu").style.display = "none";
             document.getElementById("barra").innerHTML += `
                 <div class="header-right">
                     <button class="btn-icon" title="Dashboard" id="dashboard">

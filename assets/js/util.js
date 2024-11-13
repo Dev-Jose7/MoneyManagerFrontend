@@ -47,6 +47,7 @@ export function initSession(account){
 
 export function endSession(url){
     sessionStorage.removeItem("account");
+    sessionStorage.removeItem("welcome");
 
     setTimeout(() => {
         window.location.href = url;
@@ -62,12 +63,16 @@ export function checkSession(){
     if(!sessionStorage.getItem("account")){
         alertShow("Error!", "Debes iniciar sesión para continuar", "warning");
 
+        setTimeout(() => {
+            window.location.href = "./registro.html";
+        }, 5000);
+
         document.querySelector(".swalBtnColor").addEventListener("click", function(){
-            window.location.href = "./registro.html"
+            window.location.href = "./registro.html";
         });
 
         document.querySelector(".swal2-container").addEventListener("click", function(){
-            window.location.href = "./registro.html"
+            window.location.href = "./registro.html";
         });
 
         window.stop();
@@ -93,35 +98,6 @@ export function alertShow(heading, message, type){
         icon: type,
         confirmButtonText: 'Ok',
         timer: 5000
-    });
-}
-
-//Función que crea un alert de confirmación doble, ajustando un id al boton confirmar del primer alert (boton: SI)
-export function confirmShow(heading, message, id){
-    return new Promise((resolve) => { //Retorna una promesa, esto debido ya que se esta ejecutando una operación asincrónica (event click)
-        Swal.fire({
-            title: heading,
-            text: "¿Deseas continuar? Esta acción no se puede deshacer",
-            icon: "warning",
-            showDenyButton: true,
-            confirmButtonColor: "#4CAF50",
-            denyButtonColor: "#d33",
-            confirmButtonText: "Si",
-            didOpen: () => { //Esta propiedad es un callback, el cual permite manipular el DOM del modal una vez se haya cargado completamente en el DOM 
-                Swal.getConfirmButton().id = id;
-                resolve(true); //Se invoca el callback resolve después de asignar un id al botón confirmar para que de esta manera podamos registrarle un evento mediante su id, es necesario invocar esta función por async/await
-            }
-        }).then((result) => {
-            
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: heading,
-                    text: message,
-                    icon: "success",
-                    timer: 5000
-                });
-            } 
-        });
     });
 }
 

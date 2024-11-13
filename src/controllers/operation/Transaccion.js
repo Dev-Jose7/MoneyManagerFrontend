@@ -9,8 +9,17 @@ export default class Transaccion {
     static _transactionData = [];
 
     // Constructor de la clase Transaccion.
+    //Este constructor esta hecho en base a una condicioón, esto con el fin de poder declarar un contructor vacio.
+    //El constructor define a los parametros con valores fijos, es decir cada parametro tiene un valor null
+    //Bajo una condición se determina entonces si el valor de los parametros en realidad es null, si todos los parametros son verdaderos, es decir, tienen valores diferentes a null o también 0, "" ó false entonces se procederá a invocar el constructor con argumentos
+    //En cambio si la condición es falsa, es decir alguno o todos los valores son null, se procederá a invocar el constructor sin argumentos (vacío).
+    //Se crea una condición la cual hace que pasar argumentos a los parametros sea mas flexible ya que existe la posiblidad de que alguno de los parametros reciba valores con estados false, como 0 ó "" (cadena vacía), los cuales por funcionamiento son necesarios pasarlos como argumento.
+    //Si la condición indica que todos los valores deben ser verdaderos: if(user && tipo && valor && descripcion && categoria && fecha), al pasar valores con estados false, como 0, "" ó false, hara que la condición no se cumpla, por que al menos uno de ellos es false cuando se requiere que todos sean true
+    //Ejemplo, si se desea crear ó actualizar una transacción y su descripción se deja vacia (cadena vacia ""), entonces la transacción tendrá un comportamiento mal programado, haciendo que no se imprima al crearse o esta se borre al actualizar la página despues de actualizarla ya que no se pudo crear dicha instancia
     constructor(user = null, tipo = null, valor = null, descripcion = null, categoria = null, fecha = null) {
-        if (user && tipo && valor && descripcion && categoria && fecha) {
+        const status = user !== null && tipo !== null && valor !== null && descripcion !== null && categoria !== null && fecha !== null;
+        
+        if (status) {
             this._id = ++Transaccion.contadorId; // Asigna un ID único a la transacción.
             this._user = user; // Asigna el usuario a la transacción.
             this._tipo = tipo; // Asigna el tipo de transacción (Ingreso o Gasto).

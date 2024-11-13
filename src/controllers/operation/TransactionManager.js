@@ -20,7 +20,7 @@ export default class TransactionManager {
                 <p class="titleValue">${vector[counter]._valor}</p>
                 <p class="titleDate">${vector[counter]._fecha}</p>
                 <div>
-                ${vector[counter].getDescription() != " " ? `<i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>` : ""}
+                ${vector[counter].getDescription() != "" ? `<i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>` : ""}
                     <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
                     <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
                 </div>
@@ -70,6 +70,8 @@ export default class TransactionManager {
         targetTransaction._descripcion = descripcion.value;
         targetTransaction._fecha = fecha.value;
         targetTransaction._categoria = categoria.value;
+
+        console.log(tipo.value, +valor.value, descripcion.value, fecha.value, categoria.value)
         
         console.log(Transaccion.getTransactionData())
         Transaccion.saveDataSession();

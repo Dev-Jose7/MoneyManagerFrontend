@@ -82,15 +82,11 @@ export default class User {
     }
 
     // Método para calcular el balance de las transacciones del usuario.
-    getBalance(transacciones, elementoTotal) {
-        if (transacciones.length == 0) {
-            elementoTotal.textContent = 0; // Si no hay transacciones, muestra 0.
-        } else {
-            let contador = 0; // Reinicia el contador.
-            for (const objeto of transacciones) {
-                contador += +objeto._valor; // Suma los valores de las transacciones.
-            }
-            elementoTotal.textContent = contador; // Muestra el total.
+    getBalance(transacciones) {
+        let contador = 0; // Reinicia el contador.
+        for (const objeto of transacciones) {
+            contador += +objeto._valor; // Suma los valores de las transacciones.
         }
+        return contador
     }
 }

@@ -15,7 +15,7 @@
             <div class="header-right">
                 <button class="btn-icon" title="Mi Cuenta" id="account">
                     <i class="fas fa-user-circle fa-lg"></i>
-                    <p>Mi cuenta</p>
+                    <p id="nameUser">Mi cuenta</p>
                 </button>
                 <button class="btn-icon" title="Cerrar sesión" id="logout">
                     <i class="fas fa-sign-out-alt fa-lg"></i>
@@ -34,8 +34,8 @@
                 <ul>
                     <li><a href="../html/dashboard.html">Dashboard</a></li>
                     <li><a href="../html/transaction.html" class="active">Transacciones</a></li>
-                    <li><a href="#">Categorías</a></li>
-                    <li><a href="#">Reportes</a></li>
+                    <li><a href="../html/estadisticas.html">Estadisticas</a></li>
+                    <li><a href="../html/account.html">Mi cuenta</a></li>
                     <li><a href="#">Configuraciones</a></li>
                 </ul>
             </nav>
@@ -172,8 +172,8 @@
             </div>
 
             <!-- Transacciones -->
-            <div class="transaction-section transacciones">
-                <div class="transactions-container">
+            <div class="section-main transacciones">
+                <div class="section-container">
                     <h3>Lista de ingresos</h3>
 
                     <div id="campoIngresos">
@@ -183,7 +183,7 @@
                     <div class="botones__pagina" id="pageIngresos"></div>
                 </div>
 
-                <div class="transactions-container gastos">
+                <div class="section-container gastos">
                     <h3 class="gastos__titulo">Lista de gastos</h3>
                     <div id="campoGastos">
                         
@@ -192,7 +192,7 @@
                     <div class="botones__pagina" id="pageGastos"></div>
                 </div>
 
-                <div class="transactions-container" style="display: none;">
+                <div class="section-container" style="display: none;">
                     <h3>Lista de todas las transacciones</h3>
                     <div id="campoTransacciones">
                         

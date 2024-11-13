@@ -116,6 +116,7 @@ thead{
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 3;
 }
 
 .efect{
@@ -231,7 +232,7 @@ thead{
     color: #4CAF50;
 }
 
-.transaction-section {
+.section-main {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -246,7 +247,8 @@ thead{
 }
 
 .form-container h3,
-.filter h3 {
+.filter h3,
+.chart h3 {
     margin-bottom: 15px;
     font-size: 20px;
     color: #4CAF50;
@@ -283,6 +285,10 @@ input{
     border: 1px solid #ccc;
     border-radius: 5px;
     transition: border-color 0.3s;
+}
+
+select{
+    padding-right: 20px;
 }
 
 .info-user{
@@ -360,9 +366,7 @@ input{
     transform: scale(1.05); /* Aumentar tamaño ligeramente al hacer hover */
 }
 
-.recent-transactions,
-.transactions-container,
-.categories-container{
+.section-container{
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -375,18 +379,16 @@ input{
     overflow-x: auto;
 }
 
-.recent-transactions [data-tipo="Ingreso"] td:first-child{
+.section-container [data-tipo="Ingreso"] td:first-child{
     color: #45a049;
 }
 
-.recent-transactions [data-tipo="Gasto"] td:first-child{
+.section-container [data-tipo="Gasto"] td:first-child{
     color: #ff4d4d;
 }
 
-.recent-transactions h3,
-.transactions-container h3,
-.modal-content h3,
-.categories-container h3 {
+.section-container h3,
+.modal-content h3 {
     margin-bottom: 15px;
     font-size: 20px;
     color: #4CAF50;
@@ -394,24 +396,23 @@ input{
     padding-bottom: 10px;
 }
 
-.recent-transactions h3,
-.categories-container h3{
-    color: #343a40;
-    border-bottom: 2px solid #343a40;
+.section-container:last-of-type h3{
+    color: #333;
+    border-bottom: 2px solid #333;
 }
 
-.transactions-container:last-of-type h3{
+/* .section-container:last-of-type h3{
     color: #333;
     border-color: #333;
-}
+} */
 
 
-.recent-transactions .nodata,
-.transactions-container .nodata{ 
+.section-container .nodata,
+.section-container .nodata{ 
     text-align: center;
 }
 
-.recent-transactions .view-all-transactions {
+.section-container .view-all-transactions {
     display: block;
     margin-top: 15px;
     text-align: center;
@@ -421,7 +422,7 @@ input{
     transition: color 0.3s;
 }
 
-.transaction-section .gastos__titulo{
+.section-main .gastos__titulo{
     color: #ff4d4d;
     border-color: #ff4d4d;
 }
@@ -490,13 +491,13 @@ input{
     color: #333; /* Color más oscuro al hacer hover */
 }
 
-.transactions-container:last-of-type [data-tipo="Ingreso"] h4:first-of-type,
-.transactions-container [data-tipo="Ingreso"] i{
+.section-container:last-of-type [data-tipo="Ingreso"] h4:first-of-type,
+.section-container [data-tipo="Ingreso"] i{
     color: #45a049;
 }
 
-.transactions-container:last-of-type [data-tipo="Gasto"] h4:first-of-type,
-.transactions-container [data-tipo="Gasto"] i{
+.section-container:last-of-type [data-tipo="Gasto"] h4:first-of-type,
+.section-container [data-tipo="Gasto"] i{
     color: #ff4d4d;
 }
 
@@ -545,17 +546,17 @@ input{
     background-color: red;
 }
 
-.transactions-container:last-of-type .botones__pagina button,
-.categories-container .botones__pagina button{
+.section-container:last-of-type .botones__pagina button{
     color: #fff;
     background-color: #333;
 }
 
-.categories-container .botones__pagina{
+.section-container .botones__pagina{
     margin: 20px 0 0 0;
 }
 
-.filter{
+.filter,
+.chart{
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -714,11 +715,6 @@ input{
     font-weight: bold;
 }
 
-/* .stat-card p {
-    font-size: 20px;
-    color: #777;
-} */
-
 .stat-card span {
     color: #45a049; /* Verde para los totales de ingresos */
     font-weight: bold;
@@ -742,6 +738,35 @@ input{
     margin: 1vh 0;
 }
 
+.chart form{
+    padding: 2vh;
+}
+
+.chart-type{
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+}
+
+.chart form span{
+    width: 10%;
+    border: 0.15vh solid #45a049;
+    display: block;
+    margin: 2vh auto;
+}
+
+.chart-graph{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    order: 2;
+}
+
+.chart-graph input{
+    margin: 0;
+}
 
 /* Media Queries */
 @media (min-width: 768px) {
@@ -786,6 +811,12 @@ input{
         width: 25%;
     }
 
+    #categoria .list h4,
+    #categoria .list p,
+    #categoria .list div{
+        width: 33%;
+    }
+
     .overview {
         gap: 2.5vw;
         margin-bottom: 2.5vw;
@@ -797,12 +828,18 @@ input{
         z-index: 2;
     }
 
-    .transaction-section {
+    .section-main {
         flex-direction: row;
         gap: 2.5vw;
     }
 
     .form-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 1vw;
+    }
+
+    .info-row{
         flex-direction: row;
         align-items: center;
         gap: 1vw;
@@ -817,10 +854,14 @@ input{
         text-align: center;
     }
 
+    .modal-content .info-row{
+        flex-direction: column;
+    }
+
     .form-container,
-    .recent-transactions,
+    .section-container,
     .stats-transactions,
-    .categories-container {
+    .section-container {
         flex: 1;
         margin-bottom: 0;
     }
@@ -874,8 +915,43 @@ input{
     }
 
     .panel-user fieldset{
-        flex: 50%
-    };
+        flex: 50%;
+    }
+
+    .chart form{
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        padding: 1vh;
+    }
+
+    .chart form span{
+        width: unset;
+        border: 0.15vh solid #45a049;
+        margin: unset;
+    }
+
+    .chart-type{
+        display: flex;
+        gap: 20px;
+    }
+    
+    .chart-option{
+        width: unset;
+    }
+
+    .chart-graph{
+        margin: 0;
+    }
+
+    /* .container-cant,
+    .container-value{
+        overflow-x: scroll;
+    } */
+
+    .section-container{
+        overflow:visible
+    }
 }
 
 @media (min-width: 1024px) {
@@ -895,12 +971,6 @@ input{
 
     .info-user{
         gap: 2vh;
-    }
-    
-    .info-row{
-        flex-direction: row;
-        align-items: center;
-        gap: 1vw;
     }
 
     .photo-user{
@@ -930,10 +1000,6 @@ input{
 
     .header-right .btn-icon{
         transform: scale(0.85);
-    }
-
-    .btn-menu{
-        display: none;
     }
 
     .content {

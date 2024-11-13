@@ -262,6 +262,80 @@ h3{
     width: 30%;
 }
 
+.formulario__contenedor{
+    width: 80vw;
+}
+
+input[type="radio"] {
+    appearance: none;  /* Elimina el estilo por defecto */
+    -webkit-appearance: none;  /* Elimina el estilo por defecto en Safari */
+    -moz-appearance: none;  /* Elimina el estilo por defecto en Firefox */
+    width: 16px;  /* Tamaño del botón */
+    height: 16px;  /* Tamaño del botón */
+    border-radius: 50%;  /* Forma circular */
+    border: 2px solid #333;  /* Borde verde */
+    background-color: white;  /* Fondo blanco */
+    position: relative;
+    transition: all 0.3s ease;  /* Transición suave */
+    padding: unset !important;
+}
+
+/* Estilo cuando el radio button está marcado */
+input[type="radio"]:checked {
+    background-color: #4CAF50;  /* Fondo verde */
+    border-color: #388E3C; 
+}
+
+/* .chart input[type="radio"]{
+    border-color: #000;
+} */
+
+/* .chart input[type="radio"]:checked{
+    background-color: #333;
+    border-color: #000;
+} */
+
+/* .chart input[type="radio"]:hover{
+    border-color: unset;
+} */
+
+/* Pseudo-elemento para crear el punto dentro del radio */
+input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 2.5px;  /* Ajusta la posición del punto */
+    left: 2.5px;  /* Ajusta la posición del punto */
+    width: 7px;  /* Tamaño del punto */
+    height: 7px;  /* Tamaño del punto */
+    border-radius: 50%;  /* Forma circular */
+    background-color: white;  /* Punto blanco */
+}
+
+/* Estilo al hacer hover sobre el radio button */
+input[type="radio"]:hover {
+    border-color: #66BB6A;  /* Borde verde claro en hover */
+} 
+
+/* Estilo para el label */
+.chart label {
+    font-size: 16px;
+    color: #333;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.chart label:hover {
+    color: #4CAF50;  /* Color verde en hover */
+}
+
+.chart-type div,
+.chart-graph div{
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
 /***VERSION ESCRITORIO***/
 /*Aqui digitas el código para versión pc*/
 @media (min-width: 768px) {
@@ -357,6 +431,9 @@ h3{
         width: unset;
     }
 
+    .formulario__contenedor{
+        width: 50vw;
+    }
 }
 
 /***MAIN - PRINCIPAL***/
@@ -531,8 +608,6 @@ footer{
 .social-icons-github i{
     margin-top: 2vh;
 }
-    
-       
 /***VERSION ESCRITORIO***/
 @media(min-width:768px) {
     .footer {
@@ -573,7 +648,9 @@ footer{
     .social-icons-github i{
         margin-top: 0;
     }
+}
 
+@media(min-width: 1024px){
     .btn-menu{
         display: none;
     }
