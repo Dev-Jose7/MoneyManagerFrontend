@@ -1,4 +1,4 @@
-import { alertConfirm, menuButton, modalCancel, printCategory, printNameUser, updateListUser, user } from "../../assets/js/panel.js";
+import { alertConfirm, logout, menuButton, modalCancel, printCategory, printNameUser, updateListUser, user } from "../../assets/js/panel.js";
 import { alertShow, completeInput, confirmPassword, textCurrency } from "../../assets/js/util.js";
 
 // Variable global que indica si el usuario está en la página de la cuenta.
@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function(){
         updateListUser();
         printCategory();
         modalCancel();
-
+        logout();
+        
         // Inicializa el nombre y correo del usuario en el apartado de datos personales.
         printDataUser();
 

@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function() {
         menuButton(); // Configura los botones del menú.
         printNameUser(); // Muestra el nombre del usuario en el panel.
         updateListUser(); // Actualiza la lista de usuarios.
-        logout(); // Configura la función de cierre de sesión.
         modalCancel(); // Configura la función para cerrar modales.
+        logout(); // Configura la función de cierre de sesión.
 
         // Funciones específicas del dashboard.
         printWelcome(); // Muestra un mensaje de bienvenida personalizado.
