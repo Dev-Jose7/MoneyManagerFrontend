@@ -34,7 +34,7 @@ user = findUser(); // Encuentra al usuario actual a partir de la sesión
 
 // Función para mostrar el nombre del usuario en el encabezado
 export function printNameUser(){
-    document.getElementById("nameUser").textContent = user.getName();
+    document.getElementById("nameUser").textContent = user.getName().split(" ")[0]; //Se generan subcadenas (palabras) al nombre del usuario por cada espacio en blanco (" ") que tenga esta cadena de caracteres y se obtiene la primer subcadena [0] la cuál será el primer nombre del usuario
 }
 
 // Función para cerrar sesión y redirigir al login

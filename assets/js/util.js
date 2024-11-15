@@ -110,7 +110,6 @@ export function alertShow(heading, message, type){
 
 // Función para cerrar una animación de carga y eliminar el elemento del DOM
 export function closeloading(){
-    setTimeout(() => {
         const loading = document.getElementById("loading"); // Obtiene el elemento de carga
         loading.classList.add("effectLoading"); // Aplica una clase de animación
 
@@ -120,7 +119,6 @@ export function closeloading(){
         }, { once: true }); // Solo se ejecuta una vez
 
         document.querySelector("body").style.overflow = "unset"; // Permite hacer scroll nuevamente
-    }, 500); // Retrasa la ejecución 500ms
 }
 
 // Función de prueba para instanciar usuarios y generar transacciones
@@ -285,7 +283,7 @@ export function instanceTest(){
 //textCurrency(value): Formatea un número como una cantidad monetaria en pesos colombianos (COP).
 
 //4. Interacción con Elementos del DOM
-//closeloading(): Cierra una animación de carga (posiblemente un "spinner" o similar) y elimina el elemento del DOM después de una animación.
+//closeloading(): Cierra una animación de carga (spinner) y elimina el elemento del DOM después de una animación.
 
 //5. Instanciación de Datos de Prueba
 //instanceTest(): Crea dos usuarios (admin y admin1) con múltiples transacciones de prueba (ingresos y gastos) para simular datos de operaciones financieras. Estas transacciones se agregan a los usuarios a lo largo de varios meses (septiembre, octubre y noviembre de 2024).

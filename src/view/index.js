@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Lógica específica para la página index.html o la página principal ("/").
     if(page == "index.html" || window.location.pathname == "/"){
-        menuSessionUser("./assets/html/dashboard.html", "./assets/html/login.html"); // Verifica si hay un usuario logueado y ajusta el menú.
+        menuSessionUser("./assets/html/dashboard.html"); // Verifica si hay un usuario logueado y ajusta el menú.
         backgroundImage(); // Función que genera imágenes de fondo en el encabezado de la página principal.
 
         // Función para cambiar el fondo del encabezado en intervalos.
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // Función para manejar el estado del menú y la sesión del usuario.
-    function menuSessionUser(dashboard, logout){
+    function menuSessionUser(dashboard){
         // Verifica si hay un usuario logueado en sessionStorage.
         if(sessionStorage.getItem("account")){ 
             user = findUser(); // Busca el usuario en el sessionStorage.
@@ -59,13 +59,13 @@ document.addEventListener("DOMContentLoaded", function(){
             if(window.innerWidth > 768){
                 // Si el ancho de la ventana es mayor a 768px, oculta el botón del menú en el dispositivo de escritorio.
                 document.querySelector(".btn-menu").style.display = "none";
-            }
+            } 
             // Modifica el menú de la barra superior para mostrar el nombre del usuario y el acceso al dashboard.
             document.getElementById("barra").innerHTML += `
                 <div class="header-right">
                     <button class="btn-icon" title="Dashboard" id="dashboard">
                         <i class="fas fa-user-circle fa-lg"></i>
-                        <p>${user.getName()}</p> <!-- Muestra el nombre del usuario logueado. -->
+                        <p>${user.getName().split(" ")[0]}</p> <!-- Muestra el nombre del usuario logueado. -->
                     </button>
                 </div>`
         }

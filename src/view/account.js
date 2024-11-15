@@ -1,5 +1,5 @@
 import { alertConfirm, menuButton, modalCancel, printCategory, printNameUser, updateListUser, user } from "../../assets/js/panel.js";
-import { alertShow, completeInput, textCurrency } from "../../assets/js/util.js";
+import { alertShow, completeInput, confirmPassword, textCurrency } from "../../assets/js/util.js";
 
 // Variable global que indica si el usuario está en la página de la cuenta.
 let page = document.location.href;
@@ -24,21 +24,20 @@ document.addEventListener("DOMContentLoaded", function(){
         let passwordConfirm = document.getElementById("passwordConfirm");
         let tagInput = document.getElementById("tagInput");
         let updateTagInput = document.getElementById("updateTagInput");
-
-        // Inicializa el nombre y correo del usuario en los elementos correspondientes.
-        name.textContent = user.getName();
-        email.textContent = user.getEmail();
-
-        // Configura los valores por defecto de los campos de actualización con los datos del usuario.
-        nameUpdate.placeholder = user.getName();
-        emailUpdate.placeholder = user.getEmail();
         
-        // Llama a varias funciones para mostrar los elementos del menú y las categorías.
+        // Llama a las funciones principales del dashboard para mostrar los elementos del menú y las categorías.
         menuButton();
         printNameUser();
         updateListUser();
         printCategory();
         modalCancel();
+
+        // Inicializa el nombre y correo del usuario en el apartado de datos personales.
+        printDataUser();
+
+        // Configura los valores por defecto de los campos de actualización con los datos del usuario.
+        nameUpdate.placeholder = user.getName();
+        emailUpdate.placeholder = user.getEmail();
 
         // Muestra las categorías del usuario.
         console.log(user.getCategories().getCategoriesUser());
@@ -103,16 +102,26 @@ document.addEventListener("DOMContentLoaded", function(){
 
             // Si se ingresó un nuevo nombre, actualiza el nombre del usuario.
             if(nameUpdate.value != ""){
-                user.setName(nameUpdate.value);
-                alertShow("Hecho!", "Su nombre ha sido cambiado", "success");
-                complete = true;
+                if(nameUpdate.value != user.getName()){
+                    user.setName(nameUpdate.value);
+                    alertShow("Hecho!", "Su nombre ha sido cambiado", "success");
+                    complete = true;
+                } else {
+                    alertShow("Error!", "El nombre debe ser diferente al actual", "warning");
+                    nameUpdate.value = "";
+                }
             }
 
             // Si se ingresó un nuevo correo, actualiza el correo del usuario.
             if(emailUpdate.value != ""){
-                user.setEmail(emailUpdate.value);
-                alertShow("Hecho!", "Su correo ha sido cambiado", "success");
-                complete = true;
+                if(emailUpdate.value != user.getEmail()){
+                    user.setEmail(emailUpdate.value);
+                    alertShow("Hecho!", "Su correo ha sido cambiado", "success");
+                    complete = true;
+                } else {
+                    alertShow("Error!", "El correo debe ser diferente al actual", "warning");
+                    emailUpdate.value = "";
+                }
             }
 
             // Si se ingresó una nueva contraseña y su confirmación, valida que coincidan y actualiza la contraseña.
@@ -174,6 +183,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 alertShow("Error!", "Debes darle un nombre a la categoria", "warning");
             }
         });
+        
+        //Función que imprime nombre de usuario y contraseña en el apartado de datos personales
+        function printDataUser(){
+            name.textContent = user.getName();
+            email.textContent = user.getEmail();
+        }
     }
 });
 
@@ -183,5 +198,5 @@ document.addEventListener("DOMContentLoaded", function(){
 
 //Funciones Dinámicas:
 //alertShow: Muestra alertas informativas al usuario.
-//printCategory, printNameUser: Actualizan el contenido dinámico de la página, como categorías y nombre de usuario.
-//user.getTransactions(), user.getCategories(): Métodos para interactuar con los datos del usuario relacionados con transacciones y categorías.
+//printCategory, printNameUser: Imprimen el contenido dinámico de la página, como categorías y nombre de usuario para ello se utiliza updateListUser para actualizar las listas de datos del usuario.
+//user.getTransactions(), user.getCategories(): Métodos para obtener los datos del usuario relacionados con transacciones y categorías.
