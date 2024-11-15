@@ -21,9 +21,9 @@ export default class TransactionManager {
                 <p class="titleDate">${vector[counter]._fecha}</p>
                 <div>
                 ${vector[counter].getDescription() != "" ? `<i class="fas fa-sticky-note fa-lg nota" title="Descripción"></i>` : ""}
-                    <i class="fas fa-edit fa-lg modificar" title="Editar"></i>
-                    <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
+                ${container.id != "modal-section" ? `<i class="fas fa-edit fa-lg modificar" title="Editar"></i> <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>` : ""}
                 </div>
+                
             </div>`;
             return elemento;
         } 

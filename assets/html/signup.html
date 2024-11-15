@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/estilos.css">
-    <link rel="stylesheet" href="../styles/signup.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/estilos.css">
+    <link rel="stylesheet" href="../styles/signup.css">
     <title>Sign up</title>
 </head>
 <body>
+    <!-- Barra de carga -->
+    <div id="loading" class="loading">
+        <div class="logo">
+            <h3>Money<span>Manager</span></h3>
+        </div>
+        <div class="spinner"></div>
+    </div>
+
     <div class="overlay"></div> 
 
+    <!-- Sección principal -->
     <main class="formulario d-flex justify-content-center align-items-center vh-100">
         <fieldset class="formulario__contenedor p-5 rounded-3 shadow-lg">
             <legend class="text-center mb-4">Registrarse</legend>

@@ -2,63 +2,68 @@ import User from "../controllers/account/User.js";
 import { alertShow, checkSession, completeInput, confirmPassword, endSession, findUser, textCurrency } from "../../assets/js/util.js";
 import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
-import { categoria, descripcion, fecha, menuButton, monthLoad, printCategory, printNameUser, updateValues, tipo, transactionByMonth, user, valor, updateListUser, modalCancel, logout } from "../../assets/js/panel.js";
+import { categoria, descripcion, fecha, menuButton, monthLoad, printCategory, printNameUser, updateValues, tipo, transactionByMonth, user, valor, updateListUser, modalCancel, logout, month } from "../../assets/js/panel.js";
 
-checkSession(); //Revisa si hay un usuario en el sessionStorage para continuar
+let page = document.location.href; // Obtiene la URL actual de la página.
+export let statusDashboard = false; // Variable de estado que indica si estamos en la página del dashboard.
 
-export let pageDashboard = document.location.href;
-
-// Cuando el contenido del documento está listo, se cargan los datos de sesión de usuarios, transacciones y categorías y se declarán las variables necesarias.
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtiene la URL actual y el nombre de la página.
-    if(pageDashboard.includes("dashboard")){
-        //Funciones bases
-        menuButton();
-        printNameUser();
-        updateListUser();
-        logout();
-        modalCancel();
-        
-        //Funciones importadas especificas
-        printWelcome();
-        monthLoad(); //Carga el mes actual al dashboard y le registra un evento de tipo change para imprimir la información del mes correspondiente
-        updateValues() //Se encarga de filtrar, calcular las transacciones del usuario
-        printCategory();
-        recentTransaction();
+    // Cuando el contenido del documento esté listo, se ejecutan las siguientes acciones.
+    if(page.includes("dashboard")){
+        statusDashboard = true; // Establece el estado del dashboard como verdadero si la URL contiene "dashboard".
 
-        // Carga los datos de sesión al cargar el documento.
+        // Funciones básicas que se ejecutan al cargar el dashboard.
+        menuButton(); // Configura los botones del menú.
+        printNameUser(); // Muestra el nombre del usuario en el panel.
+        updateListUser(); // Actualiza la lista de usuarios.
+        logout(); // Configura la función de cierre de sesión.
+        modalCancel(); // Configura la función para cerrar modales.
+
+        // Funciones específicas del dashboard.
+        printWelcome(); // Muestra un mensaje de bienvenida personalizado.
+        monthLoad(); // Carga el mes actual al dashboard y le agrega un evento para cambiar de mes.
+        updateValues(); // Filtra, calcula y actualiza las transacciones del usuario.
+        printCategory(); // Imprime las categorías de transacciones del usuario.
+        recentTransaction(); // Muestra las transacciones recientes en el dashboard.
+
+        // Carga los datos de sesión (usuario, transacciones, etc.).
         console.log("Usuario: ", user);
-        
         console.log("DB usuarios", User.getUserData());
         console.log("DB transacciones", Transaccion.getTransactionData());
 
-        // // Muestra el nombre del usuario en la bienvenida.
-        // document.getElementById("titleMain").innerHTML = `Bienvenido <span>${user.getName()}</span>`
-        
+        // Evento para cambiar el mes en el dashboard.
+        month.addEventListener("change", function(){
+            recentTransaction(); // Actualiza las transacciones al cambiar el mes.
+        });
 
-        // Añade una nueva transacción cuando se hace clic en el botón de añadir.
+        // Evento para agregar una nueva transacción cuando se hace clic en el botón "Añadir".
         document.getElementById("añadir").addEventListener("click", function(e) {
             e.preventDefault();
             
-            //Valida si los siguientes campos se encuentran vacíos, esto con el fin de poder crear transacciones correctamente e indicarle al usuario si le hace falta campos por completar 
+            // Verifica si todos los campos del formulario son válidos antes de crear la transacción.
             if(tipo.value != "Tipo" && categoria.value != "Categoría" && valor.value != "" && fecha.value != ""){
+                // Crea una nueva transacción con los valores del formulario.
                 user.getTransactions().getManager().createTransaction(user.getId(), tipo.value, +valor.value, descripcion.value, categoria.value, fecha.value);
-                user.getTransactions().updateListUser(user.getId());
-                updateValues() //Actualiza la lista filtrada por mes, actualiza la lista de transacciones y recalcula el balance.
-                recentTransaction();
-                formatearCampo(); // Limpia el formulario.
+                user.getTransactions().updateListUser(user.getId()); // Actualiza la lista de transacciones del usuario.
+                updateValues(); // Recalcula el balance y actualiza la lista de transacciones.
+                recentTransaction(); // Actualiza las transacciones recientes.
+                formatearCampo(); // Limpia los campos del formulario.
 
+                // Muestra una alerta de éxito.
                 alertShow("Hecho!", "Transacción registrada", "success");
-                console.log(user);
-            } else{
+                console.log(user); // Muestra el usuario actualizado en consola.
+            } else {
+                // Si algún campo falta, muestra una alerta de error.
                 alertShow("Error!", "Ingrese todos los campos faltantes", "warning");
             }
         });
 
+        // Función que actualiza y muestra las transacciones recientes del usuario.
         function recentTransaction(){
-            document.getElementById("recentTransactions").innerHTML = "";
-            transactionByMonth.sort((a, b) => b.getId() - a.getId()); //Organiza las transacciones por id (mayor a menor), de esta forma se determina las transacciones más recientes
-            if(transactionByMonth.length != 0){ //Se aplica condición para que no genere error en caso de estar vacio el arreglo
+            document.getElementById("recentTransactions").innerHTML = ""; // Limpia la lista de transacciones previas.
+            transactionByMonth.sort((a, b) => b.getId() - a.getId()); // Ordena las transacciones por ID (de mayor a menor).
+            
+            if(transactionByMonth.length != 0){ // Si hay transacciones en el mes.
                 for (let i = 0; i < 5; i++) {
                     document.getElementById("recentTransactions").innerHTML += `<tr data-tipo="${transactionByMonth[i].getType()}">
                                     <td>${transactionByMonth[i].getType()}</td>
@@ -68,10 +73,11 @@ document.addEventListener("DOMContentLoaded", function() {
                                 </tr>`;
         
                                 if(transactionByMonth.length == i+1){
-                                    break;
+                                    break; // Limita la visualización a las 5 transacciones más recientes.
                                 }
                 }
             } else {
+                // Si no hay transacciones, muestra un mensaje indicando que no hay datos.
                 document.getElementById("recentTransactions").style.color = "#000";
                 document.getElementById("recentTransactions").innerHTML = `<tr class="nodata"> 
                         <td colspan="4" rowspan="5">Sin transacciones</td> 
@@ -79,29 +85,51 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        // Limpia los campos del formulario.
+        // Función que limpia los campos del formulario después de agregar una transacción.
         function formatearCampo() {
-            document.getElementById("tipo").selectedIndex = 0;
-            valor.value = "";
-            descripcion.value = ""; 
-            categoria.selectedIndex = 0;
-            fecha.value = "";
-            document.getElementById("añadir").style.display = "inline";
-            // document.getElementById("confirmar").style.display = "none";
+            document.getElementById("tipo").selectedIndex = 0; // Restablece el campo de tipo de transacción.
+            valor.value = ""; // Limpia el campo de valor.
+            descripcion.value = ""; // Limpia el campo de descripción.
+            categoria.selectedIndex = 0; // Restablece el campo de categoría.
+            fecha.value = ""; // Limpia el campo de fecha.
+            document.getElementById("añadir").style.display = "inline"; // Muestra el botón de añadir.
         }
 
+        // Función que muestra un mensaje de bienvenida al usuario la primera vez que entra al panel.
         function printWelcome(){
-            if(!sessionStorage.getItem("welcome")){
-                document.getElementById("titleMain").innerHTML = `¡Bienvenido de nuevo, <span>${user.getName()}!</span>`
+            if(!sessionStorage.getItem("welcome")){ // Verifica si es la primera vez que se accede al panel.
+                document.getElementById("titleMain").innerHTML = `¡Bienvenido de nuevo, <span>${user.getName()}!</span>` // Muestra el nombre del usuario en el saludo.
     
                 setTimeout(() => {
-                    document.getElementById("titleMain").innerHTML = `Panel <span>principal</span>`
+                    document.getElementById("titleMain").innerHTML = `Panel <span>principal</span>`; // Después de 3 segundos, cambia el mensaje a "Panel principal".
                 }, 3000);
             } else {
-                document.getElementById("titleMain").innerHTML = `Panel <span>principal</span>`
+                document.getElementById("titleMain").innerHTML = `Panel <span>principal</span>`; // Si ya se ha mostrado el mensaje, solo muestra "Panel principal".
             }
 
-            sessionStorage.setItem("welcome", JSON.stringify("welcome"));
+            sessionStorage.setItem("welcome", JSON.stringify("welcome")); // Marca en el sessionStorage que el mensaje ya ha sido mostrado.
         }
     }
 });
+
+
+//Estructura General:
+//El script se ejecuta cuando el DOM está completamente cargado, verificando si la página es un "dashboard" y realizando diversas inicializaciones si es el caso.
+
+//Funciones de Interfaz:
+//menuButton(), logout(), modalCancel(): Configuran las funcionalidades de botones del menú, cierre de sesión y cancelación de modales.
+//printWelcome(): Muestra un mensaje de bienvenida al usuario cuando accede al panel por primera vez, y luego cambia a un mensaje estándar.
+
+//Gestión de Transacciones:
+//Se verifica si todos los campos del formulario están completos antes de crear una nueva transacción con user.getTransactions().getManager().createTransaction.
+//La función recentTransaction() organiza y muestra las transacciones más recientes (hasta 5) del usuario.
+//Si no hay transacciones recientes, se muestra un mensaje indicándolo.
+
+//Formulario de Transacciones:
+//formatearCampo() limpia los campos del formulario después de agregar una transacción, dejando el formulario listo para una nueva entrada.
+
+//Interacción con Datos:
+//La función updateValues() recalcula y actualiza el balance y las transacciones filtradas por mes.
+//monthLoad() ajusta el mes mostrado en el dashboard y permite cambiarlo, actualizando las //transacciones según el mes seleccionado.
+
+//Este código proporciona una interfaz funcional para gestionar las transacciones de un usuario, mostrar información dinámica sobre el estado del panel y actualizar las vistas de acuerdo con los cambios de mes o de transacciones.

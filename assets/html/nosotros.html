@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
     <header class="encabezado">
         <div class="encabezado__barra">
             <div class="encabezado__contenedor contenedor" id="barra">
@@ -31,15 +30,26 @@
                     </div>
                 </div>
 
-                <button class="btn-icon btn-menu" id="menuButton" title="Menú">
+                <button class="btn-icon btn-menu btn-menu-registro" id="menuButton" title="Menú">
                     <i class="fas fa-bars fa-lg"></i>
                 </button>
             </div>
         </div>
     </header>
+
     <div class="banner my-3">
         <img src="../img/banner_primer.png" class="img-fluid w-100" alt="Banner ahorro">
     </div>
+
+    <!-- Barra de carga -->
+    <div id="loading" class="loading">
+        <div class="logo">
+            <h3>Money<span>Manager</span></h3>
+        </div>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sección principal -->
     <main class="container my-5">
         <header class="text-center mb-5">
             <p class="ahorrar fw-bold fs-5">¡Descubre cómo MoneyManager puede transformar tu vida financiera! Te ayudamos a gestionar tus finanzas de manera efectiva y sencilla, para que puedas alcanzar tus sueños sin preocupaciones.</p>
@@ -103,7 +113,7 @@
         </div>
     </main>
 
-    <!-- Sección Benjamín -->
+    <!-- Footer -->
     <footer>
         <div class="footer contenedor">
             <div class="logo">

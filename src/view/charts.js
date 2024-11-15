@@ -1,74 +1,108 @@
+import { filterData, month, noteAction, pagination, textFormat, transactionByMonth, user } from "../../assets/js/panel.js";
+import { textCurrency } from "../../assets/js/util.js";
 
-function generateChart(container, graph, label, value) {
-    let side = "";
-    let info = "";
-    let colorLabel = [];
-    container.innerHTML = "";
+// Función para generar un gráfico dinámico en un contenedor dado.
+export function generateChart(container, graph, label, value) {
+    let side = ""; // Almacena la posición de la leyenda
+    let info = ""; // Almacena el texto de la leyenda del gráfico.
+    let colorLabel = []; // Almacena los colores personalizados de las barras del gráfico.
+    let windowWidth = window.innerWidth < 768 ? "80vh" : "60vh"; // Ajusta la altura del gráfico dependiendo del tamaño de la pantalla (más alto en móviles).
+    container.innerHTML = ""; // Limpia el contenido del contenedor antes de generar el gráfico.
 
-    // Crear el canvas y aplicarle estilo para que sea responsive
+    // Crear el canvas donde se dibujará el gráfico y aplicar estilo responsivo.
     let canvas = document.createElement("canvas");
-    canvas.classList.add("chart-element");
-    canvas.style.width = "100%";
-    canvas.style.height = window.innerWidth < 768 ? "80vh" : "60vh"; // 50vh en dispositivos móviles
-    container.overflow = "scroll"
-    container.appendChild(canvas);
+    canvas.classList.add("chart-element"); // Agrega la clase 'chart-element' al canvas.
+    canvas.style.width = "100%"; // Ajusta el ancho al 100% del contenedor.
+    canvas.style.height = windowWidth //Ajusta altura al contenedor del gráfico mediante la variable
+    container.overflow = "scroll"; // Asegura que el contenedor permita hacer scroll si el contenido es más grande.
+    container.appendChild(canvas); // Agrega el canvas al contenedor.
 
-    // // Configuración del lado de la leyenda según el tipo de gráfico
-    // side = (graph === "pie") ? "right" : "bottom";
-
-    // Texto de la leyenda basada en el valor máximo
+    // Configuración del texto de la leyenda, dependiendo de si el valor es mayor que 1000.
     info = (value[0] > 1000) ? "Valor por transacciones" : "Cantidad de transacciones";
 
-    // Color personalizado de ingreso y gasto o asignación aleatoria si no es predefinido
+    // Determina los colores de las barras, en función de si es un gráfico de ingreso o gasto, o selecciona colores aleatorios.
     if (label.includes("Ingreso")) {
-        colorLabel = ['rgba(76, 175, 80, 0.7)', 'rgba(255, 0, 0, 0.8)'];
+        colorLabel = ['rgba(76, 175, 80, 0.7)', 'rgba(255, 0, 0, 0.8)']; // Verde para ingreso, rojo para gasto.
     } else {
-        colorLabel = selectColor(label.length);
+        colorLabel = selectColor(label.length); // Si no es ingreso, selecciona colores aleatorios.
     }
 
-    // Inicialización de la instancia de Chart con opciones responsivas y padding adecuado
-    const chart = new Chart(canvas, {
-        type: graph,
-        data: {
-            labels: label,
-            datasets: [{
-                label: info,
-                data: value,
-                borderWidth: 1,
-                backgroundColor: colorLabel
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Permite ajustar el alto dinámicamente
-            aspectRatio: 2, // Desactiva el aspect ratio fijo para ajustar el alto dinámicamente
-            plugins: {
-                legend: {
-                    position: "bottom",
-                    labels: {
-                        padding: 30,
+    // Inicialización del gráfico utilizando la librería Chart.js.
+    //Si hay transacciones del mes seleccionado se procede con la creacion del gráfico
+    if(transactionByMonth.length > 0){
+        const chart = new Chart(canvas, {
+            type: graph, // Tipo de gráfico (por ejemplo, "pie", "bar").
+            data: {
+                labels: label, // Etiquetas para el eje X.
+                datasets: [{
+                    label: info, // Texto de la leyenda.
+                    data: value, // Valores para las barras o segmentos del gráfico.
+                    borderWidth: 1, // Ancho del borde de las barras.
+                    backgroundColor: colorLabel // Colores de fondo de las barras o segmentos.
+                }]
+            },
+            options: {
+                responsive: true, // Hace que el gráfico sea responsivo.
+                maintainAspectRatio: false, // Permite que el gráfico cambie de tamaño dinámicamente.
+                aspectRatio: 2, // Desactiva un ratio fijo para el gráfico, permitiendo que se ajuste en altura y ancho.
+                plugins: {
+                    legend: {
+                        position: "bottom", // Posición de la leyenda (debajo del gráfico).
+                        labels: {
+                            padding: 30, // Espaciado alrededor de las etiquetas de la leyenda.
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 10 // Espaciado superior para el gráfico.
+                    }
+                },
+                // Manejo de clics sobre los elementos del gráfico para mostrar detalles adicionales.
+                onClick: (event, elements) => {
+                    if (elements.length > 0) { // Si se hace clic en un elemento del gráfico.
+                        const elementIndex = elements[0].index; // Obtiene el índice del elemento clickeado en el gráfico.
+                        let labelData = chart.data.labels[elementIndex]; // Obtiene la etiqueta asociada con el índice.
+                        const ValueData = chart.data.datasets[0].data[elementIndex]; // Obtiene el valor asociado con el índice.
+    
+                        // Muestra un modal con los detalles de la transacción o categoría clickeada.
+                        const modal = document.getElementById("editModal");
+                        modal.style.display = "flex"; // Muestra el modal.
+                        
+                        // Muestra la información en el modal (ajustando la etiqueta si es necesario).
+                        modal.querySelector("h3").textContent = `${labelData.includes("-") ? labelData.substring(labelData.indexOf("-")+1) + " de " + [...month.options].find(option => option.value == month.value)?.textContent : labelData}`
+                        modal.querySelector("h4").textContent = `${+ValueData > 10000 ? textCurrency(+ValueData) : ValueData} total`
+                        
+                        console.log(filterData(labelData)); // Filtra los datos para mostrar transacciones relevantes.
+    
+                        // Si la etiqueta contiene un mes, actualiza la fecha con el año.
+                        if(labelData.includes("-") && labelData.includes("" + month.value)){
+                            const date = new Date();
+                            labelData = date.getFullYear() + "-" + labelData;
+                        }
+    
+                        // Paginación de los datos filtrados en el modal.
+                        pagination(document.getElementById("modal-section"), document.getElementById("modal-button"), filterData(labelData), window.innerWidth < 768 ? 3 : 5, user.getTransactions().getManager().printTransaction);
+                        textFormat(document.getElementById("modal-section")); // Aplica formato al texto dentro del modal.
+    
+                        // Añade evento a los botones de notas dentro del modal.
+                        [...document.querySelectorAll(".nota")].forEach(note => {
+                            note.addEventListener("click", function(e){
+                                let id = e.target.closest(".transaccion").dataset.id; // Obtiene el ID de la transacción de la nota.
+                                
+                                noteAction(id); // Ejecuta la acción de la nota (probablemente muestra más detalles o permite editar).
+                            });
+                        });
                     }
                 }
-            },
-            layout: {
-                padding: {
-                    top: 10
-                }
-            },
-            onClick: (event, elements) => {
-                if (elements.length > 0) { // Si se hizo clic en un elemento
-                    const elementIndex = elements[0].index; // Obtener el índice del elemento clickeado
-                    const clickedLabel = chart.data.labels[elementIndex]; // Obtener la etiqueta del eje x
-                    const clickedValue = chart.data.datasets[0].data[elementIndex]; // Obtener el valor de la barra clickeada
-    
-                    // Realiza alguna acción con la información obtenida
-                    alert(`Etiqueta: ${clickedLabel}, Valor: ${clickedValue}`);
-                }
             }
-        }
-    });
+        });
+    } else if (transactionByMonth.length == 0){ //Si no hay transacciones, no se genera el grafico
+        container.innerHTML = `<p style="display:flex; justify-content:center; align-items:center; height:${windowWidth}; font-weight:bold">Sin datos por graficar</p>`
+    }
 }
 
+// Objeto que define los colores preestablecidos para las categorías.
 let objectColor = {
     blue: "rgba(53,161,235,0.7)",
     pink: "rgba(254,100,131,0.7)",
@@ -81,23 +115,41 @@ let objectColor = {
     black: "rgba(0, 0, 0, 0.7)"
 };
 
+// Función que selecciona los colores para el gráfico. Si la cantidad de colores necesarios es mayor que los disponibles, genera colores aleatorios.
 function selectColor(num) {
     let array = [];
     for (let color in objectColor) {
-        array.push(objectColor[color]);
+        array.push(objectColor[color]); // Añade los colores predefinidos al array.
     }
 
-    // Si la cantidad de colores es mayor que los colores en objectColor, agrega colores aleatorios
+    // Si se requieren más colores que los predefinidos, genera colores aleatorios.
     return num > Object.keys(objectColor).length ? ramdomRGB(num - Object.keys(objectColor).length, array) : array;
 }
 
+// Función que genera colores RGB aleatorios.
 function ramdomRGB(num, array) {
     for (let i = 0; i < num; i++) {
-        array.push(`rgba(${ramdom(256)}, ${ramdom(256)}, ${ramdom(256)}, 1)`);
+        array.push(`rgba(${ramdom(256)}, ${ramdom(256)}, ${ramdom(256)}, 1)`); // Genera un color RGB aleatorio y lo agrega al array.
     }
-    return array;
+    return array; // Devuelve el array de colores (predefinidos y aleatorios).
 }
 
+// Función que genera un número aleatorio entre 0 y el valor máximo.
 function ramdom(max) {
-    return Math.floor(Math.random() * max).toString();
+    return Math.floor(Math.random() * max).toString(); // Devuelve un número entero aleatorio entre 0 y max-1.
 }
+
+
+//Generación del Gráfico:
+//La función generateChart crea un gráfico con la biblioteca Chart.js. El gráfico se renderiza en un canvas dentro de un contenedor dado, y el tipo de gráfico y sus datos son dinámicos.
+//La altura del gráfico es ajustable dependiendo del tamaño de la pantalla, y el color de las barras se determina según el tipo de datos (por ejemplo, "Ingreso" o "Gasto").
+//La función también maneja eventos de clic sobre los elementos del gráfico, mostrando un modal con detalles adicionales y paginando los datos filtrados.
+
+//Selección de Colores:
+//selectColor y ramdomRGB se utilizan para gestionar la paleta de colores de las barras del gráfico. Si se necesitan más colores de los disponibles, se generan colores RGB aleatorios.
+//Los colores predefinidos se definen en el objeto objectColor.
+
+//Filtrado y Paginación:
+//Cuando el usuario hace clic en una sección del gráfico, se filtran los datos correspondientes y se muestran en el modal, con soporte para paginación y formato de texto.
+//El modal muestra información detallada sobre el gráfico (como el valor de las transacciones) y permite interactuar con las notas asociadas a cada transacción.
+//Este código es una implementación que combina gráficos dinámicos, interacción con el usuario y manejo eficiente de datos.

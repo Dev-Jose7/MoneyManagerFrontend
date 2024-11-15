@@ -17,16 +17,18 @@
 
 html{
     box-sizing: inherit;
-    font-size: 62.5%;
 }
 
 body{
     font-size: 16px;
     font-family: sans-serif;
+    overflow: hidden;
 }
 
 img{
     max-width: 100%;
+    visibility: visible;
+    opacity: 1;
 }
 
 p{
@@ -179,6 +181,7 @@ h3{
     align-items: center;
     gap: 3vw;
     justify-content: flex-end;
+    flex: 1;
 }
 
 .btn-icon {
@@ -199,11 +202,6 @@ h3{
 
 .header-right p{
     display: none;
-}
-
-.efect{
-    opacity: 1;
-    visibility: visible;
 }
 
 /*Banner*/
@@ -266,6 +264,20 @@ h3{
     width: 80vw;
 }
 
+.formulario__contenedor .text-dark{
+    font-size: 20px;
+}
+
+.formulario__contenedor .text-muted,
+.formulario__contenedor a{
+    font-size: 16px;
+}
+
+
+.formulario__boton input{
+    font-size: 16px;
+}
+
 input[type="radio"] {
     appearance: none;  /* Elimina el estilo por defecto */
     -webkit-appearance: none;  /* Elimina el estilo por defecto en Safari */
@@ -284,31 +296,6 @@ input[type="radio"] {
 input[type="radio"]:checked {
     background-color: #4CAF50;  /* Fondo verde */
     border-color: #388E3C; 
-}
-
-/* .chart input[type="radio"]{
-    border-color: #000;
-} */
-
-/* .chart input[type="radio"]:checked{
-    background-color: #333;
-    border-color: #000;
-} */
-
-/* .chart input[type="radio"]:hover{
-    border-color: unset;
-} */
-
-/* Pseudo-elemento para crear el punto dentro del radio */
-input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 2.5px;  /* Ajusta la posición del punto */
-    left: 2.5px;  /* Ajusta la posición del punto */
-    width: 7px;  /* Tamaño del punto */
-    height: 7px;  /* Tamaño del punto */
-    border-radius: 50%;  /* Forma circular */
-    background-color: white;  /* Punto blanco */
 }
 
 /* Estilo al hacer hover sobre el radio button */
@@ -334,6 +321,52 @@ input[type="radio"]:hover {
     display: flex;
     align-items: center;
     gap: 0.5vw;
+}
+
+.loading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    bottom: 0;
+    z-index: 5;
+    background-color: #f9f9f9;
+    height: 100%;
+    opacity: 1; /* Inicio completamente visible */
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading .logo{
+    font-size: 25px;
+    flex: 0;
+    margin-bottom: 3vh;
+}
+
+.spinner{
+    border: 8px solid #333;
+    border-top: 8px solid var(--primario);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.effect{
+    opacity: 1;
+    visibility: visible;
+}
+
+.effectLoading{
+    opacity: 0;
+    visibility: hidden;
 }
 
 /***VERSION ESCRITORIO***/
@@ -372,7 +405,7 @@ input[type="radio"]:hover {
     }
 
     .encabezado__navegacion{
-        flex: 0 0 55%;
+        flex: 0 0 65%;
         height: unset;
         display: flex;
         flex-direction: row;
@@ -396,6 +429,7 @@ input[type="radio"]:hover {
 
     .header-right{
         gap: 1vw;
+        flex: unset;
     }
 
     .header-right p{
@@ -444,12 +478,11 @@ input[type="radio"]:hover {
 
 .aboutus-text {
     text-align: center; 
-    margin-top: 30px; 
-    margin-bottom: 30px; 
+    margin: 20px 0;
 }
 
 .aboutus-text h3{
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold; 
     line-height: 1.2; 
     color: #333;
@@ -490,7 +523,7 @@ input[type="radio"]:hover {
     border-radius: 15px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .about-us p:nth-child(2) {
@@ -647,6 +680,10 @@ footer{
 
     .social-icons-github i{
         margin-top: 0;
+    }
+
+    .btn-menu-registro{
+        display: none;
     }
 }
 

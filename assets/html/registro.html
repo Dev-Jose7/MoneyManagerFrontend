@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="registro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,16 +18,16 @@
 
                 <div class="encabezado__navegacion" id="menu">
                     <div class="encabezado__menu">
-                        <a href="../../index.html" class="boton seleccion--verde">Inicio</a>
+                        <a href="../../index.html" class="boton">Inicio</a>
                         <a href="nosotros.html" class="boton">Nosotros</a>
                     </div>
                     
                     <div class="encabezado__usuario">
-                        <a href="registro.html" class="boton seleccion--amarillo">Ingresar</a>
+                        <a href="registro.html" class="boton seleccion--verde">Ingresar</a>
                     </div>
                 </div>
 
-                <button class="btn-icon btn-menu" id="menuButton" title="Menú">
+                <button class="btn-icon btn-menu btn-menu-registro" id="menuButton" title="Menú">
                     <i class="fas fa-bars fa-lg"></i>
                 </button>
             </div>
@@ -35,7 +35,16 @@
         </div>
     </header>
 
-    <main class="formulario d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+    <!-- Barra de carga -->
+    <div id="loading" class="loading">
+        <div class="logo">
+            <h3>Money<span>Manager</span></h3>
+        </div>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sección principal -->
+    <main class="formulario d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px); margin: 10vh 0;">
         <fieldset class="formulario__contenedor border rounded-4 p-5 shadow-lg bg-white">
                 <legend class="text-center fs-3 fw-bold text-success mb-4">
                 <i class="bi bi-person-plus" style="font-size: 3rem;"></i>
@@ -53,7 +62,7 @@
         </fieldset>
     </main>
 
-    <!-- Sección Benjamín -->
+    <!-- Footer -->
     <footer>
         <div class="footer contenedor">
             <div class="logo">

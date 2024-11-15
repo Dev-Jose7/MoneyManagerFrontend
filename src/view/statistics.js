@@ -1,36 +1,50 @@
-import { dataByMonth, filterData, gastosByMonth, ingresosByMonth, menuButton, monthLoad, printCategory, printNameUser, transactionByMonth, updateListUser, updateValues, user } from "../../assets/js/panel.js";
+import { dataByMonth, filterData, gastosByMonth, ingresosByMonth, logout, menuButton, modalCancel, monthLoad, orderTransaction, printCategory, printNameUser, transactionByMonth, updateListUser, updateValues, user } from "../../assets/js/panel.js"; // Importa varias funciones y variables para gestionar la interfaz y transacciones del panel.
+import { generateChart } from "./charts.js"; // Importa la función para generar gráficos usando la librería Chart.js.
 
-export let pageStatistics = document.location.href
-document.addEventListener("DOMContentLoaded", function(){
-    if(pageStatistics.includes("estadisticas")){
-        let graphValue = "";
+let page = document.location.href // Obtiene la URL de la página actual.
+export let statusStatistics = false // Variable de estado que indica si estamos en la página de estadísticas.
 
+document.addEventListener("DOMContentLoaded", function(){ // Se ejecuta cuando el contenido de la página se ha cargado completamente.
+    if(page.includes("estadisticas")){ // Verifica si la URL contiene "estadisticas" para ejecutar el código relacionado con la vista de estadísticas.
+        statusStatistics = true // Cambia el estado a verdadero si estamos en la página de estadísticas.
+
+        let graphValue = ""; // Variable que almacenará el valor del tipo de gráfico seleccionado.
+
+        // Llama a varias funciones para inicializar la vista del panel.
         menuButton();
         printNameUser();
-        monthLoad(); //Carga el mes actual al dashboard y le registra un evento de tipo change para imprimir la información del mes correspondiente
         updateListUser();
-        dataByMonth(user.getTransactions().getListTransaction())
+        logout();
+        modalCancel();
+        monthLoad()
+        dataByMonth(user.getTransactions().getListTransaction()); // Carga los datos de las transacciones del usuario por mes.
+
+        // Organiza las transacciones por fecha de registro (de menor a mayor).
+        orderTransaction("menor");
         
+        // Escucha el cambio de mes en el selector de mes para actualizar los datos y gráficos.
         document.getElementById("month").addEventListener("change", function(){
-            [...document.querySelectorAll("input")].forEach(radio => {
+            [...document.querySelectorAll("input")].forEach(radio => { // Desmarca todos los radios cuando el mes cambia.
                 radio.checked = false;
             });
 
-            dataByMonth(user.getTransactions().getListTransaction());
-            document.getElementById("optionTag").checked = true;
-            document.getElementById("chartBarra").checked = true;
+            dataByMonth(user.getTransactions().getListTransaction()); // Vuelve a cargar las transacciones por mes.
+            document.getElementById("optionTag").checked = true; // Selecciona el radio de categoría por defecto.
+            document.getElementById("chartBarra").checked = true; // Selecciona el gráfico de barras por defecto.
             
-            readGraph();
-            chartCategory();
+            orderTransaction("menor"); // Vuelve a ordenar las transacciones por fecha.
+            readGraph(); // Actualiza el tipo de gráfico seleccionado.
+            chartCategory(); // Muestra los gráficos de categorías.
         })
 
-        readGraph(); //Revisa cual de los elementos radio del tipo de grafico (name = chart) esta seleccionado para almacenarlo su valor en variable
-        chartCategory(); //Se imprime los graficos de tipo de transacciones (ingreso/gasto) ya que estos valores estan seleccionados por defecto
+        readGraph(); // Revisa qué gráfico está seleccionado por el usuario al cargar la página.
+        chartCategory(); // Muestra los gráficos de categoría (ingresos/gastos) por defecto.
 
-        document.querySelector(".chart").addEventListener("input", function(){ //Se registra evento en el elemento contenedor de los radio para identificar cuando se seleccionad uno de ellos
-            readGraph(); //Cada que ocurra el evento se mantiene actualizando la variable para determinar el tipo de gráfico
+        // Escucha los cambios en los radios de tipo de gráfico para generar los gráficos correspondientes.
+        document.querySelector(".chart").addEventListener("input", function(){
+            readGraph(); // Actualiza el tipo de gráfico seleccionado.
 
-            //Si el radio tipo de transacción ó el de categorias esta seleccionado imprimirán sus gráficos correspondientes
+            // Dependiendo del tipo de gráfico seleccionado, genera el gráfico correspondiente.
             if(document.getElementById("optionType").checked){
                 chartType();
             }
@@ -44,63 +58,93 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         });
 
-        function readGraph(){
-            [...document.getElementsByName("chart")].forEach(chart => {
-                if(chart.checked){
+        function readGraph(){ // Lee el valor del gráfico seleccionado en los radios de tipo de gráfico.
+            [...document.getElementsByName("chart")].forEach(chart => { // Itera sobre todos los radios de gráficos.
+                if(chart.checked){ // Si el radio está seleccionado, guarda su valor en graphValue.
                     graphValue = chart.value
                 }
             });
         }
 
-        //Invoca la función que se encarga de imprimir los gráficos usando la libreria chart.js pasandole los argumentos necesarios para armar los gráficos
+        // Genera gráficos de tipo de transacción (Ingreso vs Gasto).
         function chartType(){
-            //Por defecto se define el contenedor, en donde se creará el gráfico y el tipo de grafico a crear por (obtenido por readChecked), los argumentos a pasar son los labels (etiquetas de los datos) y los datos (los valores de cada etiqueta)
+            // Llama a generateChart para crear gráficos de barras con los datos de ingresos y gastos.
             generateChart(document.querySelector(".container-cant"), graphValue, ["Ingreso", "Gasto"], [filterData("Ingreso").length, filterData("Gasto").length]);
             generateChart(document.querySelector(".container-value"), graphValue, ["Ingreso", "Gasto"], [user.getBalance(ingresosByMonth), user.getBalance(gastosByMonth)]);
         }
 
+        // Genera gráficos por categorías (cada tipo de transacción, como alimentos, transporte, etc.).
         function chartCategory(){
-            let label = [];
-            let data = [];
-            user.getCategories().getCategoriesUser().forEach(tag => {
+            let label = []; // Arreglo para almacenar las etiquetas (categorías).
+            let data = []; // Arreglo para almacenar los valores (total de cada categoría).
+            user.getCategories().getCategoriesUser().forEach(tag => { // Itera sobre las categorías del usuario.
                 
-                let array = filterData(tag) //Devuelve las transacciones en arreglo las cuales tengan la categoria leida por el forEach
-                label.push(array.length) //Se ingresa en el arreglo label la longitud de cada arreglo devuelto por filterData al buscar las transacciones que cuenten con la categoria leida por forEach, este arreglo serán los label del gráfico
-
+                let array = filterData(tag) // Filtra las transacciones por categoría.
+                label.push(array.length) // Almacena el número de transacciones por categoría en 'label'.
+                
                 let counter = 0
-                array.forEach(transaction => { //En este mismo arreglo de la categoria actual se suma el valor de cada transacción para posteriormente ingresar la suma a un arreglo, este arreglo será la data del grafico
+                array.forEach(transaction => { // Suma el valor de las transacciones para cada categoría.
                     counter += transaction.getValue()
                 })
 
-                data.push(counter);
+                data.push(counter); // Almacena la suma de los valores de transacciones por categoría en 'data'.
             });
 
-            console.log(data)
-
+            // Llama a generateChart para generar gráficos de categorías.
             generateChart(document.querySelector(".container-cant"), graphValue, user.getCategories().getCategoriesUser(), label)
             generateChart(document.querySelector(".container-value"), graphValue, user.getCategories().getCategoriesUser(), data)
         }
 
+        // Genera gráficos por fecha (transacciones agrupadas por día).
         function chartDate(){
-            let label = [];
-            let cant = [];
-            let value = [];
-            
-            transactionByMonth.forEach(transaction => {
-                const fecha = transaction.getDate()
-                label.push(fecha.substring(fecha.indexOf("-")+1));
+            let label = []; // Arreglo para almacenar las fechas (días del mes).
+            let cant = []; // Arreglo para almacenar la cantidad de transacciones por día.
+            let value = []; // Arreglo para almacenar el valor total de transacciones por día.
 
-                value.push(transaction.getValue());
+            for (let i = 0; i < transactionByMonth.length; i++) { // Itera sobre las transacciones del mes.
+                const transaction = transactionByMonth[i];
+                const fecha = transaction.getDate(); // Obtiene la fecha de la transacción.
+                const monthDay =  fecha.substring(fecha.indexOf("-")+1) // Extrae el día del mes.
 
-                cant.push(filterData(fecha).length);
-            });
+                if(label.includes(monthDay)){ // Si el día ya está en las etiquetas, lo omite.
+                    continue;
+                } else { // Si no, agrega el día y calcula el total de transacciones de ese día.
+                    label.push(monthDay); // Agrega el día a las etiquetas.
 
+                    let total = 0;
+                    filterData(fecha).forEach(element => { // Filtra las transacciones por fecha y suma sus valores.
+                        total += element.getValue()
+                    })
 
+                    value.push(total); // Almacena el total de las transacciones de ese día en 'value'.
+                    cant.push(filterData(fecha).length); // Almacena la cantidad de transacciones de ese día en 'cant'.
+                }
+            }
 
-            console.log(label)
-
+            // Llama a generateChart para generar los gráficos de transacciones por fecha.
             generateChart(document.querySelector(".container-cant"), graphValue, label, cant)
             generateChart(document.querySelector(".container-value"), graphValue, label, value)
         }
     }
 });
+
+
+//Carga inicial de datos y configuraciones:
+//Inicializa varias funciones del panel como el menú, el nombre del usuario, la lista de usuarios, y la cancelación de modales.
+//Carga las transacciones del usuario por mes y ordena las transacciones por fecha.
+
+//Interacción con el selector de mes:
+//Al cambiar el mes, se actualizan los datos de las transacciones y los gráficos correspondientes.
+//Se reordenan las transacciones y se vuelven a dibujar los gráficos.
+
+//Gestión de gráficos:
+//Se genera el gráfico correspondiente según el tipo seleccionado por el usuario (por transacción, por categoría o por fecha).
+//Los gráficos se actualizan dinámicamente al cambiar los filtros de visualización (tipo de gráfico, categoría, etc.).
+
+//Generación de gráficos:
+//Por tipo de transacción: Se crea un gráfico de barras para mostrar los ingresos vs los gastos.
+//Por categoría: Se genera un gráfico con las categorías de las transacciones y su total.
+//Por fecha: Se crea un gráfico con transacciones agrupadas por día.
+
+//Eventos dinámicos:
+//Escucha los eventos de los radio buttons para actualizar los gráficos al cambiar el tipo de gráfico o el filtro de categoría.

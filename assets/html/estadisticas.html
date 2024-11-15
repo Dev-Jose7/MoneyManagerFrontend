@@ -28,6 +28,13 @@
         </div>
     </header>
 
+    <div id="loading" class="loading">
+        <div class="logo">
+            <h3>Money<span>Manager</span></h3>
+        </div>
+        <div class="spinner"></div>
+    </div>
+
     <div class="main-container">
         <aside class="sidebar" id="sidebar">
             <nav>
@@ -36,7 +43,6 @@
                     <li><a href="../html/transaction.html">Transacciones</a></li>
                     <li><a href="../html/estadisticas.html" class="active">Estadisticas</a></li>
                     <li><a href="../html/account.html">Mi cuenta</a></li>
-                    <li><a href="#">Configuraciones</a></li>
                 </ul>
             </nav>
         </aside>
@@ -125,6 +131,39 @@
                 </div>
             </div>
 
+            
+
+            <!-- Modal -->
+            <div id="editModal" class="modal section-container">
+                <div class="modal-content">
+                    <div class="modal-statistics">
+                        <h3></h3>
+                        <h4></h4>
+                    </div>
+                    <form id="modal-section">
+                        
+                        
+                    </form>
+                    <div id="modal-button" class="botones__pagina">
+
+                    </div>
+                    <div class="form-actions">
+                        <button type="reset" class="btn-cancel cancelar">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nota modal -->
+            <div id="noteModal" class="modal">
+                <div class="modal-content">
+                    <h3>Descripcion de la transacción</h3>
+                    <div id="modalDescription"></div>
+                    <div class="form-actions">
+                        <button class="btn-cancel cancelar">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+
            <!-- Footer -->
             <footer class="footer">
                 <div class="logo">
@@ -148,8 +187,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../../src/view/charts.js"></script>
-    <script src="../../src/view/dashboard.js" type="module"></script>
     <script src="../../src/view/statistics.js" type="module"></script>
 </body>
 </html>

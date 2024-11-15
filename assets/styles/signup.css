@@ -7,6 +7,11 @@ body {
     backdrop-filter: blur(8px) brightness(0.8);
 }
 
+.formulario,
+.formulario h4{
+    font-size: 15px;
+}
+
 .formulario__contenedor {
     width: 600px;  
     max-width: 90%; 
