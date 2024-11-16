@@ -12,8 +12,6 @@ export default class Category {
             Category._categoriesData.push(this); // Agrega la categoría a la lista.
             Category.saveDataSession(); // Guarda la categoría en sessionStorage.
         } else if(!tag && user){
-            // this._categoriesMain = Category.defaultCategories(); // Carga categorías predeterminadas.
-            // this._categoriesUser = []; // Inicializa la lista de categorías del usuario.
             this._categoriesUser = [];
             if(!sessionStorage.getItem("transaction")){
                 Category.mainCategories(user);
