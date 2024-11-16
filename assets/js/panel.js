@@ -229,11 +229,11 @@ export function paginationDefault(container, buttonContainer, size){
         for (let i = 0; i < diference; i++) {
             let elemento =`
                 <div class="list">
-                    <h4>${transactionByMonth.length == 0 && i == 0 ? "Sin registro" : ""}</h4>
+                    <h4>${statusTransaction ? (transactionByMonth.length == 0 && i == 0 ? "Sin registro" : "") : statusAccount ? (user.getCategories().getCategoriesUser().length == 0 && i == 0 ? "Sin registro" : "") : ""}</h4>
                     <p></p>
                     <p></p>
                     <p></p>
-                </div>`;
+                </div>`; //Si statusTransaction es true, entonces se valida no hay transacciones y si el iterador del ciclo es cero para entonces imprimir "Sin registro en el primer campo vacio de la primera página generada pero si statusAccount es true entonces validará si el usuario no tiene categorias para realizar el mismo proceso que con transaction"
             lastPage.innerHTML += elemento; // Llena los espacios vacíos con una estructura base
         }
     }

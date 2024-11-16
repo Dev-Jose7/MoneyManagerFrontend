@@ -1,10 +1,12 @@
 // Clase que gestiona las categorías de transacciones.
 export default class Category {
+    static contadorId = 0; //Sirve para asignar id a las instancias
     static _categoriesData = []; // Almacena todas las categorías.
 
     // Constructor de la clase Category.
     constructor(tag = null, user = null) {
         if (tag && user) { // Si se instancian con un tag y un usuario, se crea una categoría.
+            this._id = ++Category.contadorId; //Crea id a la transacción de acuerdo al orden en el que se vayan creando
             this._tag = tag; // Asigna la etiqueta de la categoría.
             this._user = user; // Asigna el usuario al que pertenece la categoría.
             Category._categoriesData.push(this); // Agrega la categoría a la lista.
@@ -41,9 +43,9 @@ export default class Category {
     }
 
     // Métodos para obtener los atributos de la categoría.
-    // getCategoriesMain() { return this._categoriesMain; }
     getCategoriesUser() { return this._categoriesUser; }
     getTag() { return this._tag; }
+    getId() { return this._id; }
     getUserId() { return this._user; }
 
     // Método estático para devolver las categorías predeterminadas.
@@ -129,17 +131,6 @@ export default class Category {
         Category.saveDataSession();
     }
 
-    // updateCategoryMain(tagOld, tagNew){
-    //     this._categoriesMain.find((category, index) => {
-    //         if(category == tagOld){
-    //             this._categoriesMain[index] = tagNew
-    //             console.log(this._categoriesMain)
-    //         }
-    //     });
-
-    //     Category.saveDataSession();
-    // }
-
     // Método para eliminar una categoría.
     deleteCategory(tag, idUser) {
         let index = Category._categoriesData.findIndex(category => {
@@ -150,10 +141,4 @@ export default class Category {
         Category._categoriesData.splice(index, 1); // Elimina la categoría del arreglo.
         Category.saveDataSession(); // Guarda los cambios en sessionStorage.
     }
-
-    // Método para eliminar una categoría predeterminada.
-    // deleteCategoryMain(tag) {
-    //     let index = this._categoriesMain.findIndex(category => category == tag);
-    //     this._categoriesMain.slice(index, 1); // Elimina la categoría de la lista.
-    // }
 }
