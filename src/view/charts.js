@@ -38,7 +38,10 @@ export function generateChart(container, graph, label, value) {
                     label: info, // Texto de la leyenda.
                     data: value, // Valores para las barras o segmentos del gráfico.
                     borderWidth: 1, // Ancho del borde de las barras.
-                    backgroundColor: colorLabel // Colores de fondo de las barras o segmentos.
+                    backgroundColor: colorLabel, // Colores de fondo de las barras o segmentos.
+                    borderColor: colorLabel, //Color de borde para las graficas de lineas
+                    fill: true,
+                    tension: 0.1
                 }]
             },
             options: {
