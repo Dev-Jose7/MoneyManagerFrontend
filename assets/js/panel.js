@@ -32,6 +32,12 @@ Category.loadDataSession(); // Carga las categorías disponibles
 
 user = findUser(); // Encuentra al usuario actual a partir de la sesión
 
+// Carga los datos de sesión (usuario, transacciones, etc.).
+console.log("Usuario: ", user);
+console.log("DB Usuarios", User.getUserData());
+console.log("DB Categorias", user.getCategories().getCategoriesData());
+console.log("DB Transacciones", Transaccion.getTransactionData());
+
 // Función para mostrar el nombre del usuario en el encabezado
 export function printNameUser(){
     document.getElementById("nameUser").textContent = user.getName().split(" ")[0]; //Se generan subcadenas (palabras) al nombre del usuario por cada espacio en blanco (" ") que tenga esta cadena de caracteres y se obtiene la primer subcadena [0] la cuál será el primer nombre del usuario
@@ -109,9 +115,6 @@ export function dataByMonth(data){
     // Filtra las transacciones en dos grupos: ingresos y gastos
     ingresosByMonth = transactionByMonth.filter(transaction => transaction.getType() == "Ingreso");
     gastosByMonth = transactionByMonth.filter(transaction => transaction.getType() == "Gasto");
-    console.log(transactionByMonth);
-    console.log(ingresosByMonth);
-    console.log(gastosByMonth);
 }
 
 // Función que calcula el balance total entre ingresos y gastos y actualiza la vista
@@ -326,7 +329,6 @@ export function filterData(data){
 export function modalCancel(){
     [...document.querySelectorAll(".cancelar")].forEach(element => {
         element.addEventListener("click", function(e){
-            console.log("click");
             e.target.closest(".modal").style.display = "none"; // Cierra el modal
         });
     });

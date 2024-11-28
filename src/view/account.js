@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function(){
         emailUpdate.placeholder = user.getEmail();
 
         // Muestra las categorías del usuario.
-        console.log(user.getCategories().getCategoriesUser());
+        
         
         // Muestra las estadísticas de ingresos y gastos del usuario.
         document.getElementById("cantIngreso").textContent = user.getTransactions().getListIngreso().length;

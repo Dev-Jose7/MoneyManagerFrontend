@@ -13,10 +13,9 @@ export default class Category {
             Category.saveDataSession(); // Guarda la categoría en sessionStorage.
         } else if(!tag && user){
             this._categoriesUser = [];
-            if(!sessionStorage.getItem("transaction")){
+            // if(!sessionStorage.getItem("database")){
                 Category.mainCategories(user);
-            }
-            console.log(this._categoriesUser);
+            // }
         }
     }
 
@@ -28,7 +27,6 @@ export default class Category {
     // Método estático para cargar las categorías desde sessionStorage.
     static loadDataSession() {
         Category._categoriesData = []; // Reinicia la lista de categorías.
-        console.log(sessionStorage.getItem("category"));
         try {
             let tag = JSON.parse(sessionStorage.getItem("category")); // Parsea las categorías almacenadas.
             for (let i = 0; i < tag.length; i++) {
@@ -37,11 +35,11 @@ export default class Category {
         } catch (error) {
             // Manejo del error si las categorías no pueden ser cargadas.
         }
-        console.log(sessionStorage.getItem("category"));
     }
 
     // Métodos para obtener los atributos de la categoría.
     getCategoriesUser() { return this._categoriesUser; }
+    getCategoriesData() { return Category._categoriesData };
     getTag() { return this._tag; }
     getId() { return this._id; }
     getUserId() { return this._user; }
@@ -72,9 +70,6 @@ export default class Category {
                 this._categoriesUser.push(category._tag); // Agrega categorías personalizadas.
             }
         });
-
-        console.log(Category._categoriesData);
-        console.log(this._categoriesUser);
     }
 
     // Método para imprimir categorías en un elemento select.
@@ -93,7 +88,6 @@ export default class Category {
             return elemento;
         } else {
             container.innerHTML = `<option disabled selected>Categoría</option>`;
-            console.log(this._categoriesUser);
             this._categoriesUser.forEach((category) => {
                 container.innerHTML += `<option value="${category}">${category}</option>`;
             });
@@ -104,9 +98,7 @@ export default class Category {
     validateCategory(newCategory) {
         let status = false;
         this._categoriesUser.find(category => {
-            console.log(this._categoriesUser)
             if (category == newCategory) {
-                console.log("Encontrado");
                 status = true; // La categoría fue encontrada.
             }
         });
@@ -135,7 +127,6 @@ export default class Category {
             return category._tag == tag && category._user == idUser; // Busca el índice de la categoría.
         });
 
-        console.log(index);
         Category._categoriesData.splice(index, 1); // Elimina la categoría del arreglo.
         Category.saveDataSession(); // Guarda los cambios en sessionStorage.
     }

@@ -7,6 +7,8 @@ export function generateChart(container, graph, label, value) {
     let info = ""; // Almacena el texto de la leyenda del gráfico.
     let colorLabel = []; // Almacena los colores personalizados de las barras del gráfico.
     let windowWidth = window.innerWidth < 768 ? "80vh" : "60vh"; // Ajusta la altura del gráfico dependiendo del tamaño de la pantalla (más alto en móviles).
+    let borderLine = 0; //Almacena el borde de linea y lo aplica cuando el gráfico sea de este tipo
+    let colorBorder = 0;
     container.innerHTML = ""; // Limpia el contenido del contenedor antes de generar el gráfico.
 
     // Crear el canvas donde se dibujará el gráfico y aplicar estilo responsivo.
@@ -27,6 +29,10 @@ export function generateChart(container, graph, label, value) {
         colorLabel = selectColor(label.length); // Si no es ingreso, selecciona colores aleatorios.
     }
 
+    //Ajusta el ancho de la linea cuando el gráfico sea de línea
+    graph == "line" ? borderLine = 3 : borderLine = 0;
+    
+
     // Inicialización del gráfico utilizando la librería Chart.js.
     //Si hay transacciones del mes seleccionado se procede con la creacion del gráfico
     if(transactionByMonth.length > 0){
@@ -39,14 +45,15 @@ export function generateChart(container, graph, label, value) {
                     data: value, // Valores para las barras o segmentos del gráfico.
                     borderWidth: 1, // Ancho del borde de las barras.
                     backgroundColor: colorLabel, // Colores de fondo de las barras o segmentos.
-                    borderColor: colorLabel, //Color de borde para las graficas de lineas
-                    fill: true,
-                    tension: 0.1
+                    fill: false,
+                    tension: 0.5, // Esta propiedad controla la suavidad de la curva
+                    borderWidth: borderLine,  
+                    borderColor: colorLabel
                 }]
             },
             options: {
                 responsive: true, // Hace que el gráfico sea responsivo.
-                maintainAspectRatio: false, // Permite que el gráfico cambie de tamaño dinámicamente.
+                maintainAspectRatio: false, // Permite que el gráfico cambie de œtamaño dinámicamente.
                 aspectRatio: 2, // Desactiva un ratio fijo para el gráfico, permitiendo que se ajuste en altura y ancho.
                 plugins: {
                     legend: {

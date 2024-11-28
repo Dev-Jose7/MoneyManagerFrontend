@@ -26,11 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
         printCategory(); // Imprime las categorías de transacciones del usuario.
         recentTransaction(); // Muestra las transacciones recientes en el dashboard.
 
-        // Carga los datos de sesión (usuario, transacciones, etc.).
-        console.log("Usuario: ", user);
-        console.log("DB usuarios", User.getUserData());
-        console.log("DB transacciones", Transaccion.getTransactionData());
-
         // Evento para cambiar el mes en el dashboard.
         month.addEventListener("change", function(){
             recentTransaction(); // Actualiza las transacciones al cambiar el mes.

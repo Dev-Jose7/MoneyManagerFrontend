@@ -46,7 +46,6 @@ export default class User {
     // Método estático para guardar los datos del usuario en sessionStorage.
     static saveDataSession() {
         sessionStorage.setItem("database", JSON.stringify(User._userData));
-        console.log(sessionStorage.getItem("database"));
         //Guarda en sessionStorage la base de datos de los usuarios (userData) cuando haya modificaciones en esta (crear, modificar o eliminar un usuario). Esto con el fin de conservar los valores que se hayan almacenado en la base de datos para poder utilizarlos en una nueva página.
     }
 
@@ -75,9 +74,7 @@ export default class User {
 
     // Método para imprimir los datos de todos los usuarios en la consola.
     static printUserData() {
-        console.log("Lista de usuarios");
         for (let i = 0; i < User._userData.length; i++) {
-            console.log(User._userData[i]);
         }
     }
 
