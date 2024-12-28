@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     user.getCategories().updateListUser(user.getId()); // Actualiza la lista de categorías del usuario.
                     printCategory(); // Vuelve a renderizar la lista de categorías.
                     alertShow("Hecho!", "La categoria ha sido añadida", "success");
+                    document.getElementById("addTagModal").style.display = "none";
                 } else {
                     alertShow("Error!", "Esta categoria ya se encuentra registrada", "warning");
                 }
@@ -172,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if(!user.getCategories().validateCategory(updateTagInput.value)){
                     user.getCategories().updateCategory(tagTarget, updateTagInput.value, user.getId()); // Actualiza el nombre de la categoría.
                     alertShow("Hecho!", "Categoria actualizada", "success");
+                    document.getElementById("editTagModal").style.display = "none";
                 } else {
                     alertShow("Error!", "Esta categoria ya se encuentra registrada", "warning");
                 }

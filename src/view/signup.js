@@ -3,8 +3,14 @@ import { closeloading, completeInput, confirmPassword, initSession } from "../..
 import Transaccion from "../controllers/operation/Transaccion.js"; // Importa la clase Transaccion desde el controlador de operaciones.
 
 // Carga los datos de usuario y transacciones almacenados en la sesión.
-User.loadDataSession(); // Carga los datos del usuario desde la sesión si están disponibles.
-Transaccion.loadDataSession(); // Carga los datos de las transacciones desde la sesión si están disponibles.
+ // Carga los datos del usuario desde la sesión si están disponibles.
+
+try {
+    User.loadDataSession();
+    Transaccion.loadDataSession(); // Carga los datos de las transacciones desde la sesión si están disponibles.    
+} catch (error) {
+    
+}
 
 const inputName = document.getElementById("name"); // Referencia al input de nombre en el formulario.
 const inputEmail = document.getElementById("email"); // Referencia al input de email en el formulario.

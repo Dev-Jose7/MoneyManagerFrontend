@@ -2,7 +2,7 @@ import User from "../controllers/account/User.js";
 import { alertShow, checkSession, completeInput, confirmPassword, endSession, findUser, textCurrency } from "../../assets/js/util.js";
 import Transaccion from "../controllers/operation/Transaccion.js";
 import Category from "../controllers/tag/Category.js";
-import { categoria, descripcion, fecha, menuButton, monthLoad, printCategory, printNameUser, updateValues, tipo, transactionByMonth, user, valor, updateListUser, modalCancel, logout, month } from "../../assets/js/panel.js";
+import { categoria, descripcion, fecha, menuButton, monthLoad, printCategory, printNameUser, updateValues, tipo, transactionByMonth, user, valor, updateListUser, modalCancel, logout, month, year, yearLoad, dataByYear } from "../../assets/js/panel.js";
 
 let page = document.location.href; // Obtiene la URL actual de la página.
 export let statusDashboard = false; // Variable de estado que indica si estamos en la página del dashboard.
@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Funciones específicas del dashboard.
         printWelcome(); // Muestra un mensaje de bienvenida personalizado.
         monthLoad(); // Carga el mes actual al dashboard y le agrega un evento para cambiar de mes.
+        dataByYear(new Date().getFullYear()) // Filtra las transacciones del usuario por el año actual
         updateValues(); // Filtra, calcula y actualiza las transacciones del usuario.
         printCategory(); // Imprime las categorías de transacciones del usuario.
         recentTransaction(); // Muestra las transacciones recientes en el dashboard.
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Crea una nueva transacción con los valores del formulario.
                 user.getTransactions().getManager().createTransaction(user.getId(), tipo.value, +valor.value, descripcion.value, categoria.value, fecha.value);
                 user.getTransactions().updateListUser(user.getId()); // Actualiza la lista de transacciones del usuario.
+                dataByYear(new Date().getFullYear())
                 updateValues(); // Recalcula el balance y actualiza la lista de transacciones.
                 recentTransaction(); // Actualiza las transacciones recientes.
                 formatearCampo(); // Limpia los campos del formulario.

@@ -1,91 +1,120 @@
+// Clase que representa una transacción financiera.
 import TransactionManager from "./TransactionManager.js";
 import TransactionFilter from "./TransactionFilter.js";
 
-// Clase que representa una transacción financiera.
 export default class Transaccion {
     // Contador para asignar un ID único a cada transacción.
     static contadorId = 0;
+
     // Almacena todas las transacciones creadas.
     static _transactionData = [];
 
     // Constructor de la clase Transaccion.
-    //Este constructor esta hecho en base a una condicioón, esto con el fin de poder declarar un contructor vacio.
-    //El constructor define a los parametros con valores fijos, es decir cada parametro tiene un valor null
-    //Bajo una condición se determina entonces si el valor de los parametros en realidad es null, si todos los parametros son verdaderos, es decir, tienen valores diferentes a null o también 0, "" ó false entonces se procederá a invocar el constructor con argumentos
-    //En cambio si la condición es falsa, es decir alguno o todos los valores son null, se procederá a invocar el constructor sin argumentos (vacío).
-    //Se crea una condición la cual hace que pasar argumentos a los parametros sea mas flexible ya que existe la posiblidad de que alguno de los parametros reciba valores con estados false, como 0 ó "" (cadena vacía), los cuales por funcionamiento son necesarios pasarlos como argumento.
-    //Si la condición indica que todos los valores deben ser verdaderos: if(user && tipo && valor && descripcion && categoria && fecha), al pasar valores con estados false, como 0, "" ó false, hara que la condición no se cumpla, por que al menos uno de ellos es false cuando se requiere que todos sean true
-    //Ejemplo, si se desea crear ó actualizar una transacción y su descripción se deja vacia (cadena vacia ""), entonces la transacción tendrá un comportamiento mal programado, haciendo que no se imprima al crearse o esta se borre al actualizar la página despues de actualizarla ya que no se pudo crear dicha instancia
     constructor(user = null, tipo = null, valor = null, descripcion = null, categoria = null, fecha = null) {
+        // Condición para diferenciar entre transacciones completas y vacías.
         const status = user !== null && tipo !== null && valor !== null && descripcion !== null && categoria !== null && fecha !== null;
         
         if (status) {
-            this._id = ++Transaccion.contadorId; // Asigna un ID único a la transacción.
-            this._user = user; // Asigna el usuario a la transacción.
-            this._tipo = tipo; // Asigna el tipo de transacción (Ingreso o Gasto).
-            this._valor = valor; // Asigna el valor de la transacción.
-            this._descripcion = descripcion; // Asigna la descripción de la transacción.
-            this._categoria = categoria; // Asigna la categoría de la transacción.
-            this._fecha = fecha; // Asigna la fecha de la transacción.
-            Transaccion._transactionData.push(this); // Agrega la transacción al arreglo global.
-            Transaccion.saveDataSession(); // Guarda la sesión de las transacciones.
+            // Transacción con datos completos
+            this._id = ++Transaccion.contadorId; // Asigna un ID único.
+            this._user = user; // ID del usuario al que pertenece.
+            this._tipo = tipo; // Tipo: "Ingreso" o "Gasto".
+            this._valor = valor; // Valor de la transacción.
+            this._descripcion = descripcion; // Descripción de la transacción.
+            this._categoria = categoria; // Categoría asignada.
+            this._fecha = fecha; // Fecha de la transacción.
+            Transaccion._transactionData.push(this); // Añade a la lista global.
+            Transaccion.saveDataSession(); // Guarda en sessionStorage.
         } else {
-            this._listTransactions = []; // Lista de transacciones del usuario.
+            // Transacción vacía para gestión interna
+            this._listTransactions = []; // Lista de todas las transacciones del usuario.
             this._listFilter = []; // Lista filtrada de transacciones.
             this._ingresos = []; // Lista de ingresos.
             this._gastos = []; // Lista de gastos.
-            this._1manager = new TransactionManager(); // Crea un gestor de transacciones.
-            this._2filter = new TransactionFilter(); // Crea un filtro de transacciones.
+            this._1manager = new TransactionManager(); // Gestión de transacciones.
+            this._2filter = new TransactionFilter(); // Filtros de transacciones.
         }
     }
 
-    // Método estático para guardar las transacciones en sessionStorage.
+    // Guarda las transacciones en sessionStorage.
     static saveDataSession() {
-        sessionStorage.setItem("transaction", JSON.stringify(Transaccion.getTransactionData()));
-        //Guarda en sessionStorage la base de datos de las transacciones (transactionData) cuando haya modificaciones en esta (crear, modificar o eliminar una transacción). Esto con el fin de conservar los valores que se hayan almacenado en la base de datos para poder utilizarlos en una nueva página.
+        sessionStorage.setItem("transaction", JSON.stringify(Transaccion._transactionData));
     }
 
-    // Método estático para cargar las transacciones desde sessionStorage.
+    // Carga las transacciones desde sessionStorage.
     static loadDataSession() {
-        let data = JSON.parse(sessionStorage.getItem("transaction"));
-        for (let i = 0; i < data.length; i++) {
-            let transaction = new Transaccion(data[i]._user, data[i]._tipo, data[i]._valor, data[i]._descripcion, data[i]._categoria, data[i]._fecha);
-            transaction.setId(data[i]._id);
+        try {
+            let data = JSON.parse(sessionStorage.getItem("transaction")) || [];
+            for (let i = 0; i < data.length; i++) {
+                let transaction = new Transaccion(
+                    data[i]._user,
+                    data[i]._tipo,
+                    data[i]._valor,
+                    data[i]._descripcion,
+                    data[i]._categoria,
+                    data[i]._fecha
+                );
+                transaction.setId(data[i]._id);
+            }
+        } catch (error) {
+            console.error("Error al cargar transacciones:", error);
         }
-
-        //Carga en la base de datos (transactionData) el elemento almacenado en sessionStorage (gestionado por saveDataSession). Esto con el fin de entregar a la base de datos todos los valores que fueron añadidos a la esta antes de recargar la pagina, esto permite a la base de datos mantenerse actualizada constantemente
-        //Función que reconstruye una instancia después de ser transformada nuevamente a su valor original (JSON.parse). Esto debido a que las instancias se encontraban almacenadas en formato JSON (JSON.stringify)
-        //JSON transforma la base de datos en una cadena de caracteres para que sessionStorage pueda almacenarla y al transformarla nuevamente a su valor original (arreglo de objetos), los objetos no conservarán sus métodos de clase ya que se pierde la instancia del objeto al momento de la conversion al intentar almacenar la base de datos en sessionStorage
     }
 
-    // Métodos para obtener los atributos de la transacción.
+    // Obtiene el ID de la transacción.
     getId() { return this._id; }
-    getType() { return this._tipo; }
-    getValue() { return this._valor; }
-    getCategory() { return this._categoria; }
-    getDescription() {return this._descripcion}
-    getDate() { return this._fecha; }
-    getListTransaction() { return this._listTransactions; }
-    getManager() { return this._1manager; }
-    getFilter() { return this._2filter; }
-    getListIngreso() { return this._ingresos; }
-    getListGasto() { return this._gastos; }
-    getListFilter() {return this._listFilter}
 
-    // Método estático para obtener todas las transacciones.
+    // Obtiene el tipo de la transacción.
+    getType() { return this._tipo; }
+
+    // Obtiene el valor de la transacción.
+    getValue() { return this._valor; }
+
+    // Obtiene la categoría de la transacción.
+    getCategory() { return this._categoria; }
+
+    // Obtiene la descripción de la transacción.
+    getDescription() { return this._descripcion; }
+
+    // Obtiene la fecha de la transacción.
+    getDate() { return this._fecha; }
+
+    // Obtiene la lista de transacciones.
+    getListTransaction() { return this._listTransactions; }
+
+    // Obtiene el gestor de transacciones.
+    getManager() { return this._1manager; }
+
+    // Obtiene el filtro de transacciones.
+    getFilter() { return this._2filter; }
+
+    // Obtiene la lista de ingresos.
+    getListIngreso() { return this._ingresos; }
+
+    // Obtiene la lista de gastos.
+    getListGasto() { return this._gastos; }
+
+    // Obtiene la lista filtrada.
+    getListFilter() { return this._listFilter; }
+
+    // Obtiene todas las transacciones almacenadas.
     static getTransactionData() { return Transaccion._transactionData; }
 
-    // Métodos para establecer los atributos de la transacción.
+    // Establece el ID de la transacción.
     setId(id) { this._id = id; }
+
+    // Actualiza la descripción de la transacción.
     setDescripcion(descripcion) { this._descripcion = descripcion; }
+
+    // Actualiza el valor de la transacción.
     setValor(valor) { this._valor = valor; }
 
-    //Busca una transaccion por su id
-    findTransaction(id){
+    // Busca una transacción por su ID.
+    findTransaction(id) {
         return Transaccion._transactionData.find(transaction => transaction._id == id);
     }
 
-    // Método para calcular el total de ingresos.
+    // Calcula el total de ingresos.
     totalIngreso() {
         let contador = 0;
         this._ingresos.forEach(transaction => {
@@ -94,7 +123,7 @@ export default class Transaccion {
         return contador;
     }
 
-    // Método para calcular el total de gastos.
+    // Calcula el total de gastos.
     totalGasto() {
         let contador = 0;
         this._gastos.forEach(transaction => {
@@ -103,15 +132,51 @@ export default class Transaccion {
         return contador;
     }
 
-    // Método para actualizar la lista de transacciones del usuario.
+    // Actualiza la lista de transacciones del usuario.
     updateListUser(id) {
-        this._listTransactions = Transaccion._transactionData.filter((transaction) => transaction._user == id);
-        this._ingresos = this._listTransactions.filter((transaction) => transaction._tipo == "Ingreso");
-        this._gastos = this._listTransactions.filter((transaction) => transaction._tipo == "Gasto");
+        this._listTransactions = Transaccion._transactionData.filter(transaction => transaction._user == id);
+        this._ingresos = this._listTransactions.filter(transaction => transaction._tipo == "Ingreso");
+        this._gastos = this._listTransactions.filter(transaction => transaction._tipo == "Gasto");
     }
 
-    // Método para actualizar la lista de transacciones filtradas.
+    // Actualiza la lista de transacciones filtradas.
     updateListFilter(dataFilter) {
         this._listFilter = dataFilter;
     }
 }
+
+// Propósito:
+// - Gestionar las transacciones individuales y globales en la aplicación.
+// - Permite operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en transacciones.
+// - Facilita la organización de las transacciones en ingresos, gastos y filtros personalizados.
+// - Garantiza la persistencia de datos mediante sessionStorage.
+
+// Propiedades Importantes:
+// 1. _transactionData: Almacena todas las transacciones de forma global.
+// 2. contadorId: Asigna identificadores únicos a cada transacción.
+// 3. Persistencia: Usa sessionStorage para almacenar y recuperar transacciones.
+
+// Flujo de Uso:
+// 1. Crear una Transacción: Se agregan atributos específicos (usuario, tipo, valor, etc.).
+// 2. Guardar en sessionStorage: Los datos se mantienen después de recargar la página.
+// 3. Consultar y filtrar: Se pueden listar, filtrar y organizar las transacciones.
+// 4. Calcular Ingresos y Gastos: Permite obtener balances financieros.
+
+/*
+### Resumen de la Clase Transaccion:
+- **Propósito:** Gestionar las transacciones financieras (Ingreso/Gasto) de cada usuario.
+- **Persistencia:** Los datos se almacenan en sessionStorage.
+- **Métodos Clave:**  
+   - `saveDataSession`: Guarda en sessionStorage.  
+   - `loadDataSession`: Restaura datos desde sessionStorage.  
+   - `totalIngreso`: Calcula ingresos totales.  
+   - `totalGasto`: Calcula gastos totales.  
+   - `updateListUser`: Actualiza la lista de transacciones por usuario.  
+- **Flujo General:**  
+   1. Crear una nueva transacción.  
+   2. Almacenar en sessionStorage.  
+   3. Acceder y filtrar por usuario.  
+   4. Calcular totales de ingresos y gastos.  
+
+Esta clase interactúa estrechamente con `TransactionManager` y `TransactionFilter` para manejar operaciones más complejas.
+*/

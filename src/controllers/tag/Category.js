@@ -1,80 +1,92 @@
 // Clase que gestiona las categorías de transacciones.
 export default class Category {
-    static contadorId = 0; //Sirve para asignar id a las instancias
-    static _categoriesData = []; // Almacena todas las categorías.
+    // Contador para asignar un ID único a las categorías.
+    static contadorId = 0; 
+    
+    // Almacena todas las categorías registradas, tanto predeterminadas como personalizadas.
+    static _categoriesData = []; 
 
     // Constructor de la clase Category.
     constructor(tag = null, user = null) {
-        if (tag && user) { // Si se instancian con un tag y un usuario, se crea una categoría.
-            this._id = ++Category.contadorId; //Crea id a la transacción de acuerdo al orden en el que se vayan creando
-            this._tag = tag; // Asigna la etiqueta de la categoría.
-            this._user = user; // Asigna el usuario al que pertenece la categoría.
-            Category._categoriesData.push(this); // Agrega la categoría a la lista.
-            Category.saveDataSession(); // Guarda la categoría en sessionStorage.
-        } else if(!tag && user){
+        // Si se proporcionan 'tag' y 'user', intenta crear una nueva categoría.
+        if (tag && user) {
+            // Verifica si la categoría ya existe para evitar duplicados.
+            const exists = Category._categoriesData.find(
+                category => category._tag === tag && category._user === user
+            );
+            
+            // Si no existe, se crea una nueva categoría.
+            if (!exists) {
+                this._id = ++Category.contadorId; // Asigna un ID único.
+                this._tag = tag; // Asigna la etiqueta de la categoría.
+                this._user = user; // Asigna el ID del usuario propietario.
+                Category._categoriesData.push(this); // Agrega la categoría al arreglo global.
+                Category.saveDataSession(); // Guarda en sessionStorage.
+            }
+        } 
+        // Si solo se proporciona el 'user', inicializa una lista vacía para categorías del usuario.
+        else if (!tag && user) {
             this._categoriesUser = [];
-            // if(!sessionStorage.getItem("database")){
-                Category.mainCategories(user);
-            // }
         }
     }
 
-    // Método estático para guardar las categorías en sessionStorage.
+    // Guarda las categorías en sessionStorage.
     static saveDataSession() {
         sessionStorage.setItem("category", JSON.stringify(Category._categoriesData));
     }
 
-    // Método estático para cargar las categorías desde sessionStorage.
+    // Carga las categorías desde sessionStorage.
     static loadDataSession() {
-        Category._categoriesData = []; // Reinicia la lista de categorías.
-        try {
-            let tag = JSON.parse(sessionStorage.getItem("category")); // Parsea las categorías almacenadas.
-            for (let i = 0; i < tag.length; i++) {
-                new Category(tag[i]._tag, tag[i]._user); // Crea instancias de categorías.
+        const data = JSON.parse(sessionStorage.getItem("category")) || [];
+        data.forEach(category => {
+            let tag = new Category(category._tag, category._user);
+            tag.setId(category._id); // Restaura el ID correcto de cada categoría.
+        });
+    }
+
+    // Crea las categorías predeterminadas para un usuario si no existen.
+    static mainCategories(user) {
+        const defaultTags = Category.defaultCategories();
+        defaultTags.forEach(tag => {
+            const exists = Category._categoriesData.find(category => {
+                return category._tag == tag && category._user === user;
+            });
+            if (!exists) {
+                new Category(tag, user); // Crea una nueva categoría predeterminada.
             }
-        } catch (error) {
-            // Manejo del error si las categorías no pueden ser cargadas.
-        }
+        });
     }
 
-    // Métodos para obtener los atributos de la categoría.
-    getCategoriesUser() { return this._categoriesUser; }
-    getCategoriesData() { return Category._categoriesData };
-    getTag() { return this._tag; }
-    getId() { return this._id; }
-    getUserId() { return this._user; }
-
-    // Método estático para devolver las categorías predeterminadas.
+    // Devuelve las categorías predeterminadas del sistema.
     static defaultCategories() {
-        return ["Salario", "Arriendo", "Comisión", "Servicios", "Transporte", "Alimentación", "Entretenimiento", "Compras", "Varios"];
+        return [
+            "Salario", "Arriendo", "Comisión", "Servicios", 
+            "Transporte", "Alimentación", "Entretenimiento", 
+            "Compras", "Varios"
+        ];
     }
 
-    static mainCategories(user){
-        new Category("Salario", user);
-        new Category("Arriendo", user);
-        new Category("Comisión", user);
-        new Category("Servicios", user);
-        new Category("Transporte", user);
-        new Category("Alimentación", user);
-        new Category("Entretenimiento", user);
-        new Category("Compras", user);
-        new Category("Varios", user);
-    }
+    // Métodos para obtener y establecer atributos de la categoría.
+    getCategoriesUser() { return this._categoriesUser; } // Devuelve las categorías del usuario.
+    static getCategoriesData() { return Category._categoriesData; } // Devuelve todas las categorías.
+    getTag() { return this._tag; } // Devuelve la etiqueta de la categoría.
+    getId() { return this._id; } // Devuelve el ID de la categoría.
+    getUserId() { return this._user; } // Devuelve el ID del usuario asociado.
+    setId(id) { this._id = id; } // Establece el ID de la categoría.
 
-    // Método para actualizar la lista de categorías del usuario.
+    // Actualiza la lista de categorías de un usuario.
     updateListUser(id) {
         this._categoriesUser = [];
         Category._categoriesData.forEach(category => {
-            
             if (category._user == id && !this._categoriesUser.includes(category._tag)) {
                 this._categoriesUser.push(category._tag); // Agrega categorías personalizadas.
             }
         });
     }
 
-    // Método para imprimir categorías en un elemento select.
+    // Imprime categorías en un contenedor HTML.
     printCategories(container, vector, pagination, counter, transaction) {
-        if(pagination){
+        if (pagination) {
             let elemento = `
             <div class="category list">
                 <h4>${vector[counter]}</h4>
@@ -84,7 +96,6 @@ export default class Category {
                     <i class="fas fa-trash fa-lg eliminar" title="Eliminar"></i>
                 </div>
             </div>`;
-
             return elemento;
         } else {
             container.innerHTML = `<option disabled selected>Categoría</option>`;
@@ -94,7 +105,7 @@ export default class Category {
         }
     }
 
-    // Método para validar si una categoría existe.
+    // Valida si una categoría existe para un usuario.
     validateCategory(newCategory) {
         let status = false;
         this._categoriesUser.find(category => {
@@ -105,29 +116,54 @@ export default class Category {
         return status; // Retorna el estado de validación.
     }
 
-    // Método para agregar una nueva categoría.
+    // Agrega una nueva categoría para un usuario.
     addCategory(category, user) {
-        new Category(category, user); // Crea una nueva categoría.
+        new Category(category, user); // Crea y guarda una nueva categoría.
     }
 
-    // Método para actualizar una categoría existente.
+    // Actualiza el nombre de una categoría existente.
     updateCategory(tagOld, tagNew, id) {
         Category._categoriesData.find(category => {
             if (category._tag == tagOld && category._user == id) {
                 category._tag = tagNew; // Actualiza la etiqueta de la categoría.
             }
         });
-
         Category.saveDataSession();
     }
 
-    // Método para eliminar una categoría.
+    // Elimina una categoría específica de un usuario.
     deleteCategory(tag, idUser) {
         let index = Category._categoriesData.findIndex(category => {
-            return category._tag == tag && category._user == idUser; // Busca el índice de la categoría.
+            return category._tag == tag && category._user == idUser;
         });
 
-        Category._categoriesData.splice(index, 1); // Elimina la categoría del arreglo.
-        Category.saveDataSession(); // Guarda los cambios en sessionStorage.
+        if (index !== -1) {
+            Category._categoriesData.splice(index, 1); // Elimina la categoría.
+            Category.saveDataSession(); // Guarda los cambios en sessionStorage.
+        }
     }
 }
+
+// Propósito:
+// - Administrar las categorías de los usuarios en una aplicación de gestión financiera.  
+// - Permite crear, leer, actualizar y eliminar (CRUD) categorías.  
+// - Incluye categorías predeterminadas para nuevos usuarios.
+
+// Propiedades Importantes:
+// 1. contadorId: Asigna identificadores únicos a cada categoría.
+// 2. _categoriesData: Almacena todas las categorías existentes.
+
+// Flujo de Uso:
+// 1. Creación de Usuario: Se inicializan categorías predeterminadas.  
+// 2. Interacción del Usuario: Puede agregar, actualizar o eliminar categorías.  
+// 3. Persistencia de Datos: Los cambios se guardan en sessionStorage.  
+// 4. Cambio de Usuario: Las categorías específicas del usuario son cargadas correctamente.
+
+/*  
+Resumen de la Clase Category:  
+- Propósito: Gestionar categorías de usuarios.  
+- Datos Persistentes: Usa sessionStorage para conservar datos entre sesiones.  
+- CRUD: Permite crear, leer, actualizar y eliminar categorías.  
+- Personalización: Permite agregar categorías personalizadas y predeterminadas.  
+- Persistencia: Los cambios se reflejan automáticamente en sessionStorage.  
+*/

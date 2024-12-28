@@ -4,8 +4,12 @@ import Transaccion from "../controllers/operation/Transaccion.js";
 
 document.addEventListener("DOMContentLoaded", function(){
     // Carga los datos de usuario y transacciones almacenados en la sesión.
-    User.loadDataSession();  // Carga la sesión del usuario actual desde sessionStorage.
-    Transaccion.loadDataSession();  // Carga las transacciones almacenadas en la sesión.
+    try {
+        User.loadDataSession();  // Carga la sesión del usuario actual desde sessionStorage.
+        Transaccion.loadDataSession();  // Carga las transacciones almacenadas en la sesión.
+    } catch (error) {
+        
+    }
 
     // Referencia a los campos de entrada (inputs) del formulario de login.
     const inputEmail = document.getElementById("email");  // Campo de correo electrónico.

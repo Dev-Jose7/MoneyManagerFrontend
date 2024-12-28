@@ -1,4 +1,7 @@
-import { dataByMonth, filterData, gastosByMonth, ingresosByMonth, logout, menuButton, modalCancel, monthLoad, orderTransaction, printCategory, printNameUser, transactionByMonth, updateListUser, updateValues, user } from "../../assets/js/panel.js"; // Importa varias funciones y variables para gestionar la interfaz y transacciones del panel.
+import { dataByMonth, dataByYear, filterData, gastosByMonth, ingresosByMonth, logout, menuButton, modalCancel, monthLoad, orderTransaction, printCategory, printNameUser, transactionByYear, transactionByMonth, updateListUser, updateValues, user, year, yearLoad } from "../../assets/js/panel.js"; // Importa varias funciones y variables para gestionar la interfaz y transacciones del panel.
+import { alertShow } from "../../assets/js/util.js";
+import Transaccion from "../controllers/operation/Transaccion.js";
+import Category from "../controllers/tag/Category.js";
 import { generateChart } from "./charts.js"; // Importa la función para generar gráficos usando la librería Chart.js.
 
 let page = document.location.href // Obtiene la URL de la página actual.
@@ -6,8 +9,8 @@ export let statusStatistics = false // Variable de estado que indica si estamos 
 
 document.addEventListener("DOMContentLoaded", function(){ // Se ejecuta cuando el contenido de la página se ha cargado completamente.
     if(page.includes("estadisticas")){ // Verifica si la URL contiene "estadisticas" para ejecutar el código relacionado con la vista de estadísticas.
+        
         statusStatistics = true // Cambia el estado a verdadero si estamos en la página de estadísticas.
-
         let graphValue = ""; // Variable que almacenará el valor del tipo de gráfico seleccionado.
 
         // Llama a varias funciones para inicializar la vista del panel.
@@ -16,11 +19,30 @@ document.addEventListener("DOMContentLoaded", function(){ // Se ejecuta cuando e
         updateListUser();
         logout();
         modalCancel();
-        monthLoad()
-        dataByMonth(user.getTransactions().getListTransaction()); // Carga los datos de las transacciones del usuario por mes.
+        yearLoad();
+        monthLoad();
+        dataByYear(new Date().getFullYear())
+        updateValues(); // Carga los datos de las transacciones del usuario por mes.
 
         // Organiza las transacciones por fecha de registro (de menor a mayor).
-        orderTransaction("menor");
+        orderTransaction("asc");
+
+        // Registra evento al select de años para obtener las transacciones del año seleccionado
+    document.getElementById("year").addEventListener("change", function(){
+        try {
+            dataByYear(document.getElementById("year").value) //Obtiene las transacciones del año especificado en el select year
+            
+            if(transactionByYear == 0){ //Si no hay datos, manda mensaje de advertencia
+                alertShow("Sin registros", "No se encontrarón transacciones en el año seleccionado", "info");
+            }
+        } catch (error) {
+            
+        }
+
+        updateValues(); // Actualiza los valores 
+        readGraph(); // Revisa qué gráfico está seleccionado por el usuario al cargar la página.
+        chartCategory(); // Muestra los gráficos de categoría (ingresos/gastos) por defecto.
+    });
         
         // Escucha el cambio de mes en el selector de mes para actualizar los datos y gráficos.
         document.getElementById("month").addEventListener("change", function(){
@@ -28,11 +50,12 @@ document.addEventListener("DOMContentLoaded", function(){ // Se ejecuta cuando e
                 radio.checked = false;
             });
 
-            dataByMonth(user.getTransactions().getListTransaction()); // Vuelve a cargar las transacciones por mes.
+            dataByYear(document.getElementById("year").value)
+            updateValues() // Vuelve a cargar las transacciones por mes.
             document.getElementById("optionTag").checked = true; // Selecciona el radio de categoría por defecto.
             document.getElementById("chartBarra").checked = true; // Selecciona el gráfico de barras por defecto.
             
-            orderTransaction("menor"); // Vuelve a ordenar las transacciones por fecha.
+            orderTransaction("asc"); // Vuelve a ordenar las transacciones por fecha.
             readGraph(); // Actualiza el tipo de gráfico seleccionado.
             chartCategory(); // Muestra los gráficos de categorías.
         })
