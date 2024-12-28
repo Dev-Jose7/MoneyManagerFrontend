@@ -24,7 +24,7 @@ export default class Transaccion {
             this._categoria = categoria; // Categoría asignada.
             this._fecha = fecha; // Fecha de la transacción.
             Transaccion._transactionData.push(this); // Añade a la lista global.
-            Transaccion.saveDataSession(); // Guarda en sessionStorage.
+            Transaccion.saveDataSession(); // Guarda en localStorage.
         } else {
             // Transacción vacía para gestión interna
             this._listTransactions = []; // Lista de todas las transacciones del usuario.
@@ -36,15 +36,15 @@ export default class Transaccion {
         }
     }
 
-    // Guarda las transacciones en sessionStorage.
+    // Guarda las transacciones en localStorage.
     static saveDataSession() {
-        sessionStorage.setItem("transaction", JSON.stringify(Transaccion._transactionData));
+        localStorage.setItem("transaction", JSON.stringify(Transaccion._transactionData));
     }
 
-    // Carga las transacciones desde sessionStorage.
+    // Carga las transacciones desde localStorage.
     static loadDataSession() {
         try {
-            let data = JSON.parse(sessionStorage.getItem("transaction")) || [];
+            let data = JSON.parse(localStorage.getItem("transaction")) || [];
             for (let i = 0; i < data.length; i++) {
                 let transaction = new Transaccion(
                     data[i]._user,
@@ -149,32 +149,32 @@ export default class Transaccion {
 // - Gestionar las transacciones individuales y globales en la aplicación.
 // - Permite operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en transacciones.
 // - Facilita la organización de las transacciones en ingresos, gastos y filtros personalizados.
-// - Garantiza la persistencia de datos mediante sessionStorage.
+// - Garantiza la persistencia de datos mediante localStorage.
 
 // Propiedades Importantes:
 // 1. _transactionData: Almacena todas las transacciones de forma global.
 // 2. contadorId: Asigna identificadores únicos a cada transacción.
-// 3. Persistencia: Usa sessionStorage para almacenar y recuperar transacciones.
+// 3. Persistencia: Usa localStorage para almacenar y recuperar transacciones.
 
 // Flujo de Uso:
 // 1. Crear una Transacción: Se agregan atributos específicos (usuario, tipo, valor, etc.).
-// 2. Guardar en sessionStorage: Los datos se mantienen después de recargar la página.
+// 2. Guardar en localStorage: Los datos se mantienen después de recargar la página.
 // 3. Consultar y filtrar: Se pueden listar, filtrar y organizar las transacciones.
 // 4. Calcular Ingresos y Gastos: Permite obtener balances financieros.
 
 /*
 ### Resumen de la Clase Transaccion:
 - **Propósito:** Gestionar las transacciones financieras (Ingreso/Gasto) de cada usuario.
-- **Persistencia:** Los datos se almacenan en sessionStorage.
+- **Persistencia:** Los datos se almacenan en localStorage.
 - **Métodos Clave:**  
-   - `saveDataSession`: Guarda en sessionStorage.  
-   - `loadDataSession`: Restaura datos desde sessionStorage.  
+   - `saveDataSession`: Guarda en localStorage.  
+   - `loadDataSession`: Restaura datos desde localStorage.  
    - `totalIngreso`: Calcula ingresos totales.  
    - `totalGasto`: Calcula gastos totales.  
    - `updateListUser`: Actualiza la lista de transacciones por usuario.  
 - **Flujo General:**  
    1. Crear una nueva transacción.  
-   2. Almacenar en sessionStorage.  
+   2. Almacenar en localStorage.  
    3. Acceder y filtrar por usuario.  
    4. Calcular totales de ingresos y gastos.  
 

@@ -28,10 +28,10 @@ export function confirmPassword(password, passwordConfirm){
     return password == passwordConfirm;
 }
 
-// Función para iniciar sesión y almacenar la información del usuario en sessionStorage
+// Función para iniciar sesión y almacenar la información del usuario en localStorage
 export function initSession(account){
     if(account){
-        sessionStorage.setItem("account", JSON.stringify(account)); // Almacena el usuario en sessionStorage como JSON
+        localStorage.setItem("account", JSON.stringify(account)); // Almacena el usuario en localStorage como JSON
         
         // Después de 2 segundos, redirige al usuario a la página del dashboard
         setTimeout(() => {
@@ -45,9 +45,9 @@ export function initSession(account){
 
 // Función para cerrar la sesión del usuario
 export function endSession(url){
-    // Elimina la información del usuario y bienvenida del sessionStorage
-    sessionStorage.removeItem("account");
-    sessionStorage.removeItem("welcome");
+    // Elimina la información del usuario y bienvenida del localStorage
+    localStorage.removeItem("account");
+    localStorage.removeItem("welcome");
 
     // Redirige a la URL especificada después de un tiempo de espera
     setTimeout(() => {
@@ -55,15 +55,15 @@ export function endSession(url){
     }, 2000); // 2 segundos
 }
 
-// Función para obtener el usuario de sessionStorage y buscar sus datos
+// Función para obtener el usuario de localStorage y buscar sus datos
 export function findUser (){
-    let account = JSON.parse(sessionStorage.getItem("account")); // Obtiene los datos del usuario almacenados en sessionStorage
+    let account = JSON.parse(localStorage.getItem("account")); // Obtiene los datos del usuario almacenados en localStorage
     return User.getUserData().find(user => user._id == account._id); // Busca al usuario correspondiente
 }
 
 // Función que verifica si la sesión está activa
 export function checkSession(){
-    if(!sessionStorage.getItem("account")){
+    if(!localStorage.getItem("account")){
         alertShow("Error!", "Debes iniciar sesión para continuar", "warning"); // Muestra una alerta si no hay sesión activa
 
         // Redirige al registro después de 5 segundos
@@ -265,7 +265,6 @@ export function instanceTest(){
 
 
     admin1.getTransactions().updateListUser(admin1.getId());
-
 }
 
 //1. Validación de Formularios
@@ -273,10 +272,10 @@ export function instanceTest(){
 //confirmPassword(password, passwordConfirm): Verifica si las contraseñas introducidas coinciden. Devuelve true si son iguales, y false en caso contrario.
 
 //2. Gestión de Sesiones
-//initSession(account): Inicia sesión y almacena los datos de la cuenta del usuario en sessionStorage. Luego, redirige al usuario al dashboard después de 2 segundos.
-//endSession(url): Cierra la sesión eliminando la información de la cuenta del sessionStorage y redirige a una URL específica después de 2 segundos.
-//findUser(): Obtiene el usuario desde el sessionStorage y busca sus datos en una base de datos simulada (probablemente un array de usuarios).
-//checkSession(): Verifica si hay una sesión activa en sessionStorage. Si no es así, muestra una alerta y redirige al usuario a la página de registro después de 5 segundos.
+//initSession(account): Inicia sesión y almacena los datos de la cuenta del usuario en localStorage. Luego, redirige al usuario al dashboard después de 2 segundos.
+//endSession(url): Cierra la sesión eliminando la información de la cuenta del localStorage y redirige a una URL específica después de 2 segundos.
+//findUser(): Obtiene el usuario desde el localStorage y busca sus datos en una base de datos simulada (probablemente un array de usuarios).
+//checkSession(): Verifica si hay una sesión activa en localStorage. Si no es así, muestra una alerta y redirige al usuario a la página de registro después de 5 segundos.
 
 //3. Manejo de Alertas y Mensajes
 //alertShow(heading, message, type): Muestra una alerta personalizada utilizando la librería Swal (SweetAlert2). Permite personalizar el título, el mensaje y el tipo de alerta (ej. éxito, advertencia).

@@ -21,7 +21,7 @@ export default class Category {
                 this._tag = tag; // Asigna la etiqueta de la categoría.
                 this._user = user; // Asigna el ID del usuario propietario.
                 Category._categoriesData.push(this); // Agrega la categoría al arreglo global.
-                Category.saveDataSession(); // Guarda en sessionStorage.
+                Category.saveDataSession(); // Guarda en localStorage.
             }
         } 
         // Si solo se proporciona el 'user', inicializa una lista vacía para categorías del usuario.
@@ -30,14 +30,14 @@ export default class Category {
         }
     }
 
-    // Guarda las categorías en sessionStorage.
+    // Guarda las categorías en localStorage.
     static saveDataSession() {
-        sessionStorage.setItem("category", JSON.stringify(Category._categoriesData));
+        localStorage.setItem("category", JSON.stringify(Category._categoriesData));
     }
 
-    // Carga las categorías desde sessionStorage.
+    // Carga las categorías desde localStorage.
     static loadDataSession() {
-        const data = JSON.parse(sessionStorage.getItem("category")) || [];
+        const data = JSON.parse(localStorage.getItem("category")) || [];
         data.forEach(category => {
             let tag = new Category(category._tag, category._user);
             tag.setId(category._id); // Restaura el ID correcto de cada categoría.
@@ -139,7 +139,7 @@ export default class Category {
 
         if (index !== -1) {
             Category._categoriesData.splice(index, 1); // Elimina la categoría.
-            Category.saveDataSession(); // Guarda los cambios en sessionStorage.
+            Category.saveDataSession(); // Guarda los cambios en localStorage.
         }
     }
 }
@@ -156,14 +156,14 @@ export default class Category {
 // Flujo de Uso:
 // 1. Creación de Usuario: Se inicializan categorías predeterminadas.  
 // 2. Interacción del Usuario: Puede agregar, actualizar o eliminar categorías.  
-// 3. Persistencia de Datos: Los cambios se guardan en sessionStorage.  
+// 3. Persistencia de Datos: Los cambios se guardan en localStorage.  
 // 4. Cambio de Usuario: Las categorías específicas del usuario son cargadas correctamente.
 
 /*  
 Resumen de la Clase Category:  
 - Propósito: Gestionar categorías de usuarios.  
-- Datos Persistentes: Usa sessionStorage para conservar datos entre sesiones.  
+- Datos Persistentes: Usa localStorage para conservar datos entre sesiones.  
 - CRUD: Permite crear, leer, actualizar y eliminar categorías.  
 - Personalización: Permite agregar categorías personalizadas y predeterminadas.  
-- Persistencia: Los cambios se reflejan automáticamente en sessionStorage.  
+- Persistencia: Los cambios se reflejan automáticamente en localStorage.  
 */

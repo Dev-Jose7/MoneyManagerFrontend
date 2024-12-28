@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", function(){
     let url = document.location.href; // Obtiene la URL actual de la página.
     let page = url.substring(url.lastIndexOf('/') + 1); // Extrae el nombre de la página actual desde la URL.
 
-    // Verifica si no existe una base de datos en el sessionStorage, si no, crea las instancias de prueba.
-    if(!sessionStorage.getItem("database")){
-        instanceTest(); // Crea las instancias de prueba solo una vez siempre y cuando no existan en sessionStorage.
+    // Verifica si no existe una base de datos en el localStorage, si no, crea las instancias de prueba.
+    if(!localStorage.getItem("database")){
+        instanceTest(); // Crea las instancias de prueba solo una vez siempre y cuando no existan en localStorage.
     } else{
-        // Si ya existe una base de datos en sessionStorage, carga los datos de la sesión del usuario.
+        // Si ya existe una base de datos en localStorage, carga los datos de la sesión del usuario.
         User.loadDataSession();
     }
 
@@ -50,9 +50,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Función para manejar el estado del menú y la sesión del usuario.
     function menuSessionUser(dashboard){
-        // Verifica si hay un usuario logueado en sessionStorage.
-        if(sessionStorage.getItem("account")){ 
-            user = findUser(); // Busca el usuario en el sessionStorage.
+        // Verifica si hay un usuario logueado en localStorage.
+        if(localStorage.getItem("account")){ 
+            user = findUser(); // Busca el usuario en el localStorage.
 
             // Si hay un usuario logueado, ocultar la sección de "usuario no logeado" y mostrar el nombre de usuario.
             document.querySelector(".encabezado__usuario").style.display = "none"; // Oculta el área de usuario no logeado.
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function(){
 //page: Obtiene el nombre de la página desde la URL para determinar la lógica a seguir.
 
 //Manejo de Sesión:
-//Si no hay datos de base de datos en el sessionStorage, se crean instancias de prueba (función instanceTest()).
+//Si no hay datos de base de datos en el localStorage, se crean instancias de prueba (función instanceTest()).
 //Si los datos existen, se cargan con User.loadDataSession().
 //En las páginas específicas como index.html, nosotros.html, el menú de sesión de usuario se configura con diferentes comportamientos según el estado de la sesión.
 
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function(){
 //En la página principal (index.html o /), la función backgroundImage() se encarga de cambiar el fondo del encabezado a intervalos de 6 segundos, utilizando imágenes precargadas.
 
 //Menú de Usuario y Redirección:
-//Si hay un usuario logueado en sessionStorage, se modifica el menú para mostrar el nombre del usuario y un botón de acceso al Dashboard.
+//Si hay un usuario logueado en localStorage, se modifica el menú para mostrar el nombre del usuario y un botón de acceso al Dashboard.
 //La redirección al Dashboard o login depende del estado de sesión y se maneja con menuSessionUser().
 
 //Manejo del Menú Móvil:

@@ -27,7 +27,7 @@ export let ingresosByMonth = []; // Array para los ingresos del mes
 export let gastosByMonth = []; // Array para los gastos del mes
 
 // Llamadas iniciales para verificar la sesión y cargar datos persistentes
-checkSession(); // Revisa si hay un usuario en el sessionStorage para continuar
+checkSession(); // Revisa si hay un usuario en el localStorage para continuar
 User.loadDataSession(); // Carga datos de usuario si no existen ya en la sesión
 Transaccion.loadDataSession(); // Carga las transacciones previas
 Category.loadDataSession(); // Carga las categorías disponibles
@@ -84,7 +84,7 @@ export function monthLoad(){
 
     month.innerHTML += `<option value="0">Año completo</option>`
 
-    if(JSON.parse(sessionStorage.getItem("optionYear"))){
+    if(JSON.parse(localStorage.getItem("optionYear"))){
         month.value = 0;
     } else {
         month.value = new Date().getMonth() + 1; // Establece el mes actual como valor por defecto
@@ -94,16 +94,16 @@ export function monthLoad(){
     month.addEventListener("change", function(){
         updateValues(); // Actualiza las transacciones y balance cuando se cambia el mes
         if(month.value == 0){
-            sessionStorage.setItem("optionYear", true);
+            localStorage.setItem("optionYear", true);
         } else {
-            sessionStorage.setItem("optionYear", false);
+            localStorage.setItem("optionYear", false);
         }
     });
 }
 
 // Función para obtener e imprimir los años en que el usuario a registrado transacciones y así filtrarlas de acuerdo al año
 export function yearLoad(){
-    let data = JSON.parse(sessionStorage.getItem("transaction"));
+    let data = JSON.parse(localStorage.getItem("transaction"));
     let years = [];
 
     data.forEach(transaction => {
@@ -543,8 +543,8 @@ export function confirmShow(heading, message, id){
 closeloading(); // Cierra la barra de carga cuando todos los scripts y el DOM estén cargados
 
 //1. Manejo de la sesión del usuario
-//checkSession(): Verifica si hay un usuario logueado en el sessionStorage y, si no, lo redirige al login.
-//User.loadDataSession(): Carga los datos del usuario desde el sessionStorage si están disponibles.
+//checkSession(): Verifica si hay un usuario logueado en el localStorage y, si no, lo redirige al login.
+//User.loadDataSession(): Carga los datos del usuario desde el localStorage si están disponibles.
 //endSession(): Cierra la sesión del usuario y lo redirige a la página de login después de una confirmación.
 
 //2. Interacciones con el DOM

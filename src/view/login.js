@@ -5,7 +5,7 @@ import Transaccion from "../controllers/operation/Transaccion.js";
 document.addEventListener("DOMContentLoaded", function(){
     // Carga los datos de usuario y transacciones almacenados en la sesión.
     try {
-        User.loadDataSession();  // Carga la sesión del usuario actual desde sessionStorage.
+        User.loadDataSession();  // Carga la sesión del usuario actual desde localStorage.
         Transaccion.loadDataSession();  // Carga las transacciones almacenadas en la sesión.
     } catch (error) {
         
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 //Carga de Datos en la Sesión:
 //User.loadDataSession() y Transaccion.loadDataSession() se encargan de cargar los datos de usuario y las transacciones almacenadas en la sesión.
-//Estas funciones permiten acceder a los datos que se han guardado en el sessionStorage, que es donde se mantiene la información persistente durante la sesión del usuario.
+//Estas funciones permiten acceder a los datos que se han guardado en el localStorage, que es donde se mantiene la información persistente durante la sesión del usuario.
 
 //Selección de Elementos del Formulario:
 //inputEmail, inputPassword: Variables que hacen referencia a los campos de entrada del correo electrónico y la contraseña.

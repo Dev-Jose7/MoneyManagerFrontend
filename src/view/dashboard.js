@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Función que muestra un mensaje de bienvenida al usuario la primera vez que entra al panel.
         function printWelcome(){
-            if(!sessionStorage.getItem("welcome")){ // Verifica si es la primera vez que se accede al panel.
+            if(!localStorage.getItem("welcome")){ // Verifica si es la primera vez que se accede al panel.
                 document.getElementById("titleMain").innerHTML = `¡Bienvenido de nuevo, <span>${user.getName()}!</span>` // Muestra el nombre del usuario en el saludo.
     
                 setTimeout(() => {
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("titleMain").innerHTML = `Panel <span>principal</span>`; // Si ya se ha mostrado el mensaje, solo muestra "Panel principal".
             }
 
-            sessionStorage.setItem("welcome", JSON.stringify("welcome")); // Marca en el sessionStorage que el mensaje ya ha sido mostrado.
+            localStorage.setItem("welcome", JSON.stringify("welcome")); // Marca en el localStorage que el mensaje ya ha sido mostrado.
         }
     }
 });
